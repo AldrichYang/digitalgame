@@ -1,4 +1,4 @@
-package com.seven.digitalgame;
+package digitalgame;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
