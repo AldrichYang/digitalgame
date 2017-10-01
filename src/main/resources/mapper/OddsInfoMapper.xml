@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="digitalgame.dao.OddsInfoMapper" >
+  <resultMap id="BaseResultMap" type="digitalgame.model.po.OddsInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="odds_name" property="oddsName" jdbcType="VARCHAR" />
+    <result column="odds_number" property="oddsNumber" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, odds_name, odds_number, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from odds_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from odds_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="digitalgame.model.po.OddsInfo" >
+    insert into odds_info (id, odds_name, odds_number, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{oddsName,jdbcType=VARCHAR}, #{oddsNumber,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="digitalgame.model.po.OddsInfo" >
+    insert into odds_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="oddsName != null" >
+        odds_name,
+      </if>
+      <if test="oddsNumber != null" >
+        odds_number,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="oddsName != null" >
+        #{oddsName,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsNumber != null" >
+        #{oddsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.OddsInfo" >
+    update odds_info
+    <set >
+      <if test="oddsName != null" >
+        odds_name = #{oddsName,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsNumber != null" >
+        odds_number = #{oddsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.OddsInfo" >
+    update odds_info
+    set odds_name = #{oddsName,jdbcType=VARCHAR},
+      odds_number = #{oddsNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
