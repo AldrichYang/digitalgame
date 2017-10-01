@@ -22,5 +22,5 @@ public interface UserInfoService {
       * 分页查询
       * @return
       */
-     List<UserInfo> selectByPage(int cueerntPage,int size);
+     List<UserInfo> selectByPage(int cueerntPage,int size,UserInfo userInfo);
 }

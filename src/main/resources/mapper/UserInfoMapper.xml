@@ -71,10 +71,10 @@
     </trim>
   </insert>
 
-  <select id="selectByPage" resultMap="BaseResultMap"  >
+  <select id="selectByPage" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from user_info
+    from user_info ${whereCond}
 
   </select>
 
