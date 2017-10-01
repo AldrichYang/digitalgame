@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="starter :: head"></head>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/easyui/demo.css">
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     <div th:replace="starter :: main-header-sidebar"></div>
@@ -18,7 +23,8 @@
                 <li class="active">Here</li>
             </ol>
         </section>
-        
+
+
         <!-- Main content -->
         <section class="content container-fluid">
 
@@ -30,6 +36,28 @@
                 <input type="submit"/>
 
             </form>
+            <h2>Client Side Pagination in DataGrid</h2>
+            <p>This sample shows how to implement client side pagination in DataGrid.</p>
+            <div style="margin:20px 0;"></div>
+
+            <table id="dg" title="Client Side Pagination" style="width:700px;height:300px" data-options="
+				rownumbers:true,
+				singleSelect:true,
+				autoRowHeight:false,
+				pagination:true,
+				pageSize:10">
+                <thead>
+                <tr>
+                    <th field="inv" width="80">Inv No</th>
+                    <th field="date" width="100">Date</th>
+                    <th field="name" width="80">Name</th>
+                    <th field="amount" width="80" align="right">Amount</th>
+                    <th field="price" width="80" align="right">Price</th>
+                    <th field="cost" width="100" align="right">Cost</th>
+                    <th field="note" width="110">Note</th>
+                </tr>
+                </thead>
+            </table>
 
         </section>
         <!-- /.content -->
