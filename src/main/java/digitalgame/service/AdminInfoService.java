@@ -1,5 +1,7 @@
 package digitalgame.service;
 
+import digitalgame.model.po.AdminInfo;
+
 import java.util.List;
 
 public interface AdminInfoService {
