@@ -1,6 +1,5 @@
 package digitalgame.service.impl;
 
-import digitalgame.dao.UserInfoMapper;
 import digitalgame.model.po.UserInfo;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package digitalgame.service;
 
-import digitalgame.model.po.AdminInfo;
+import java.util.List;
 
 public interface AdminInfoService {
 
@@ -10,4 +10,17 @@ public interface AdminInfoService {
      * @return
      */
     int saveAdminInfo(AdminInfo adminInfo);
+
+    /***
+     * 修改admin信息
+     * @param adminInfo
+     * @return
+     */
+    AdminInfo editAdminInfo(AdminInfo adminInfo);
+
+    /***
+     * 分页查询admin信息
+     * @return
+     */
+    List<AdminInfo> queryAdminInfoByPage();
 }
