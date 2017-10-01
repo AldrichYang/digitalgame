@@ -1,5 +1,6 @@
 package digitalgame.service.impl;
 
+import com.google.common.base.Strings;
 import digitalgame.dao.UserInfoMapper;
 import digitalgame.model.po.UserInfo;
 import digitalgame.service.UserInfoService;
@@ -34,7 +35,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserInfo> selectByPage(int pageNo,int size) {
-        return userInfoMapper.selectByPage(pageNo,size);
+    public List<UserInfo> selectByPage(int pageNo,int size,UserInfo userInfo) {
+        String whereCond = " where 1=1 ";
+        if(!Strings.isNullOrEmpty(userInfo.getUserName())){
+            whereCond +=  " and  user_name like '%"+userInfo.getUserName()+"%'";
+        }
+        if(!Strings.isNullOrEmpty(userInfo.getNickName())){
+            whereCond +=  " and nick_name like '%"+userInfo.getNickName()+"%'";
+        }
+        return userInfoMapper.selectByPage(whereCond);
     }
 }

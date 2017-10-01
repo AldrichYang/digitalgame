@@ -2,6 +2,7 @@ package digitalgame.dao;
 
 import digitalgame.model.po.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserInfoMapper {
 
     int insertSelective(UserInfo record);
 
-    List<UserInfo> selectByPage(int pageNo, int size);
+    List<UserInfo> selectByPage(@Param("whereCond") String whereCond);
 
     int updateByPrimaryKeySelective(UserInfo record);
 }
