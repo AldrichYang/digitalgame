@@ -22,13 +22,11 @@ public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
 
-    @Autowired
-    private UserInfoMapper userInfoMapper;
 
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
     public String getAllUserList(Model model) {
-        List<UserInfo> userInfoList = userInfoMapper.selectByPage(0,0);
-        model.addAttribute("userList", userInfoList);
+       // List<UserInfo> userInfoList = userInfoMapper.selectByPage(0,0);
+       // model.addAttribute("userList", userInfoList);
         return "userList";
     }
 
@@ -40,6 +38,7 @@ public class UserInfoController {
 
     @RequestMapping(value = "/editUser",method = RequestMethod.POST)
     public  String editUser(UserInfo userInfo){
+        userInfo.setId(1);
         userInfoService.editUser(userInfo);
         return  "userList";
     }

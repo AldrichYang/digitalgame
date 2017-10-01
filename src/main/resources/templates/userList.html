@@ -5,12 +5,13 @@
 <!--<body th:insert="starter :: body">-->
 <body>
 
-<form method="POST" action="/user/addUser">
+<form method="POST" action="/user/editUser">
 <label for="userName">用户名:</label>
 <input type="text" name="userName" size="50"/><br/>
 <label for="mobileNum">手机号码:</label>
 <input type="text" name="mobileNum" size="50"/><br/>
-
+<label for="nickName">昵称</label>
+    <input type="text" name="nickName" size="50"/><br/>
 <input  type="submit"/>
 
 </form>

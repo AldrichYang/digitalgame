@@ -2,45 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="digitalgame.dao.UserInfoMapper" >
   <resultMap id="BaseResultMap" type="digitalgame.model.po.UserInfo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ID" property="id" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="mobile_num" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
     <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, mobile_num, is_enable, update_time, create_time
+    id, user_name, mobile_num, nick_name, update_time, is_enable, create_time, create_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
-    <include refid="Base_Column_List" />
-    from user_info
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user_info
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="digitalgame.model.po.UserInfo" useGeneratedKeys="true" keyProperty="id">
-    insert into user_info (id, user_name, mobile_num,
-      is_enable, update_time, create_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR},
-      #{isEnable,jdbcType=INTEGER}, #{updateTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="digitalgame.model.po.UserInfo" >
+    insert into user_info (ID, user_name, mobile_num, 
+      nick_name, is_enable, update_time, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, #{updateTime,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="digitalgame.model.po.UserInfo" >
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        id,
+        ID,
       </if>
       <if test="userName != null" >
         user_name,
       </if>
       <if test="mobileNum != null" >
         mobile_num,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
       </if>
       <if test="isEnable != null" >
         is_enable,
@@ -62,6 +56,9 @@
       <if test="mobileNum != null" >
         #{mobileNum,jdbcType=VARCHAR},
       </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
       <if test="isEnable != null" >
         #{isEnable,jdbcType=INTEGER},
       </if>
@@ -73,6 +70,14 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectByPage" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+
+  </select>
+
   <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.UserInfo" >
     update user_info
     <set >
@@ -82,31 +87,19 @@
       <if test="mobileNum != null" >
         mobile_num = #{mobileNum,jdbcType=VARCHAR},
       </if>
-      <if test="isEnable != null" >
-        is_enable = #{isEnable,jdbcType=INTEGER},
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=VARCHAR},
+      <if test="isEnable != null" >
+        is_Enable = #{isEnable,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.UserInfo" >
-    update user_info
-    set user_name = #{userName,jdbcType=VARCHAR},
-      mobile_num = #{mobileNum,jdbcType=VARCHAR},
-      is_enable = #{isEnable,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-    <select id="selectByPage" resultMap="BaseResultMap"  >
-        select
-        <include refid="Base_Column_List" />
-        from user_info
-
-    </select>
 </mapper>

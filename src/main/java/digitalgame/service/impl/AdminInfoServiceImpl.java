@@ -2,6 +2,7 @@ package digitalgame.service.impl;
 
 import digitalgame.model.po.AdminInfo;
 import digitalgame.service.AdminInfoService;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

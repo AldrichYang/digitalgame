@@ -7,6 +7,8 @@ public class UserInfo {
 
     private String mobileNum;
 
+    private String nickName;
+
     private Integer isEnable;
 
     private String updateTime;
@@ -35,6 +37,14 @@ public class UserInfo {
 
     public void setMobileNum(String mobileNum) {
         this.mobileNum = mobileNum == null ? null : mobileNum.trim();
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public Integer getIsEnable() {
