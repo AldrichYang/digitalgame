@@ -38,4 +38,10 @@ public class UserInfoController {
         return "userList";
     }
 
+    @RequestMapping(value = "/editUser",method = RequestMethod.POST)
+    public  String editUser(UserInfo userInfo){
+        userInfoService.editUser(userInfo);
+        return  "userList";
+    }
+
 }

@@ -13,11 +13,11 @@ public interface UserInfoMapper {
 
     int insertSelective(UserInfo record);
 
-    UserInfo selectByPrimaryKey(Integer id);
-
     int updateByPrimaryKeySelective(UserInfo record);
+
+    UserInfo selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKey(UserInfo record);
 
-    List<UserInfo> selectByPage();
+    List<UserInfo> selectByPage(int pageNo,int size);
 }
