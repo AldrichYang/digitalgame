@@ -20,7 +20,7 @@ CREATE TABLE user_finance_account
   version INT DEFAULT 1,
   create_time VARCHAR(30),
   update_time VARCHAR(30)
-)
+);
 
 -- admin info信息
 CREATE TABLE admin_info (
@@ -33,4 +33,4 @@ CREATE TABLE admin_info (
   update_time VARCHAR(30),
   create_time VARCHAR(30)
 
-)
+);
