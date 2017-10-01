@@ -5,13 +5,14 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="admin_name" property="adminName" jdbcType="VARCHAR" />
     <result column="admin_code" property="adminCode" jdbcType="VARCHAR" />
+    <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
     <result column="mobile_num" property="mobileNum" jdbcType="VARCHAR" />
     <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
-    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, admin_name, admin_code, mobile_num, is_enable, update_time, create_time
+    id, admin_name, admin_code, pass_word, mobile_num, is_enable, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="digitalgame.model.po.AdminInfo" >
     insert into admin_info (id, admin_name, admin_code, 
-      mobile_num, is_enable, update_time, 
-      create_time)
+      pass_word, mobile_num, is_enable, 
+      create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminCode,jdbcType=VARCHAR}, 
-      #{mobileNum,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, #{updateTime,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=VARCHAR})
+      #{passWord,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="digitalgame.model.po.AdminInfo" >
     insert into admin_info
@@ -43,17 +44,20 @@
       <if test="adminCode != null" >
         admin_code,
       </if>
+      <if test="passWord != null" >
+        pass_word,
+      </if>
       <if test="mobileNum != null" >
         mobile_num,
       </if>
       <if test="isEnable != null" >
         is_enable,
       </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
       <if test="createTime != null" >
         create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -66,17 +70,20 @@
       <if test="adminCode != null" >
         #{adminCode,jdbcType=VARCHAR},
       </if>
+      <if test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
       <if test="mobileNum != null" >
         #{mobileNum,jdbcType=VARCHAR},
       </if>
       <if test="isEnable != null" >
         #{isEnable,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -89,17 +96,20 @@
       <if test="adminCode != null" >
         admin_code = #{adminCode,jdbcType=VARCHAR},
       </if>
+      <if test="passWord != null" >
+        pass_word = #{passWord,jdbcType=VARCHAR},
+      </if>
       <if test="mobileNum != null" >
         mobile_num = #{mobileNum,jdbcType=VARCHAR},
       </if>
       <if test="isEnable != null" >
         is_enable = #{isEnable,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -108,10 +118,11 @@
     update admin_info
     set admin_name = #{adminName,jdbcType=VARCHAR},
       admin_code = #{adminCode,jdbcType=VARCHAR},
+      pass_word = #{passWord,jdbcType=VARCHAR},
       mobile_num = #{mobileNum,jdbcType=VARCHAR},
       is_enable = #{isEnable,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR}
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

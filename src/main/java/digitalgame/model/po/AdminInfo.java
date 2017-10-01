@@ -7,13 +7,15 @@ public class AdminInfo {
 
     private String adminCode;
 
+    private String passWord;
+
     private String mobileNum;
 
     private Integer isEnable;
 
-    private String updateTime;
-
     private String createTime;
+
+    private String updateTime;
 
     public Integer getId() {
         return id;
@@ -39,6 +41,14 @@ public class AdminInfo {
         this.adminCode = adminCode == null ? null : adminCode.trim();
     }
 
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord == null ? null : passWord.trim();
+    }
+
     public String getMobileNum() {
         return mobileNum;
     }
@@ -55,19 +65,19 @@ public class AdminInfo {
         this.isEnable = isEnable;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime == null ? null : updateTime.trim();
-    }
-
     public String getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime == null ? null : createTime.trim();
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime == null ? null : updateTime.trim();
     }
 }
