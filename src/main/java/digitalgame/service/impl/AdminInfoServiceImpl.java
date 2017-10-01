@@ -1,6 +1,5 @@
 package digitalgame.service.impl;
 
-import digitalgame.model.po.AdminInfo;
 import digitalgame.service.AdminInfoService;
 
 public class AdminInfoServiceImpl implements AdminInfoService {

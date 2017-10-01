@@ -28,6 +28,7 @@ CREATE TABLE admin_info (
     PRIMARY KEY,
   admin_name   VARCHAR(50),
   admin_code   VARCHAR(50),
+  pass_word    VARCHAR(50),
   mobile_num  VARCHAR(20),
   is_enable   INT DEFAULT 1,
   update_time VARCHAR(30),
