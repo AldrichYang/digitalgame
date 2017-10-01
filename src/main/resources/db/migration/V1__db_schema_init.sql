@@ -5,6 +5,7 @@ CREATE TABLE user_info
     PRIMARY KEY,
   user_name   VARCHAR(50),
   mobile_num  VARCHAR(20),
+  nick_name   VARCHAR(50),
   is_enable   INT DEFAULT 1,
   update_time VARCHAR(30),
   create_time VARCHAR(30)

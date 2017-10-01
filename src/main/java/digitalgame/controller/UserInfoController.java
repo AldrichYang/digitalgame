@@ -27,7 +27,7 @@ public class UserInfoController {
 
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
     public String getAllUserList(Model model) {
-        List<UserInfo> userInfoList = userInfoMapper.selectByPage();
+        List<UserInfo> userInfoList = userInfoMapper.selectByPage(0,0);
         model.addAttribute("userList", userInfoList);
         return "userList";
     }
