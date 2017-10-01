@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="starter">
+    <title>猜数字</title>
+</head>
+<!--<body th:insert="starter :: body">-->
+<body>
+请将竞猜复制到下面的框里：
+<textarea>dafdsafdf</textarea>
+<form method="POST" action="/user/addUser">
+    <label for="userName">用户名:</label>
+    <input type="text" name="userName" size="50"/><br/>
+    <label for="mobileNum">手机号码:</label>
+    <input type="text" name="mobileNum" size="50"/><br/>
+
+    <input  type="submit"/>
+
+</form>
+</body>
+</html>
