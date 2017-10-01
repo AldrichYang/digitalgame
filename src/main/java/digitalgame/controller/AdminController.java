@@ -4,6 +4,7 @@ import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /***
  * admin后台的操作
@@ -18,9 +19,10 @@ public class AdminController {
     private UserInfoService userInfoService;
 
 
+    @RequestMapping(value = "/adminList", method = RequestMethod.GET)
     public String  addAdminInfo(){
 
-        return "";
+        return "adminList";
     }
 
 }

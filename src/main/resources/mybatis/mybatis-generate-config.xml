@@ -5,7 +5,7 @@
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <classPathEntry location="/Users/user/.m2/repository/org/xerial/sqlite-jdbc/3.20.0/sqlite-jdbc-3.20.0.jar"/>
+    <classPathEntry location="/Users/wuwenlan/.m2/repository/org/xerial/sqlite-jdbc/3.20.0/sqlite-jdbc-3.20.0.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -37,7 +37,7 @@
         </javaClientGenerator>
 
         <!-- !!!! Table Configurations !!!! -->
-        <table tableName="user_info" enableCountByExample="false" enableDeleteByExample="false"
+        <table tableName="admin_info" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>
