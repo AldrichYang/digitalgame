@@ -98,7 +98,7 @@
                             <td th:text="${userInfo.nickName}">2.41</td>
                             <td th:text="${userInfo.mobileNum}">yes</td>
                             <td th:text="${userInfo.isEnable} == 1 ? '是' : '否'">yes</td>
-                            <td><a th:href="@{/editUser.html(userInfo=${userInfo})}" >修改</a></td>
+                            <td><a th:href="@{/user/editUser.html(userInfo=${userInfo})}" >修改</a></td>
                         </tr>
                         <tr>
                             <td>Other browsers</td>

@@ -17,7 +17,7 @@ public class MyWebMvcConfigAdapter extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("editUser.html").setViewName("editUser");
+//        registry.addViewController("editUser.html").setViewName("editUser");
         super.addViewControllers(registry);
     }
 }
