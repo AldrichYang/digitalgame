@@ -28,19 +28,28 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
+            <form role="form" method="POST" action="/user/addUser">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">用户名:</label>
+                        <input type="email" name="userName" class="form-control" th:text= "${oldUserInfo.userName}" id="exampleInputEmail1" placeholder="用户名...">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">手机号码:</label>
+                        <input type="password" name="mobileNum" class="form-control" th:text= "${oldUserInfo.userName}" id="exampleInputPassword1" placeholder="手机号码...">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">昵称:</label>
+                        <input type="password" name="nickName" class="form-control" th:text= "${oldUserInfo.userName}" id="exampleInputPassword2" placeholder="昵称...">
+                    </div>
+                </div>
+                <!-- /.box-body -->
 
-            <form method="POST" action="/user/addUser">
-                <label for="userName">用户名:</label>
-                <input type="text" name="userName" size="50"/><br/>
-                <label for="mobileNum">手机号码:</label>
-                <input type="text" name="mobileNum" size="50"/><br/>
-                <input type="submit"/>
-
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </form>
-            <div id="win">
-                <div id="title">我是标题栏！<span id="close" onclick="hide()">X</span></div>
-                <div id="content">我是一个窗口！</div>
-            </div>
+
     <!-- /.box-body -->
     </section>
         <!-- /.content -->
