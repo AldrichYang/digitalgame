@@ -15,8 +15,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Page Header
-                <small>Optional description</small>
+                用户信息列表
+                <small>用户信息分页展示</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -27,28 +27,19 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-
-            <form method="POST" action="/user/addUser">
-                <label for="userName">用户名:</label>
-                <input type="text" name="userName" size="50"/><br/>
-                <label for="mobileNum">手机号码:</label>
-                <input type="text" name="mobileNum" size="50"/><br/>
-                <input type="submit"/>
-
-            </form>
         <form method="POST" action="/user/userList">
             <table>
                 <tr>
                     <td>
                         <div class="form-group">
                             <label>用户名:</label>
-                            <input type="text" name = "userName"  placeholder="输入用户名 ...">
+                            <input type="text" name = "userName"  th:value="${queryCond.userName}" placeholder="输入用户名 ...">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
                             <label>昵称:</label>
-                            <input type="text" name= "nickName" placeholder="输入昵称 ...">
+                            <input type="text" name= "nickName" th:value="${queryCond.nickName}" placeholder="输入昵称 ...">
                         </div>
                     </td>
                     <td>
@@ -57,6 +48,9 @@
                 </tr>
             </table>
         </form>
+        <form method="GET" action="/user/addUser.html">
+            <button type="submit">新增</button>
+        </form >
 
     <div class="row">
         <div class="col-xs-12">
@@ -82,14 +76,7 @@
                             <td th:text="${userInfo.nickName}">2.41</td>
                             <td th:text="${userInfo.mobileNum}">yes</td>
                             <td th:text="${userInfo.isEnable} == 1 ? '是' : '否'">yes</td>
-                            <td><a th:href="@{/user/editUser.html(userInfo=${userInfo})}" >修改</a></td>
-                        </tr>
-                        <tr>
-                            <td>Other browsers</td>
-                            <td>All others</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>U</td>
+                            <td><a th:href="@{/user/editUser.html(userId=${userInfo.id})}" >修改</a></td>
                         </tr>
                         </tbody>
                         <tfoot>
@@ -106,10 +93,6 @@
             </div>
         </div>
     </div>
-            <div id="win">
-                <div id="title">我是标题栏！<span id="close" onclick="hide()">X</span></div>
-                <div id="content">我是一个窗口！</div>
-            </div>
     <!-- /.box-body -->
     </section>
         <!-- /.content -->

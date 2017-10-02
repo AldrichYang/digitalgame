@@ -15,4 +15,5 @@ public interface UserInfoMapper {
     List<UserInfo> selectByPage(@Param("whereCond") String whereCond);
 
     int updateByPrimaryKeySelective(UserInfo record);
+    UserInfo  selectByPrimaryKey(Integer id);
 }

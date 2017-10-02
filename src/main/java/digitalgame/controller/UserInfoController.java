@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -27,26 +29,33 @@ public class UserInfoController {
     public String getAllUserList(@ModelAttribute UserInfo userInfo, Model model) {
         List<UserInfo> userInfoList = userInfoService.selectByPage(0, 0, userInfo);
         model.addAttribute("userList", userInfoList);
+        model.addAttribute("queryCond",userInfo);
         return "userList";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String addUser(UserInfo userInfo) {
+    public String addUser(UserInfo userInfo, Model model) {
         userInfoService.saveUser(userInfo);
-        return "userList";
+        return this.getAllUserList(userInfo,model);
     }
 
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
-    public String editUser(UserInfo userInfo) {
-        userInfo.setId(1);
+    public String editUser(UserInfo userInfo,Model model) {
         userInfoService.editUser(userInfo);
-        return "userList";
+        return this.getAllUserList(userInfo,model);
     }
 
     @RequestMapping(value = "/editUser.html", method = RequestMethod.GET)
-    public String redirectToEdit(@ModelAttribute UserInfo userInfo, Model model) {
+    public String redirectToEdit(@RequestParam int userId, Model model) {
+        UserInfo userInfo = userInfoService.selectByPrimaryKey(userId);
         model.addAttribute("oldUserInfo", userInfo);
         return "editUser";
+    }
+
+    @RequestMapping(value = "/addUser.html", method = RequestMethod.GET)
+    public String redirectToAdd(@ModelAttribute UserInfo userInfo, Model model) {
+
+        return "addUser";
     }
 
 }
