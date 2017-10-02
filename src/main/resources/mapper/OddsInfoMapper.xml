@@ -11,6 +11,13 @@
   <sql id="Base_Column_List" >
     id, odds_name, odds_number, create_time, update_time
   </sql>
+
+  <select id="selectOddsList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from odds_info
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

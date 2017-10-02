@@ -1,7 +1,11 @@
 package digitalgame.dao;
 
 import digitalgame.model.po.OddsInfo;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+@Mapper
 public interface OddsInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface OddsInfoMapper {
     int updateByPrimaryKeySelective(OddsInfo record);
 
     int updateByPrimaryKey(OddsInfo record);
+
+    List<OddsInfo> selectOddsList();
 }

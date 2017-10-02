@@ -10,7 +10,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Page Header
+                常用语与赔率设置
                 <small>Optional description</small>
             </h1>
             <ol class="breadcrumb">
@@ -22,12 +22,24 @@
         <!-- Main content -->
         <section class="content container-fluid">
 
-            <form method="POST" action="/user/addUser">
-                <label for="userName">用户名:</label>
-                <input type="text" name="userName" size="50"/><br/>
-                <label for="mobileNum">手机号码:</label>
-                <input type="text" name="mobileNum" size="50"/><br/>
-                <input type="submit"/>
+            <form method="POST" action="/odds/oddsList">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>常用语</th>
+                        <th>赔率</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="oddsInfo : ${oddsList}">
+                        <td th:text="${oddsInfo.oddsName}">Onions</td>
+                        <td th:text="${oddsInfo.oddsNumber}">2.41</td>
+                        <td></td>
+                    </tr>
+
+                    </tbody>
+                </table>
 
             </form>
 
