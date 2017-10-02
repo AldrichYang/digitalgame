@@ -1,21 +1,114 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="starter">
-    <title>猜数字</title>
+<head th:replace="starter :: head">
+    <title>猜数字啦</title>
 </head>
-<!--<body th:insert="starter :: body">-->
-<body>
-请将竞猜复制到下面的框里：
-<textarea>dafdsafdf</textarea>
-<form method="POST" action="/user/addUser">
-    <label for="userName">用户名:</label>
-    <input type="text" name="userName" size="50"/><br/>
-    <label for="mobileNum">手机号码:</label>
-    <input type="text" name="mobileNum" size="50"/><br/>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="starter :: main-header-sidebar"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                竞猜&开奖
+                <small>黏贴竞猜内容到下面框里以投注，等待开奖</small>
+            </h1>
+            <!--<ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>-->
+        </section>
 
-    <input  type="submit"/>
+        <!-- Main content -->
+        <section class="content container-fluid">
 
-</form>
+            <!--投注框-->
+            <div class="form-group">
+                <textarea class="form-control" rows="10" placeholder="把qq竞猜聊天记录复制到这里"></textarea>
+
+            </div>
+
+            <!--分析出的投注结果展示在这里-->
+            <div class="box">
+                <div class="box-header">竞猜内容</div>
+                <div class="box-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                       aria-describedby="example2_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                            aria-sort="ascending"
+                                            aria-label="Rendering engine: activate to sort column descending">
+                                            投注人
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                            aria-label="Browser: activate to sort column ascending">投注内容
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                            aria-label="Platform(s): activate to sort column ascending">投注积分
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                            aria-label="Engine version: activate to sort column ascending">投注状态
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                            aria-label="CSS grade: activate to sort column ascending">中奖结果
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                            colspan="1"
+                                            aria-label="CSS grade: activate to sort column ascending">操作
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr role="row" class="odd">
+                                        <td class="sorting_1">张三</td>
+                                        <td>大龙</td>
+                                        <td>100</td>
+                                        <td>有效</td>
+                                        <td>未开奖</td>
+                                        <td>撤销</td>
+                                    </tr>
+                                    <tr role="row" class="odd">
+                                        <td class="sorting_1">张三</td>
+                                        <td>小龙</td>
+                                        <td>100</td>
+                                        <td>有效</td>
+                                        <td>未中奖</td>
+                                        <td>撤销</td>
+                                    </tr>
+                                    <tr role="row" class="odd">
+                                        <td class="sorting_1">张三</td>
+                                        <td>全大</td>
+                                        <td>100</td>
+                                        <td>已撤销</td>
+                                        <td>未开奖</td>
+                                        <td>撤销</td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="starter :: main-footer"></div>
 </body>
 </html>
