@@ -24,5 +24,9 @@ public interface AdminInfoService {
      * 分页查询admin信息
      * @return
      */
-    List<AdminInfo> queryAdminInfoByPage();
+    List<AdminInfo> queryAdminInfoByPage(AdminInfo adminInfo);
+
+    AdminInfo selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(AdminInfo record);
 }

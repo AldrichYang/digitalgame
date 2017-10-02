@@ -5,14 +5,14 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="admin_name" property="adminName" jdbcType="VARCHAR" />
     <result column="admin_code" property="adminCode" jdbcType="VARCHAR" />
-    <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
+    <result column="password" property="passWord" jdbcType="VARCHAR" />
     <result column="mobile_num" property="mobileNum" jdbcType="VARCHAR" />
     <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, admin_name, admin_code, pass_word, mobile_num, is_enable, create_time, update_time
+    id, admin_name, admin_code, password, mobile_num, is_enable, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,7 +26,7 @@
   </delete>
   <insert id="insert" parameterType="digitalgame.model.po.AdminInfo" >
     insert into admin_info (id, admin_name, admin_code, 
-      pass_word, mobile_num, is_enable, 
+      password, mobile_num, is_enable,
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminCode,jdbcType=VARCHAR}, 
       #{passWord,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, 
@@ -45,7 +45,7 @@
         admin_code,
       </if>
       <if test="passWord != null" >
-        pass_word,
+        password,
       </if>
       <if test="mobileNum != null" >
         mobile_num,
@@ -97,7 +97,7 @@
         admin_code = #{adminCode,jdbcType=VARCHAR},
       </if>
       <if test="passWord != null" >
-        pass_word = #{passWord,jdbcType=VARCHAR},
+        password = #{passWord,jdbcType=VARCHAR},
       </if>
       <if test="mobileNum != null" >
         mobile_num = #{mobileNum,jdbcType=VARCHAR},
@@ -125,4 +125,9 @@
       update_time = #{updateTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from admin_info ${whereCond}
+  </select>
 </mapper>

@@ -1,17 +1,106 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head ></head>
-<body >
+<head th:replace="starter :: head"></head>
+<!--<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">-->
+<!--<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">-->
+<!--<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css">-->
+<!--<script type="text/javascript" src="/easyui/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="starter :: main-header-sidebar"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                管理员信息列表
+                <small>管理员信息分页展示</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
 
-<form method="POST" action="/user/addUser">
-<label for="userName">用户名:</label>
-<input type="text" name="userName" size="50"/><br/>
-<label for="mobileNum">手机号码:</label>
-<input type="text" name="mobileNum" size="50"/><br/>
 
-<input  type="submit"/>
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <form method="POST" action="/admin/adminList">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>管理员名:</label>
+                                <input type="text" name = "adminName"  th:value="${queryCond.adminName}" placeholder="输入管理员名 ...">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label>管理员代码:</label>
+                                <input type="text" name= "adminCode" th:value="${queryCond.adminCode}" placeholder="输入管理员代码 ...">
+                            </div>
+                        </td>
+                        <td>
+                            <button type="submit">查询</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <form method="GET" action="/admin/addAdmin.html">
+                <button type="submit">新增</button>
+            </form >
 
-</form>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">用户基本信息维护</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>用户名</th>
+                                    <th>昵称</th>
+                                    <th>手机号码</th>
+                                    <th>是否可用</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="admin : ${adminList}">
+                                    <td th:text="${admin.adminName}">Onions</td>
+                                    <td th:text="${admin.adminCode}">2.41</td>
+                                    <td th:text="${admin.mobileNum}">yes</td>
+                                    <td th:text="${admin.isEnable} == 1 ? '是' : '否'">yes</td>
+                                    <td><a th:href="@{/admin/editAdmin.html(adminId=${admin.id})}" >修改</a></td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Rendering engine</th>
+                                    <th>Browser</th>
+                                    <th>Platform(s)</th>
+                                    <th>Engine version</th>
+                                    <th>CSS grade</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="starter :: main-footer"></div>
+    <div id="addCaseDiv" style="display:none;">
+        <iframe></iframe>
+    </div>
 </body>
 </html>
