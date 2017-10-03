@@ -1,5 +1,6 @@
 package digitalgame.service;
 
+import digitalgame.model.po.UserAccountVo;
 import digitalgame.model.po.UserInfo;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface UserInfoService {
      List<UserInfo> selectByPage(int cueerntPage,int size,UserInfo userInfo);
 
      UserInfo  selectByPrimaryKey(Integer id);
+
+     List<UserAccountVo> selectUserAccountByPage(int cueerntPage,int size,UserInfo userInfo);
 }

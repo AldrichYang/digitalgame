@@ -1,5 +1,6 @@
 package digitalgame.dao;
 
+import digitalgame.model.po.UserAccountVo;
 import digitalgame.model.po.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,4 +17,6 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKeySelective(UserInfo record);
     UserInfo  selectByPrimaryKey(Integer id);
+
+    List<UserAccountVo> selectUserAccountByPage(@Param("whereCond") String whereCond);
 }

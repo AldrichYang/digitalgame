@@ -2,6 +2,7 @@ package digitalgame.service.impl;
 
 import com.google.common.base.Strings;
 import digitalgame.dao.UserInfoMapper;
+import digitalgame.model.po.UserAccountVo;
 import digitalgame.model.po.UserInfo;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfo selectByPrimaryKey(Integer id) {
         return  userInfoMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<UserAccountVo> selectUserAccountByPage(int cueerntPage, int size, UserInfo userInfo) {
+        String whereCond = "  ";
+        if(!Strings.isNullOrEmpty(userInfo.getUserName())){
+            whereCond +=  " and  u.user_name like '%"+userInfo.getUserName()+"%'";
+        }
+        if(!Strings.isNullOrEmpty(userInfo.getNickName())){
+            whereCond +=  " and u.nick_name like '%"+userInfo.getNickName()+"%'";
+        }
+        return userInfoMapper.selectUserAccountByPage(whereCond)   ;
     }
 }
