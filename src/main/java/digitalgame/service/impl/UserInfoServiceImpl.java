@@ -1,12 +1,17 @@
 package digitalgame.service.impl;
 
 import com.google.common.base.Strings;
+import digitalgame.dao.UserFinanceAccountLogMapper;
+import digitalgame.dao.UserFinanceAccountMapper;
 import digitalgame.dao.UserInfoMapper;
 import digitalgame.model.po.UserAccountVo;
+import digitalgame.model.po.UserFinanceAccount;
+import digitalgame.model.po.UserFinanceAccountLog;
 import digitalgame.model.po.UserInfo;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -20,12 +25,28 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private UserFinanceAccountMapper userFinanceAccountMapper;
+
+    @Autowired
+    private UserFinanceAccountLogMapper userFinanceAccountLogMapper;
+
+
     @Override
+    @Transactional
     public UserInfo saveUser(UserInfo user) {
+        UserFinanceAccount userFinanceAccount = new UserFinanceAccount();
+        UserFinanceAccountLog userFinanceAccountLog= new UserFinanceAccountLog();
         user.setIsEnable(1);
         user.setCreateTime(new Date().toString());
         user.setUpdateTime(user.getCreateTime());
         userInfoMapper.insert(user);
+        userFinanceAccount.setUserId(user.getId());
+        userFinanceAccountMapper.insertSelective(userFinanceAccount);
+        userFinanceAccountLog.setMoney(0.0);
+        userFinanceAccountLog.setOperType(1);
+        userFinanceAccountLog.setUfcId(userFinanceAccount.getId());
+        userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
         return user;
     }
 
@@ -60,6 +81,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         if(!Strings.isNullOrEmpty(userInfo.getNickName())){
             whereCond +=  " and u.nick_name like '%"+userInfo.getNickName()+"%'";
+        }
+        if(userInfo.getId() != null && userInfo.getId() != 0L){
+            whereCond +=  " and u.id = "+userInfo.getId();
         }
         return userInfoMapper.selectUserAccountByPage(whereCond)   ;
     }

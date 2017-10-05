@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="digitalgame.dao.UserFinanceAccountLogMapper" >
+  <resultMap id="BaseResultMap" type="digitalgame.model.po.UserFinanceAccountLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ufc_id" property="ufcId" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="FLOAT" />
+    <result column="oper_type" property="operType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ufc_id, money, oper_type, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_finance_account_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_finance_account_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="digitalgame.model.po.UserFinanceAccountLog" >
+    insert into user_finance_account_log (id, ufc_id, money, 
+      oper_type, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{ufcId,jdbcType=INTEGER}, #{money,jdbcType=FLOAT}, 
+      #{operType,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="digitalgame.model.po.UserFinanceAccountLog" >
+    insert into user_finance_account_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ufcId != null" >
+        ufc_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="operType != null" >
+        oper_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ufcId != null" >
+        #{ufcId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=FLOAT},
+      </if>
+      <if test="operType != null" >
+        #{operType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.UserFinanceAccountLog" >
+    update user_finance_account_log
+    <set >
+      <if test="ufcId != null" >
+        ufc_id = #{ufcId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=FLOAT},
+      </if>
+      <if test="operType != null" >
+        oper_type = #{operType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.UserFinanceAccountLog" >
+    update user_finance_account_log
+    set ufc_id = #{ufcId,jdbcType=INTEGER},
+      money = #{money,jdbcType=FLOAT},
+      oper_type = #{operType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

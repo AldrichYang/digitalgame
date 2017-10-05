@@ -32,6 +32,9 @@
       #{updateTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="digitalgame.model.po.UserFinanceAccount" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT  last_insert_rowid() AS id
+    </selectKey>
     insert into user_finance_account
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

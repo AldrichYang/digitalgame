@@ -14,6 +14,9 @@
     id, user_name, mobile_num, nick_name, update_time, is_enable, create_time, create_time
   </sql>
   <insert id="insert" parameterType="digitalgame.model.po.UserInfo" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT  last_insert_rowid() AS id
+    </selectKey>
     insert into user_info (ID, user_name, mobile_num, 
       nick_name, is_enable, update_time, 
       create_time)
@@ -109,7 +112,8 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectUserAccountByPage" resultType="digitalgame.model.po.UserAccountVo">
-      SELECT  u.id, user_name as userName , u.mobile_num as mobileNum, u.nick_name as nickName,ufa.balance as money from user_info
+      SELECT  u.id, user_name as userName , u.mobile_num as mobileNum, u.nick_name as nickName,ufa.balance as money
+       ,ufa.id as accountId from user_info
        u,user_finance_account ufa where u.ID = ufa.user_id ${whereCond}
   </select>
 </mapper>

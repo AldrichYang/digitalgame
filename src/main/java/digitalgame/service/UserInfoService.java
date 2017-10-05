@@ -28,4 +28,5 @@ public interface UserInfoService {
      UserInfo  selectByPrimaryKey(Integer id);
 
      List<UserAccountVo> selectUserAccountByPage(int cueerntPage,int size,UserInfo userInfo);
+
 }
