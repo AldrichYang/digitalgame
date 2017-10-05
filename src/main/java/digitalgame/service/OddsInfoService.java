@@ -9,4 +9,12 @@ public interface OddsInfoService {
     OddsInfo saveOddsInfo(OddsInfo oddsInfo);
 
     List<OddsInfo> selectOddsList();
+
+    OddsInfo editOddsInfo(OddsInfo oddsInfo);
+
+    OddsInfo selectOddsInfo(int oddsInfoID);
+
+    int deleteOddsInfo(int oddsInfoID);
+
+    int addOddsInfo(OddsInfo oddsInfo);
 }

@@ -11,7 +11,7 @@
         <section class="content-header">
             <h1>
                 常用语与赔率设置
-                <small>Optional description</small>
+                <small>信息展示</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -33,16 +33,19 @@
                     </thead>
                     <tbody>
                     <tr th:each="oddsInfo : ${oddsList}">
-                        <td th:text="${oddsInfo.oddsName}">Onions</td>
-                        <td th:text="${oddsInfo.oddsNumber}">2.41</td>
-                        <td></td>
+                        <td th:text="${oddsInfo.oddsName}"></td>
+                        <td th:text="${oddsInfo.oddsNumber}"></td>
+                        <td><a th:href="@{/odds/oddsInfoHtml(oddsId=${oddsInfo.id})}" >修改</a>
+                            <a th:href="@{/odds/delOddsInfo(oddsId=${oddsInfo.id})}" >删除</a></td>
                     </tr>
 
                     </tbody>
                 </table>
 
             </form>
-
+            <form method="GET" action="/odds/addOddshtml">
+                <button type="submit">新增</button>
+            </form >
         </section>
         <!-- /.content -->
     </div>

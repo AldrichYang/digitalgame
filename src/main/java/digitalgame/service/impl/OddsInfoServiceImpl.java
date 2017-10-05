@@ -27,4 +27,25 @@ public class OddsInfoServiceImpl implements OddsInfoService{
     public List<OddsInfo> selectOddsList() {
         return oddsInfoMapper.selectOddsList();
     }
+
+    @Override
+    public OddsInfo editOddsInfo(OddsInfo oddsInfo) {
+        oddsInfoMapper.updateByPrimaryKeySelective(oddsInfo);
+        return oddsInfo;
+    }
+
+    @Override
+    public OddsInfo selectOddsInfo(int oddsInfoID) {
+        return oddsInfoMapper.selectByPrimaryKey(oddsInfoID);
+    }
+
+    @Override
+    public int deleteOddsInfo(int oddsInfoID) {
+        return oddsInfoMapper.deleteByPrimaryKey(oddsInfoID);
+    }
+
+    @Override
+    public int addOddsInfo(OddsInfo oddsInfo) {
+        return oddsInfoMapper.insert(oddsInfo);
+    }
 }

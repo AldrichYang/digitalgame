@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="starter :: head"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="starter :: main-header-sidebar"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" >
+        <!-- Content Header (Page header) -->
+        <!--<span th:with="oldUserInfo=${#httpServletRequest.getParameter('userInfo')}">-->
+        <!---->
+        <!--</span>-->
+
+        <section class="content-header">
+            <h1>
+                Page Header
+                <small>Optional description</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <form role="form" method="POST" action="/odds/addOddsInfo">
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">常用语:</label>
+                        <input type="text" id="exampleInputEmail1" name="oddsName" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">赔率:</label>
+                        <input type="text" id="exampleInputPassword1" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" name="oddsNumber" class="form-control">
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
+            <!-- /.box-body -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="starter :: main-footer"></div>
 </body>
 </html>
