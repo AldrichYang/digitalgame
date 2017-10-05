@@ -1,7 +1,11 @@
 package digitalgame.dao;
 
 import digitalgame.model.po.AdminInfo;
+import digitalgame.model.po.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface AdminInfoMapper {
@@ -16,4 +20,6 @@ public interface AdminInfoMapper {
     int updateByPrimaryKeySelective(AdminInfo record);
 
     int updateByPrimaryKey(AdminInfo record);
+
+    List<AdminInfo> selectByPage(@Param("whereCond") String whereCond);
 }

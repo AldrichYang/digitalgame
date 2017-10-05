@@ -28,6 +28,7 @@ CREATE TABLE user_info
 CREATE TABLE user_finance_account
 (
   id      INTEGER PRIMARY KEY ,
+  user_id INTEGER ,
   balance DECIMAL NOT NULL DEFAULT 0.0,
   locking DECIMAL NOT NULL DEFAULT 0.0,
   version INT DEFAULT 1,
