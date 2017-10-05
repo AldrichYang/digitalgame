@@ -23,4 +23,6 @@ public interface UserInfoService {
       * @return
       */
      List<UserInfo> selectByPage(int cueerntPage,int size,UserInfo userInfo);
+
+     UserInfo  selectByPrimaryKey(Integer id);
 }

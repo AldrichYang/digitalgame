@@ -9,10 +9,8 @@
     <div class="content-wrapper" >
         <!-- Content Header (Page header) -->
         <!--<span th:with="oldUserInfo=${#httpServletRequest.getParameter('userInfo')}">-->
-            <!---->
+        <!---->
         <!--</span>-->
-
-        <label th:text="${oldUserInfo.userName}">旧用户名</label>
 
         <section class="content-header">
             <h1>
@@ -28,21 +26,17 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-            <form role="form" method="POST" action="/user/editUser">
+            <form role="form" method="POST" action="/odds/editOdds">
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">用户名:</label>
-                        <input type="text" name="userName" class="form-control" th:value= "${oldUserInfo.userName}"  placeholder="用户名...">
+                        <label for="exampleInputEmail1">常用语:</label>
+                        <input type="text" name="oddsName" class="form-control" th:value= "${oddsInfo.oddsName}" >
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">手机号码:</label>
-                        <input type="text" name="mobileNum" class="form-control" th:value = "${oldUserInfo.mobileNum}"  placeholder="手机号码...">
+                        <label for="exampleInputPassword1">赔率:</label>
+                        <input type="text" name="oddsNumber" class="form-control" th:value = "${oddsInfo.oddsNumber}">
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">昵称:</label>
-                        <input type="text" name="nickName" class="form-control" th:value= "${oldUserInfo.nickName}" placeholder="昵称...">
-                    </div>
-                    <input type="hidden" name="id" class="form-control" th:value= "${oldUserInfo.id}"  placeholder="昵称...">
+                    <input type="hidden" name="id" class="form-control" th:value= "${oddsInfo.id}">
                 </div>
                 <!-- /.box-body -->
 
@@ -51,8 +45,8 @@
                 </div>
             </form>
 
-    <!-- /.box-body -->
-    </section>
+            <!-- /.box-body -->
+        </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

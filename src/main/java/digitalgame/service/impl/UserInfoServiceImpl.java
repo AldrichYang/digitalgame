@@ -45,4 +45,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         return userInfoMapper.selectByPage(whereCond);
     }
+
+    @Override
+    public UserInfo selectByPrimaryKey(Integer id) {
+        return  userInfoMapper.selectByPrimaryKey(id);
+    }
 }
