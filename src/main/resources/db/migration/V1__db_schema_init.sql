@@ -48,3 +48,12 @@ CREATE TABLE admin_info (
   create_time VARCHAR(30)
 
 )
+
+CREATE TABLE odds_info
+		(
+		id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+		odds_name VARCHAR NOT NULL,
+		odds_number INTEGER NOT NULL,
+		create_time VARCHAR,
+		update_time VARCHAR
+		)
