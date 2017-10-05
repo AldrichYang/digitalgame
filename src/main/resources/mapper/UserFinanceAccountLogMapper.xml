@@ -82,6 +82,9 @@
       <if test="money != null" >
         money = #{money,jdbcType=FLOAT},
       </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=FLOAT},
+      </if>
       <if test="operType != null" >
         oper_type = #{operType,jdbcType=INTEGER},
       </if>

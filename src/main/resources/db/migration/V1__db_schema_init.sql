@@ -47,7 +47,7 @@ CREATE TABLE admin_info (
   update_time VARCHAR(30),
   create_time VARCHAR(30)
 
-)
+);
 
 CREATE TABLE odds_info
 		(
@@ -56,4 +56,4 @@ CREATE TABLE odds_info
 		odds_number INTEGER NOT NULL,
 		create_time VARCHAR,
 		update_time VARCHAR
-		)
+		);

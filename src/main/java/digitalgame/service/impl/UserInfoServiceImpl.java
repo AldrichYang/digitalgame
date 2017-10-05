@@ -45,6 +45,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userFinanceAccountMapper.insertSelective(userFinanceAccount);
         userFinanceAccountLog.setMoney(0.0);
         userFinanceAccountLog.setOperType(1);
+        userFinanceAccountLog.setBalance(0.0);
         userFinanceAccountLog.setUfcId(userFinanceAccount.getId());
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
         return user;

@@ -39,6 +39,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userFinanceAccountLog.setOperType(userAccountVo.getOperType());
         userFinanceAccountLog.setMoney(userAccountVo.getMoney());
         userFinanceAccountLog.setUfcId(record.getId());
+        userFinanceAccountLog.setBalance(record.getBalance());
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
 
         return userFinanceAccountMapper.updateByPrimaryKeySelective(record);
