@@ -58,13 +58,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserInfo> selectByPage(int pageNo,int size,UserInfo userInfo) {
+    public List<UserInfo> selectByPage(int pageNo,UserInfo userInfo) {
         String whereCond = " where 1=1 ";
         if(!Strings.isNullOrEmpty(userInfo.getUserName())){
             whereCond +=  " and  user_name like '%"+userInfo.getUserName()+"%'";
         }
         if(!Strings.isNullOrEmpty(userInfo.getNickName())){
             whereCond +=  " and nick_name like '%"+userInfo.getNickName()+"%'";
+        }
+        if(pageNo != 0){
+            whereCond += "limit " +((pageNo -1) *10) +","+(pageNo) * 10;
         }
         return userInfoMapper.selectByPage(whereCond);
     }
