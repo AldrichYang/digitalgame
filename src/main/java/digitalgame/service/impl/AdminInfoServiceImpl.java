@@ -28,13 +28,16 @@ public class AdminInfoServiceImpl implements AdminInfoService {
     }
 
     @Override
-    public List<AdminInfo> queryAdminInfoByPage(AdminInfo adminInfo) {
+    public List<AdminInfo> queryAdminInfoByPage(AdminInfo adminInfo,int pageNo) {
         String whereCond = " where 1=1 ";
         if(!Strings.isNullOrEmpty(adminInfo.getAdminName())){
             whereCond +=  " and  admin_name like '%"+adminInfo.getAdminName()+"%'";
         }
         if(!Strings.isNullOrEmpty(adminInfo.getAdminCode())){
             whereCond +=  " and admin_code like '%"+adminInfo.getAdminCode()+"%'";
+        }
+        if(pageNo != 0){
+            whereCond += "limit " +((pageNo -1) *10) +","+(pageNo) * 10;
         }
         return adminInfoMapper.selectByPage(whereCond);
     }
