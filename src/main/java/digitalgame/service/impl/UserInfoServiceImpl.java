@@ -78,7 +78,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserAccountVo> selectUserAccountByPage(int cueerntPage, int size, UserInfo userInfo) {
+    public List<UserAccountVo> selectUserAccountByPage(int cueerntPage, UserInfo userInfo) {
         String whereCond = "  ";
         if(!Strings.isNullOrEmpty(userInfo.getUserName())){
             whereCond +=  " and  u.user_name like '%"+userInfo.getUserName()+"%'";
@@ -88,6 +88,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         if(userInfo.getId() != null && userInfo.getId() != 0L){
             whereCond +=  " and u.id = "+userInfo.getId();
+        }
+        if(cueerntPage != 0){
+            whereCond += "limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }
         return userInfoMapper.selectUserAccountByPage(whereCond)   ;
     }
