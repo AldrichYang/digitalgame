@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -18,7 +19,6 @@ public class OddsInfoServiceImpl implements OddsInfoService{
     @Override
     public OddsInfo saveOddsInfo(OddsInfo oddsInfo) {
         oddsInfo.setCreateTime(new Date().toString());
-        oddsInfo.setUpdateTime(oddsInfo.getCreateTime());
         oddsInfoMapper.insert(oddsInfo);
         return oddsInfo;
     }
@@ -47,5 +47,18 @@ public class OddsInfoServiceImpl implements OddsInfoService{
     @Override
     public int addOddsInfo(OddsInfo oddsInfo) {
         return oddsInfoMapper.insert(oddsInfo);
+    }
+
+    @Override
+    public HashMap<String, Integer> selectOddsMap() {
+        HashMap<String, Integer> oddsMap = new HashMap();
+        List<OddsInfo> oddsList = oddsInfoMapper.selectOddsList();
+
+        if(oddsList != null && oddsList.size() > 0){
+            for(OddsInfo oddsInfo : oddsList){
+                oddsMap.put(oddsInfo.getOddsName(),oddsInfo.getOddsNumber());
+            }
+        }
+        return oddsMap;
     }
 }
