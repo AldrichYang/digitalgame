@@ -23,10 +23,10 @@ public interface UserInfoService {
       * 分页查询
       * @return
       */
-     List<UserInfo> selectByPage(int cueerntPage,int size,UserInfo userInfo);
+     List<UserInfo> selectByPage(int cueerntPage,UserInfo userInfo);
 
      UserInfo  selectByPrimaryKey(Integer id);
 
-     List<UserAccountVo> selectUserAccountByPage(int cueerntPage,int size,UserInfo userInfo);
+     List<UserAccountVo> selectUserAccountByPage(int cueerntPage,UserInfo userInfo);
 
 }

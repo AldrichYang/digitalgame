@@ -13,6 +13,8 @@ public class UserFinanceAccountLog {
 
     private String updateTime;
 
+    private double balance;
+
     public Integer getId() {
         return id;
     }
@@ -43,6 +45,14 @@ public class UserFinanceAccountLog {
 
     public void setOperType(Integer operType) {
         this.operType = operType;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public String getCreateTime() {

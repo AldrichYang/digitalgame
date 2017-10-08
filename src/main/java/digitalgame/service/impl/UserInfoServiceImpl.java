@@ -45,6 +45,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userFinanceAccountMapper.insertSelective(userFinanceAccount);
         userFinanceAccountLog.setMoney(0.0);
         userFinanceAccountLog.setOperType(1);
+        userFinanceAccountLog.setBalance(0.0);
         userFinanceAccountLog.setUfcId(userFinanceAccount.getId());
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
         return user;
@@ -57,13 +58,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserInfo> selectByPage(int pageNo,int size,UserInfo userInfo) {
+    public List<UserInfo> selectByPage(int pageNo,UserInfo userInfo) {
         String whereCond = " where 1=1 ";
         if(!Strings.isNullOrEmpty(userInfo.getUserName())){
             whereCond +=  " and  user_name like '%"+userInfo.getUserName()+"%'";
         }
         if(!Strings.isNullOrEmpty(userInfo.getNickName())){
             whereCond +=  " and nick_name like '%"+userInfo.getNickName()+"%'";
+        }
+        if(pageNo != 0){
+            whereCond += "limit " +((pageNo -1) *10) +","+(pageNo) * 10;
         }
         return userInfoMapper.selectByPage(whereCond);
     }
@@ -74,7 +78,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<UserAccountVo> selectUserAccountByPage(int cueerntPage, int size, UserInfo userInfo) {
+    public List<UserAccountVo> selectUserAccountByPage(int cueerntPage, UserInfo userInfo) {
         String whereCond = "  ";
         if(!Strings.isNullOrEmpty(userInfo.getUserName())){
             whereCond +=  " and  u.user_name like '%"+userInfo.getUserName()+"%'";
@@ -84,6 +88,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         if(userInfo.getId() != null && userInfo.getId() != 0L){
             whereCond +=  " and u.id = "+userInfo.getId();
+        }
+        if(cueerntPage != 0){
+            whereCond += "limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }
         return userInfoMapper.selectUserAccountByPage(whereCond)   ;
     }

@@ -7,6 +7,46 @@
 <!--<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css">-->
 <!--<script type="text/javascript" src="/easyui/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>-->
+<script type="text/javascript">
+    function addPageNo() {
+        debugger;
+//        $("#hiddenPageNo").val($("#pageNo").val());
+        var pageNo = document.getElementById("pageNo").value;
+
+        if(pageNo == "") {
+            if(document.getElementById("hiddenPageNo").value == "") document.getElementById("hiddenPageNo").value = 1;
+            return true;
+        }
+        //pageNo = document.getElementById("hiddenPageNo").value;
+        if(!isPositiveInteger(pageNo)){
+            alert("请输入正确页码!");
+            return false;
+
+        }
+        document.getElementById("hiddenPageNo").value = pageNo;
+        return true;
+    }
+
+    function goFunction(){
+
+        if(addPageNo()) document.getElementById('queryForm').submit();
+    }
+
+    function  goLast() {
+        document.getElementById("hiddenPageNo").value = document.getElementById("allPageNo").value;
+        document.getElementById('queryForm').submit();
+    }
+    function goFirst() {
+        document.getElementById("hiddenPageNo").value = 1;
+        document.getElementById('queryForm').submit();
+        return true;
+    }
+
+    function isPositiveInteger(s){//是否为正整数
+        var re = /^[0-9]+$/ ;
+        return re.test(s)
+    }
+</script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     <div th:replace="starter :: main-header-sidebar"></div>
@@ -27,7 +67,7 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-            <form method="POST" action="/admin/adminList">
+            <form method="POST" action="/admin/adminList"  onsubmit="return addPageNo()" id = "queryForm">
                 <table>
                     <tr>
                         <td>
@@ -47,7 +87,9 @@
                         </td>
                     </tr>
                 </table>
+                <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
             </form>
+            <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
             <form method="GET" action="/admin/addAdmin.html">
                 <button type="submit">新增</button>
             </form >
@@ -89,6 +131,21 @@
                                 </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:text="${inallPageDesc}"></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" >
+                                    <ul class="pagination">
+                                        <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到<input id = "pageNo" type="text" data-th-high="20"   placeholder="输入页面 ..." />页<input type="button" data-th-high="20"  value="go" onclick="goFunction()"></a></li>
+
+                                        <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()">尾页</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

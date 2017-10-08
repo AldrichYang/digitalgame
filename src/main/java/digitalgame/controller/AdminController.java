@@ -1,5 +1,6 @@
 package digitalgame.controller;
 
+import com.google.common.base.Strings;
 import digitalgame.model.po.AdminInfo;
 import digitalgame.model.po.UserInfo;
 import digitalgame.service.AdminInfoService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /***
@@ -27,10 +29,20 @@ public class AdminController {
 
 
     @RequestMapping(value = "/adminList", method = {RequestMethod.GET,RequestMethod.POST})
-    public String  getAllAdminList(@ModelAttribute AdminInfo adminInfo, Model model){
-        List<AdminInfo> adminInfoList = adminInfoService.queryAdminInfoByPage(adminInfo);
+    public String  getAllAdminList(@ModelAttribute AdminInfo adminInfo, Model model, HttpServletRequest request){
+        int currentPageNo = 1;
+        if(request != null ){
+            String pageNo = request.getParameter("pageNo");
+            if(!Strings.isNullOrEmpty(pageNo)) currentPageNo = Integer.parseInt(pageNo);
+        }
+        int userInfoListCount = adminInfoService.queryAdminInfoByPage(adminInfo,0).size();
+        List<AdminInfo> adminInfoList = adminInfoService.queryAdminInfoByPage(adminInfo,currentPageNo);
+        int pageNo = userInfoListCount/10 + (userInfoListCount % 10 == 0 ? 0 : 1);
         model.addAttribute("adminList", adminInfoList);
         model.addAttribute("queryCond",adminInfo);
+        model.addAttribute("inallPageDesc","总条数："+userInfoListCount+",当前第"+currentPageNo+"页,总共" + pageNo + "页");
+        model.addAttribute("currentPage",currentPageNo);
+        model.addAttribute("inallPage",pageNo);
         return "adminList";
     }
 
@@ -43,7 +55,7 @@ public class AdminController {
     @RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
     public String addUser(AdminInfo adminInfo, Model model) {
         adminInfoService.saveAdminInfo(adminInfo);
-        return this.getAllAdminList(adminInfo,model);
+        return this.getAllAdminList(adminInfo,model,null);
     }
 
     @RequestMapping(value = "/editAdmin.html", method = RequestMethod.GET)
@@ -56,7 +68,7 @@ public class AdminController {
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)
     public String editUser(AdminInfo adminInfo,Model model) {
         adminInfoService.updateByPrimaryKeySelective(adminInfo);
-        return this.getAllAdminList(adminInfo,model);
+        return this.getAllAdminList(adminInfo,model,null);
     }
 
 }
