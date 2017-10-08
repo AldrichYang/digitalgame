@@ -107,7 +107,7 @@
                                 <tr>
                                     <th>用户名</th>
                                     <th>昵称</th>
-                                    <th>手机号码</th>
+                                    <!--<th>手机号码</th>-->
                                     <th>是否可用</th>
                                     <th>操作</th>
                                 </tr>
@@ -116,7 +116,7 @@
                                 <tr th:each="admin : ${adminList}">
                                     <td th:text="${admin.adminName}">Onions</td>
                                     <td th:text="${admin.adminCode}">2.41</td>
-                                    <td th:text="${admin.mobileNum}">yes</td>
+                                    <!--<td th:text="${admin.mobileNum}">yes</td>-->
                                     <td th:text="${admin.isEnable} == 1 ? '是' : '否'">yes</td>
                                     <td><a th:href="@{/admin/editAdmin.html(adminId=${admin.id})}" >修改</a></td>
                                 </tr>
