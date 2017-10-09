@@ -26,7 +26,7 @@ public interface UserFinanceAccountService {
     int addUserBalanceByNickName(String nickName,double money);
 
     /****
-     * 根据昵称减余额
+     * 根据昵称减余额，返回-1则是扣钱失败，余额不足
      * @param nickName
      * @param money
      * @return
