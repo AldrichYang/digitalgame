@@ -17,6 +17,21 @@ public interface UserFinanceAccountService {
      */
     int updateBalanceByUserId(int userId,double money,int type);
 
+    /****
+     * 根据昵称增余额
+     * @param nickName
+     * @param money
+     * @return
+     */
+    int addUserBalanceByNickName(String nickName,double money);
+
+    /****
+     * 根据昵称减余额
+     * @param nickName
+     * @param money
+     * @return
+     */
+    int reduceUserBalanceByNickName(String nickName,double money);
 
 
 }
