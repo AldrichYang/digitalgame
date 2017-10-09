@@ -37,13 +37,13 @@
                         <label for="exampleInputPassword1">管理员代码:</label>
                         <input type="text" name="adminCode" class="form-control" th:value = "${oldAdminInfo.adminCode}"  placeholder="手机号码...">
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">手机号码:</label>
-                        <input type="text" name="mobileNum" class="form-control" th:value= "${oldAdminInfo.mobileNum}" placeholder="昵称...">
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="exampleInputPassword1">手机号码:</label>-->
+                        <!--<input type="text" name="mobileNum" class="form-control" th:value= "${oldAdminInfo.mobileNum}" placeholder="昵称...">-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label for="exampleInputPassword1">密码:</label>
-                        <input type="text" name="passWord" class="form-control" th:value= "${oldAdminInfo.passWord}" placeholder="昵称...">
+                        <input type="password" name="passWord" class="form-control" th:value= "${oldAdminInfo.passWord}" placeholder="昵称...">
                     </div>
                     <input type="hidden" name="id" class="form-control" th:value= "${oldAdminInfo.id}"  placeholder="昵称...">
                 </div>

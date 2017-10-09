@@ -1,6 +1,7 @@
 package digitalgame.service.impl;
 
 import com.google.common.base.Strings;
+import digitalgame.common.Util;
 import digitalgame.dao.AdminInfoMapper;
 import digitalgame.model.po.AdminInfo;
 import digitalgame.service.AdminInfoService;
@@ -19,6 +20,8 @@ public class AdminInfoServiceImpl implements AdminInfoService {
     @Override
     public int saveAdminInfo(AdminInfo adminInfo) {
         adminInfo.setIsEnable(1);
+        adminInfo.setPassWord(Util.getMD5(adminInfo.getPassWord()));
+
         return adminInfoMapper.insert(adminInfo);
     }
 
@@ -49,6 +52,7 @@ public class AdminInfoServiceImpl implements AdminInfoService {
 
     @Override
     public int updateByPrimaryKeySelective(AdminInfo record) {
+        record.setPassWord(Util.getMD5(record.getPassWord()));
         return adminInfoMapper.updateByPrimaryKeySelective(record);
     }
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="starter :: head"></head>
 <script type="text/javascript">
     function addPageNo() {
@@ -78,7 +78,15 @@
                         </div>
                     </td>
                     <td>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                    </td>
+                    <td>
+                        <div class="form-group">
                         <button type="submit">查询</button>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -96,13 +104,15 @@
                     <h3 class="box-title">用户基本信息维护</h3>
                 </div>
     <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body dataTables_wrapper form-inline dt-bootstrap">
+                    <div>
+                    <div class="row">
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>用户名</th>
                             <th>昵称</th>
-                            <th>手机号码</th>
+                            <!--<th>手机号码</th>-->
                             <th>是否可用</th>
                             <th>操作</th>
                         </tr>
@@ -111,37 +121,32 @@
                         <tr th:each="userInfo : ${userList}">
                             <td th:text="${userInfo.userName}">Onions</td>
                             <td th:text="${userInfo.nickName}">2.41</td>
-                            <td th:text="${userInfo.mobileNum}">yes</td>
+                            <!--<td th:text="${userInfo.mobileNum}">yes</td>-->
                             <td th:text="${userInfo.isEnable} == 1 ? '是' : '否'">yes</td>
                             <td><a th:href="@{/user/editUser.html(userId=${userInfo.id})}" >修改</a></td>
                         </tr>
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <th>Rendering engine</th>
-                            <th>Browser</th>
-                            <th>Platform(s)</th>
-                            <th>Engine version</th>
-                            <th>CSS grade</th>
-                        </tr>
                         </tfoot>
                     </table>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:text="${inallPageDesc}"></div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" >
-                            <ul class="pagination">
-                                <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
-                                <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到<input id = "pageNo" type="text" data-th-high="20"   placeholder="输入页面 ..." />页<input type="button" data-th-high="20"  value="go" onclick="goFunction()"></a></li>
-
-                                <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()">尾页</a></li>
-                            </ul>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:text="${inallPageDesc}"></div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="dataTables_paginate paging_simple_numbers" style=" margin: 0;white-space: nowrap;text-align: right;" id="example1_paginate" >
+                                <ul class="pagination " style="margin: 0px">
+                                    <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
+                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>
+                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">go</a></li>
+                                    <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()"><div th:height="30">尾页</div></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

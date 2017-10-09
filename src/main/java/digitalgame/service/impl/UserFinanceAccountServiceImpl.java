@@ -45,4 +45,14 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         return userFinanceAccountMapper.updateByPrimaryKeySelective(record);
     }
 
+    @Override
+    public int updateBalanceByUserId(int userId, double money, int type) {
+        UserFinanceAccount ufa = userFinanceAccountMapper.selectByUserId(userId);
+        UserAccountVo userAccountVo = new UserAccountVo();
+        userAccountVo.setAccountId(ufa.getId());
+        userAccountVo.setMoney(money);
+        userAccountVo.setOperType(type);
+        return this.updateByPrimaryKeySelective(userAccountVo);
+    }
+
 }
