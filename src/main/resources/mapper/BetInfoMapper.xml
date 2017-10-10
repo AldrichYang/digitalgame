@@ -19,7 +19,7 @@
     insert into bet_info (betman, betitem,betmoney,status,create_time,update_time)
     VALUES
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.betman},#{item.betitem},#{item.betmoney},#{item.status},#{item.createTime},#{item.update_time})
+      (#{item.betman},#{item.betitem},#{item.betmoney},#{item.status},#{item.createTime},#{item.updateTime})
     </foreach>
   </insert>
 

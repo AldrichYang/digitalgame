@@ -1,5 +1,6 @@
 package digitalgame.service.impl;
 
+import digitalgame.dao.BetInfoMapper;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.OddsInfo;
 import digitalgame.service.GuessService;
@@ -7,6 +8,7 @@ import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,10 +16,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class GuessServiceImpl implements GuessService {
+public class GuessServiceImpl implements GuessService,Serializable {
 
     @Autowired
     OddsInfoService ois;
+
+    @Autowired
+    BetInfoMapper betInfoMapper;
+
+    @Override
+    public void doBet(List<BetInfo> betInfoList) {
+        betInfoMapper.addBatch(betInfoList);
+    }
 
     @Override
     public List<BetInfo> analysisBetContent(String betContent) {
@@ -36,6 +46,7 @@ public class GuessServiceImpl implements GuessService {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for(String strBet : arrBet){
+            strBet = strBet.trim();
             //截取最后一个空格后的内容，如果是日期，则前面为姓名
             String strTime = strBet.substring(strBet.lastIndexOf(" ")+1);
 
@@ -70,7 +81,7 @@ public class GuessServiceImpl implements GuessService {
                         if(betStr.contains(oddsinfo.getOddsName())){
                             BetInfo tmpBi = new BetInfo();
                             tmpBi.setBetman(betMan);
-                            tmpBi.setBetitem(strBet);
+                            tmpBi.setBetitem(oddsinfo.getOddsName());
                             tmpBi.setBetmoney(Double.valueOf(betMoney));
                             tmpBi.setCreateTime(betTime);
                             betInfos.add(tmpBi);
