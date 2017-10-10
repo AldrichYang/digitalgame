@@ -26,8 +26,9 @@
 
             <!--投注框-->
             <div class="form-group">
-                <textarea class="form-control" rows="10" placeholder="把qq竞猜聊天记录复制到这里"></textarea>
-
+                <textarea class="form-control" id="betContent" rows="10" placeholder="把qq竞猜聊天记录复制到这里"></textarea>
+                <!--开始下注，后台解析下注内容-->
+                <button type="button" id="btnAnalysis" class="btn btn-block btn-primary btn-lg">开始下注</button>
             </div>
 
             <!--分析出的投注结果展示在这里-->
@@ -104,11 +105,26 @@
                 </div>
             </div>
 
+            <!--下注和开奖-->
 
+            <button type="button" class="btn btn-block btn-primary btn-lg">开奖</button>
         </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     <div th:replace="starter :: main-footer"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnAnalysis").click(function(){
+                alert($("#betContent").val());
+
+                $.post("/guess/analysis?betContent="+$("#betContent").val(),{},function(data){
+                    alert(data);
+                });
+            });
+
+        })
+    </script>
 </body>
 </html>
