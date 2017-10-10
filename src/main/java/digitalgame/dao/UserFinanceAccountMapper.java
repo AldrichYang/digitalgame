@@ -18,4 +18,7 @@ public interface UserFinanceAccountMapper {
     int updateByPrimaryKey(UserFinanceAccount record);
 
     UserFinanceAccount selectByUserId(Integer userId);
+
+
+
 }

@@ -2,10 +2,13 @@ package digitalgame.service.impl;
 
 import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.dao.UserFinanceAccountMapper;
+import digitalgame.dao.UserInfoMapper;
 import digitalgame.model.po.UserAccountVo;
 import digitalgame.model.po.UserFinanceAccount;
 import digitalgame.model.po.UserFinanceAccountLog;
+import digitalgame.model.po.UserInfo;
 import digitalgame.service.UserFinanceAccountService;
+import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,9 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     @Autowired
     private UserFinanceAccountLogMapper userFinanceAccountLogMapper;
 
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
     @Override
     public int insertSelective(UserFinanceAccount record) {
         return userFinanceAccountMapper.insertSelective(record);
@@ -26,7 +32,10 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     @Override
     public int updateByPrimaryKeySelective(UserAccountVo userAccountVo) {
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
-
+        //余额不足直接返回失败
+        if(3 == userAccountVo.getOperType() && userAccountVo.getMoney() > record.getBalance()){
+            return  -1;
+        }
         if(2 == userAccountVo.getOperType()){
             record.setBalance(record.getBalance() + userAccountVo.getMoney());
         }else if(3 == userAccountVo.getOperType()){
@@ -53,6 +62,18 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userAccountVo.setMoney(money);
         userAccountVo.setOperType(type);
         return this.updateByPrimaryKeySelective(userAccountVo);
+    }
+
+    @Override
+    public int addUserBalanceByNickName(String nickName, double money) {
+        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        return this.updateBalanceByUserId(userInfo.getId(),money,2);
+    }
+
+    @Override
+    public int reduceUserBalanceByNickName(String nickName, double money) {
+        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        return this.updateBalanceByUserId(userInfo.getId(),money,3);
     }
 
 }
