@@ -3,7 +3,6 @@ package digitalgame.service.impl;
 import digitalgame.common.Constants;
 import digitalgame.dao.AdminInfoMapper;
 import digitalgame.model.po.AdminInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -20,9 +19,10 @@ import java.util.Objects;
  */
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private AdminInfoMapper adminInfoMapper;
-
+    private final AdminInfoMapper adminInfoMapper;
+    public UserDetailServiceImpl(AdminInfoMapper adminInfoMapper){
+        this.adminInfoMapper=adminInfoMapper;
+    }
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
