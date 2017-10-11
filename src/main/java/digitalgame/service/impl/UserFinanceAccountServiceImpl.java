@@ -76,4 +76,11 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         return this.updateBalanceByUserId(userInfo.getId(),money,3);
     }
 
+    @Override
+    public UserFinanceAccount queryUserFinanceAccountByNickName(String nickName) {
+        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        UserFinanceAccount record = userFinanceAccountMapper.selectByUserId(userInfo.getId());
+        return record;
+    }
+
 }
