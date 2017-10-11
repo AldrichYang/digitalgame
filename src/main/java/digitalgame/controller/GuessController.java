@@ -15,6 +15,9 @@ import java.util.List;
 /**
  * 用于处理和竞猜相关的控制跳转
  *
+ * 处理流程：
+ * 1、解析竞猜内容，判断积分是否足够
+ * 2、开奖（开奖前先下注，然后返奖）
  * @author simon
  * @version 1.0 2017/10/01
  */
@@ -36,7 +39,7 @@ public class GuessController {
      */
     @RequestMapping(value="/analysis", method=RequestMethod.POST)
     public String analysisBet(@RequestParam(value = "betContent",required = true)String betContent){
-        List<BetInfo> list = guessService.analysisBetContent(betContent);
+        List<BetInfo> list = null;//guessService.analysisBetContent(betContent);
         return JSONObject.fromObject(list).toString();
     }
 

@@ -1,6 +1,7 @@
 package digitalgame;
 
 import digitalgame.model.po.BetInfo;
+import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.GuessService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,9 +29,10 @@ public class DigitalgameApplicationTests {
 
 	@Test
 	public void betTest(){
-		List<BetInfo> betInfos = guessService.analysisBetContent("张三 15:27:00 \ndfdafqqqq300\n答复qqqq200dfa100\n张三答复 15:27:00\ndfdafqqqq3000");
-		assertTrue(betInfos.size()>0);
-		guessService.doBet(betInfos);
+		List<UserBetInfo> userBetInfos = guessService.analysisBetContent("张三 15:27:00 \ndfdafqqqq300\n答复qqqq200dfa100\n张三答复 15:27:00\ndfdafqqqq3000");
+		assertTrue(userBetInfos.size()==2);
+
+		//guessService.doBet(betInfos);
 
 	}
 

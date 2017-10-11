@@ -3,6 +3,7 @@ package digitalgame.service.impl;
 import digitalgame.dao.BetInfoMapper;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.OddsInfo;
+import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.GuessService;
 import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
     }
 
     @Override
-    public List<BetInfo> analysisBetContent(String betContent) {
+    public List<UserBetInfo> analysisBetContent(String betContent) {
         String [] arrBet = betContent.split("\n");
 
         List<OddsInfo>  oddsInfos = ois.selectOddsList();
@@ -93,7 +94,45 @@ public class GuessServiceImpl implements GuessService,Serializable {
 
         }
 
-        return betInfos;
+        return toUserBetInfoList(betInfos);
+    }
+
+    /**
+     * 将BetInfo信息进行group
+     * @param betInfoList
+     * @return
+     */
+    private List<UserBetInfo> toUserBetInfoList(List<BetInfo> betInfoList){
+        List<UserBetInfo> userBetInfoList = new ArrayList<>();
+        Map<String,UserBetInfo> map = new HashMap<>();
+        //group
+        for(BetInfo betInfo : betInfoList){
+            if(map.containsKey(betInfo.getBetman())){
+                map.get(betInfo.getBetman()).getBetInfoList().add(betInfo);
+            }else{
+                UserBetInfo userBetInfo = new UserBetInfo();
+                userBetInfo.setUserName(betInfo.getBetman());
+                userBetInfo.getBetInfoList().add(betInfo);
+                map.put(betInfo.getBetman(),userBetInfo);
+            }
+        }
+
+        //to list
+        Iterator<UserBetInfo> iter = map.values().iterator();
+        while(iter.hasNext()){
+            UserBetInfo userBetInfo = iter.next();
+            //查询用户账户余额
+
+            //计算投注总额
+            double betSum = 0;
+            for(BetInfo betInfo: userBetInfo.getBetInfoList()){
+                betSum += betInfo.getBetmoney();
+            }
+            userBetInfo.setBetSum(betSum);
+
+            userBetInfoList.add(userBetInfo);
+        }
+        return userBetInfoList;
     }
 
 //    private List<BetInfo> toList(Map<String,BetInfo> mapBetinfo){

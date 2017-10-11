@@ -1,6 +1,7 @@
 package digitalgame.service;
 
 import digitalgame.model.po.BetInfo;
+import digitalgame.model.po.UserBetInfo;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface GuessService {
      * @param betContent 下注的文本
      * @return 标准投注内容
      */
-    public List<BetInfo> analysisBetContent(String betContent);
+    public List<UserBetInfo> analysisBetContent(String betContent);
 
     /**
      * 投注
