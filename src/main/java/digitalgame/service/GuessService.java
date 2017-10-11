@@ -17,4 +17,10 @@ public interface GuessService {
      * @return 标准投注内容
      */
     public List<BetInfo> analysisBetContent(String betContent);
+
+    /**
+     * 投注
+     * @param betInfoList
+     */
+    public void doBet(List<BetInfo> betInfoList);
 }
