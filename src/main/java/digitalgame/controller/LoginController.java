@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by yh on 17/9/29.
+ * Created by yh on 17/10/11.
  */
 @Controller
 @RequestMapping("/")
-public class DashBoardController {
-    @RequestMapping(value = "dash", method = RequestMethod.GET)
-    public String dashboard() {
-        return "starter";
+public class LoginController {
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String login(){
+        return "login";
     }
 }

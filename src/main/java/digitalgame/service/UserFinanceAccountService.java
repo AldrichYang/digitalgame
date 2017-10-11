@@ -34,4 +34,11 @@ public interface UserFinanceAccountService {
     int reduceUserBalanceByNickName(String nickName,double money);
 
 
+    /****
+     * 通过昵称获取用户信息
+     * @param nickName
+     * @return 对象里面的balance就是余额
+     */
+    UserFinanceAccount queryUserFinanceAccountByNickName(String nickName);
+
 }
