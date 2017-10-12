@@ -19,6 +19,8 @@ public class AdminInfoServiceImpl implements AdminInfoService {
 
     @Override
     public int saveAdminInfo(AdminInfo adminInfo) {
+        AdminInfo queryAdminInfo = adminInfoMapper.selectByAdminCode(adminInfo.getAdminCode());
+        if(queryAdminInfo != null) return -1;
         adminInfo.setIsEnable(1);
         adminInfo.setPassWord(Util.getMD5(adminInfo.getPassWord()));
 

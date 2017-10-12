@@ -23,4 +23,8 @@ public interface AdminInfoMapper {
     int updateByPrimaryKey(AdminInfo record);
 
     List<AdminInfo> selectByPage(@Param("whereCond") String whereCond);
+
+    AdminInfo selectByAdminCode(String adminCode);
+
+
 }

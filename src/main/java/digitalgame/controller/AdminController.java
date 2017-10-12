@@ -54,7 +54,9 @@ public class AdminController {
 
     @RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
     public String addUser(AdminInfo adminInfo, Model model) {
-        adminInfoService.saveAdminInfo(adminInfo);
+        int resInt = adminInfoService.saveAdminInfo(adminInfo);
+        //TODO 这里需要一个错误处理页面
+        if(resInt == -1) return "errorHtml";
         return this.getAllAdminList(adminInfo,model,null);
     }
 
