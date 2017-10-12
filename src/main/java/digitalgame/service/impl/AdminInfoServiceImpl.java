@@ -54,6 +54,8 @@ public class AdminInfoServiceImpl implements AdminInfoService {
 
     @Override
     public int updateByPrimaryKeySelective(AdminInfo record) {
+        AdminInfo queryAdminInfo = adminInfoMapper.selectByAdminCode(record.getAdminCode());
+        if(queryAdminInfo != null) return -1;
         record.setPassWord(Util.getMD5(record.getPassWord()));
         return adminInfoMapper.updateByPrimaryKeySelective(record);
     }

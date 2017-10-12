@@ -69,7 +69,9 @@ public class AdminController {
 
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)
     public String editUser(AdminInfo adminInfo,Model model) {
-        adminInfoService.updateByPrimaryKeySelective(adminInfo);
+        int resInt = adminInfoService.updateByPrimaryKeySelective(adminInfo);
+        //TODO 这里需要一个错误处理页面
+        if(resInt == -1) return "errorHtml";
         return this.getAllAdminList(adminInfo,model,null);
     }
 
