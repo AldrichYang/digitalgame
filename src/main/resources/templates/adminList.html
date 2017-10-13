@@ -46,6 +46,25 @@
         var re = /^[0-9]+$/ ;
         return re.test(s)
     }
+
+    $("#createAdminForm").on('submit',
+        function(e){
+            e.preventDefault();// avoid to execute the actual submit of the form
+            alert('test')
+            $.ajax({
+                type:"POST",
+                url:"/admin/addAdmin",
+                data: $("#createAdminForm").serialize(),
+                async:false,
+                success:function (data) {
+                    alert(data)
+                }
+            })});
+
+
+
+
+
 </script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -90,9 +109,58 @@
                 <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
             </form>
             <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
-            <form method="GET" action="/admin/addAdmin.html">
-                <button type="submit">新增</button>
-            </form >
+            <!--<form method="GET" action="/admin/addAdmin.html">-->
+
+                <!--<button type="submit">新增</button>-->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">添加管理员</button>
+
+            <div class="modal fade" id="createModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">管理员信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="createAdminForm" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">管理员名:</label>
+                                        <input type="text" name="adminName" class="form-control"   placeholder="管理员名...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">管理员代码:</label>
+                                        <input type="text" name="adminCode" class="form-control"   placeholder="管理员代码...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">密码:</label>
+                                        <input type="password" name="passWord" class="form-control"   placeholder="密码...">
+                                    </div>
+
+                                    <!--<div class="form-group">-->
+                                    <!--<label for="exampleInputPassword1">手机号码:</label>-->
+                                    <!--<input type="text" name="mobileNum" class="form-control"   placeholder="手机号码...">-->
+                                    <!--</div>-->
+                                </div>
+                                <!-- /.box-body -->
+
+                                <!--<div class="box-footer">-->
+                                    <!--<button type="submit" class="btn btn-primary" >Submit</button>-->
+                                <!--</div>-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <!--<button type="submit" class="btn btn-primary">保存</button>-->
+                                    <button  id="saveAdminBtn" class="btn btn-primary">保存</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
             <div class="row">
                 <div class="col-xs-12">

@@ -139,6 +139,6 @@
     <select id="selectByAdminCode" resultMap="BaseResultMap">
       select
       <include refid="Base_Column_List" />
-      from admin_info where admin_code = # {adminCode,jdbcType=VARCHAR}
+      from admin_info where admin_code = #{adminCode,jdbcType=VARCHAR}
     </select>
 </mapper>
