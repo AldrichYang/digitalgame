@@ -112,4 +112,11 @@
       update_time = #{updateTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="queryUserAccountHisVoByUserInfo" resultType="digitalgame.model.po.UserAccountHisVo" parameterType="java.lang.String" >
+        SELECT user_name as userName ,nick_name as nickName,ufal.money as money,ufal.balance as balance,
+        CASE WHEN  ufal.oper_type = 1 THEN  '开户' WHEN ufal.oper_type = 2 then '充值' WHEN ufal.oper_type = 3
+        THEN  '扣减' WHEN  ufal.oper_type = 4 THEN  '反奖' else '投注' end as opertType
+         from user_finance_account_log ufal ,user_info ui,user_finance_account afa where
+        ufal.ufc_id = afa.id and afa.user_id = ui.ID ${whereCond}
+    </select>
 </mapper>
