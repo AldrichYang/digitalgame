@@ -1,16 +1,16 @@
 package digitalgame.service.impl;
 
+import com.google.common.base.Strings;
 import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.dao.UserFinanceAccountMapper;
 import digitalgame.dao.UserInfoMapper;
-import digitalgame.model.po.UserAccountVo;
-import digitalgame.model.po.UserFinanceAccount;
-import digitalgame.model.po.UserFinanceAccountLog;
-import digitalgame.model.po.UserInfo;
+import digitalgame.model.po.*;
 import digitalgame.service.UserFinanceAccountService;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserFinanceAccountServiceImpl implements UserFinanceAccountService {
@@ -33,12 +33,12 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     public int updateByPrimaryKeySelective(UserAccountVo userAccountVo) {
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
         //余额不足直接返回失败
-        if(3 == userAccountVo.getOperType() && userAccountVo.getMoney() > record.getBalance()){
+        if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
             return  -1;
         }
-        if(2 == userAccountVo.getOperType()){
+        if(2 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType()){
             record.setBalance(record.getBalance() + userAccountVo.getMoney());
-        }else if(3 == userAccountVo.getOperType()){
+        }else if(3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()){
             record.setBalance(record.getBalance() - userAccountVo.getMoney());
         }else{
           //TODO throw Exception
@@ -82,5 +82,23 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         UserFinanceAccount record = userFinanceAccountMapper.selectByUserId(userInfo.getId());
         return record;
     }
+
+    @Override
+    public List<UserAccountHisVo> queryUserAccountHisVoByUserInfo(int currentPage,UserInfo userInfo){
+
+        String whereCond = " ";
+        if(!Strings.isNullOrEmpty(userInfo.getUserName())){
+            whereCond +=  " and  ui.user_name like '%"+userInfo.getUserName()+"%'";
+        }
+        if(!Strings.isNullOrEmpty(userInfo.getNickName())){
+            whereCond +=  " and ui.nick_name like '%"+userInfo.getNickName()+"%'";
+        }
+        if(currentPage != 0){
+            whereCond += "limit " +((currentPage -1) *10) +","+(currentPage) * 10;
+        }
+        return userFinanceAccountLogMapper.queryUserAccountHisVoByUserInfo(whereCond);
+    }
+
+
 
 }

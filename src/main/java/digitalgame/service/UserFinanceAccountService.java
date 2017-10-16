@@ -1,7 +1,11 @@
 package digitalgame.service;
 
+import digitalgame.model.po.UserAccountHisVo;
 import digitalgame.model.po.UserAccountVo;
 import digitalgame.model.po.UserFinanceAccount;
+import digitalgame.model.po.UserInfo;
+
+import java.util.List;
 
 public interface UserFinanceAccountService {
     int insertSelective(UserFinanceAccount record);
@@ -40,5 +44,12 @@ public interface UserFinanceAccountService {
      * @return 对象里面的balance就是余额
      */
     UserFinanceAccount queryUserFinanceAccountByNickName(String nickName);
+
+    /***
+     * 根据用户名和用户昵称获取用户账户的历史记录
+     * @param userInfo
+     * @return
+     */
+    public List<UserAccountHisVo> queryUserAccountHisVoByUserInfo(int currentPage,UserInfo userInfo);
 
 }
