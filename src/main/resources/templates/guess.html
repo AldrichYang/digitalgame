@@ -38,7 +38,7 @@
                     <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                <table id="tabBetInfo" class="table table-bordered table-hover dataTable" role="grid"
                                        aria-describedby="example2_info">
                                     <thead>
                                     <tr role="row">
@@ -117,10 +117,32 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $("#btnAnalysis").click(function(){
-                alert($("#betContent").val());
+                var data = $("#betContent").val();
+                //data = data.replace("\n","<br>");
+                console.info(data);
+                $.post("/guess/analysis",{betContent:data},function(result){
 
-                $.post("/guess/analysis?betContent="+$("#betContent").val(),{},function(data){
-                    alert(data);
+                    $("#tabBetInfo tr:not(:first)").empty(); //清空table（除了第一行以外）
+                    var jsonResult = eval(result);
+
+                    for(var i=0;i<jsonResult.length;i++){
+                        var betInfo = jsonResult[i];
+                        for(var j=0;j<betInfo.betInfoList.length;j++){
+                            var p = betInfo.betInfoList[j];
+                            var trHTML = "<tr role=\"row\" class=\"odd\">" +
+                                " <td class=\"sorting_1\">"+betInfo.userName+"</td>" +
+                                " <td>"+p.betitem+"</td>" +
+                                "<td>"+p.betmoney+"</td>" +
+                                "<td>已撤销</td>" +
+                                "<td>未开奖</td>" +
+                                "<td>撤销</td>" +
+                                "</tr>";
+                            $("#tabBetInfo").append(trHTML);//在table最后面添加一行
+                        }
+                    }
+
+                    debugger;
+                    alert(result);
                 });
             });
 

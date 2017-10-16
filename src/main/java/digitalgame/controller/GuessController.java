@@ -1,13 +1,16 @@
 package digitalgame.controller;
 
 import digitalgame.model.po.BetInfo;
+import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.GuessService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -37,10 +40,13 @@ public class GuessController {
      * 解析下注内容，返回标准格式下注内容
      * @return
      */
+    @ResponseBody
     @RequestMapping(value="/analysis", method=RequestMethod.POST)
     public String analysisBet(@RequestParam(value = "betContent",required = true)String betContent){
-        List<BetInfo> list = null;//guessService.analysisBetContent(betContent);
-        return JSONObject.fromObject(list).toString();
+        List<UserBetInfo> list = guessService.analysisBetContent(betContent);
+        String result = JSONArray.fromObject(list).toString();
+        System.out.println(result);
+        return result;
     }
 
     /**
