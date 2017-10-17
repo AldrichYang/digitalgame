@@ -3,6 +3,21 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="starter :: head"></head>
 <body class="hold-transition skin-blue sidebar-mini">
+<style>
+    .example-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        z-index: 1;
+    }
+
+    .example-modal .modal {
+        background: transparent !important;
+    }
+</style>
 <div class="wrapper">
     <div th:replace="starter :: main-header-sidebar"></div>
     <!-- Content Wrapper. Contains page content -->
@@ -15,8 +30,8 @@
 
         <section class="content-header">
             <h1>
-                Page Header
-                <small>Optional description</small>
+                添加新的管理员
+                <small></small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -40,6 +55,7 @@
                     <div class="form-group">
                         <label for="exampleInputPassword1">密码:</label>
                         <input type="password" name="passWord" class="form-control"   placeholder="密码...">
+                    </div>
 
                     <!--<div class="form-group">-->
                         <!--<label for="exampleInputPassword1">手机号码:</label>-->
@@ -49,9 +65,30 @@
                 <!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">Submit</button>
                 </div>
             </form>
+            <div class="modal fade" id="confirmModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Default Modal</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>One fine body&hellip;</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
 
     <!-- /.box-body -->
     </section>

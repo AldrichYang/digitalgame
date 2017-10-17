@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="digitalgame.dao.BetInfoMapper" >
+  <resultMap id="BaseResultMap" type="digitalgame.model.po.BetInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="betman" property="betman" jdbcType="VARCHAR" />
+    <result column="betitem" property="betitem" jdbcType="VARCHAR" />
+    <result column="betmoney" property="betmoney" jdbcType="DOUBLE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, betman,betitem,betmoney,status,create_time,update_time
+  </sql>
+
+  <!--新增-->
+  <insert id="addBatch" parameterType="java.util.List" >
+    insert into bet_info (betman, betitem,betmoney,status,create_time,update_time)
+    VALUES
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.betman},#{item.betitem},#{item.betmoney},#{item.status},#{item.createTime},#{item.updateTime})
+    </foreach>
+  </insert>
+
+</mapper>
