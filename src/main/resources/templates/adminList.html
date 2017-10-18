@@ -50,7 +50,6 @@
     $("#createAdminForm").on('submit',
         function(e){
             e.preventDefault();// avoid to execute the actual submit of the form
-            alert('test')
             $.ajax({
                 type:"POST",
                 url:"/admin/addAdmin",
@@ -123,7 +122,7 @@
                             <h4 class="modal-title">管理员信息</h4>
                         </div>
                         <div class="modal-body">
-                            <form role="form" method="POST" id="createAdminForm" >
+                            <form role="form" method="POST" id="createAdminForm" action="/admin/addAdmin" >
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">管理员名:</label>
@@ -150,8 +149,8 @@
                                 <!--</div>-->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-                                    <!--<button type="submit" class="btn btn-primary">保存</button>-->
-                                    <button  id="saveAdminBtn" class="btn btn-primary">保存</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
                                 </div>
                             </form>
                         </div>
