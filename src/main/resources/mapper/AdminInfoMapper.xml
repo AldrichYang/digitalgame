@@ -130,4 +130,10 @@
     <include refid="Base_Column_List" />
     from admin_info ${whereCond}
   </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from admin_info
+    where admin_name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>
