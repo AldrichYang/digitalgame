@@ -1,12 +1,7 @@
 package digitalgame.dao;
 
-import digitalgame.model.po.UserAccountHisVo;
 import digitalgame.model.po.UserFinanceAccountLog;
-import digitalgame.model.po.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 @Mapper
 public interface UserFinanceAccountLogMapper {
@@ -21,6 +16,4 @@ public interface UserFinanceAccountLogMapper {
     int updateByPrimaryKeySelective(UserFinanceAccountLog record);
 
     int updateByPrimaryKey(UserFinanceAccountLog record);
-
-    public List<UserAccountHisVo> queryUserAccountHisVoByUserInfo(@Param("whereCond") String whereCond);
 }

@@ -37,7 +37,7 @@
         </javaClientGenerator>
 
         <!-- !!!! Table Configurations !!!! -->
-        <table tableName="odds_info" enableCountByExample="false" enableDeleteByExample="false"
+        <table tableName="bet_result" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>

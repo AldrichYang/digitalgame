@@ -1,16 +1,13 @@
 package digitalgame.service.impl;
 
-import com.google.common.base.Strings;
 import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.dao.UserFinanceAccountMapper;
-import digitalgame.dao.UserInfoMapper;
-import digitalgame.model.po.*;
+import digitalgame.model.po.UserAccountVo;
+import digitalgame.model.po.UserFinanceAccount;
+import digitalgame.model.po.UserFinanceAccountLog;
 import digitalgame.service.UserFinanceAccountService;
-import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserFinanceAccountServiceImpl implements UserFinanceAccountService {
@@ -21,9 +18,6 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     @Autowired
     private UserFinanceAccountLogMapper userFinanceAccountLogMapper;
 
-    @Autowired
-    private UserInfoMapper userInfoMapper;
-
     @Override
     public int insertSelective(UserFinanceAccount record) {
         return userFinanceAccountMapper.insertSelective(record);
@@ -32,13 +26,10 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     @Override
     public int updateByPrimaryKeySelective(UserAccountVo userAccountVo) {
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
-        //余额不足直接返回失败
-        if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
-            return  -1;
-        }
-        if(2 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType()){
+
+        if(2 == userAccountVo.getOperType()){
             record.setBalance(record.getBalance() + userAccountVo.getMoney());
-        }else if(3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()){
+        }else if(3 == userAccountVo.getOperType()){
             record.setBalance(record.getBalance() - userAccountVo.getMoney());
         }else{
           //TODO throw Exception
@@ -63,42 +54,5 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userAccountVo.setOperType(type);
         return this.updateByPrimaryKeySelective(userAccountVo);
     }
-
-    @Override
-    public int addUserBalanceByNickName(String nickName, double money) {
-        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
-        return this.updateBalanceByUserId(userInfo.getId(),money,2);
-    }
-
-    @Override
-    public int reduceUserBalanceByNickName(String nickName, double money) {
-        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
-        return this.updateBalanceByUserId(userInfo.getId(),money,3);
-    }
-
-    @Override
-    public UserFinanceAccount queryUserFinanceAccountByNickName(String nickName) {
-        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
-        UserFinanceAccount record = userFinanceAccountMapper.selectByUserId(userInfo.getId());
-        return record;
-    }
-
-    @Override
-    public List<UserAccountHisVo> queryUserAccountHisVoByUserInfo(int currentPage,UserInfo userInfo){
-
-        String whereCond = " ";
-        if(!Strings.isNullOrEmpty(userInfo.getUserName())){
-            whereCond +=  " and  ui.user_name like '%"+userInfo.getUserName()+"%'";
-        }
-        if(!Strings.isNullOrEmpty(userInfo.getNickName())){
-            whereCond +=  " and ui.nick_name like '%"+userInfo.getNickName()+"%'";
-        }
-        if(currentPage != 0){
-            whereCond += "limit " +((currentPage -1) *10) +","+(currentPage) * 10;
-        }
-        return userFinanceAccountLogMapper.queryUserAccountHisVoByUserInfo(whereCond);
-    }
-
-
 
 }

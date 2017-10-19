@@ -16,15 +16,11 @@ public interface AdminInfoMapper {
 
     AdminInfo selectByPrimaryKey(Integer id);
 
-    AdminInfo selectByName(@Param("name") String name);
-
     int updateByPrimaryKeySelective(AdminInfo record);
 
     int updateByPrimaryKey(AdminInfo record);
 
     List<AdminInfo> selectByPage(@Param("whereCond") String whereCond);
 
-    AdminInfo selectByAdminCode(String adminCode);
-
-
+    AdminInfo selectByName(@Param("name") String name);
 }

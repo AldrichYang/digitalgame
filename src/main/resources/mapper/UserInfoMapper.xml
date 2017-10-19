@@ -116,10 +116,4 @@
        ,ufa.id as accountId from user_info
        u,user_finance_account ufa where u.ID = ufa.user_id ${whereCond}
   </select>
-    <select id="selectByNickName" resultMap="BaseResultMap"  parameterType="java.lang.String" >
-      select
-      <include refid="Base_Column_List" />
-      from user_info
-      where nick_name = #{id,jdbcType=VARCHAR}
-    </select>
 </mapper>

@@ -19,6 +19,4 @@ public interface UserInfoMapper {
     UserInfo  selectByPrimaryKey(Integer id);
 
     List<UserAccountVo> selectUserAccountByPage(@Param("whereCond") String whereCond);
-
-    UserInfo selectByNickName(String nickName);
 }
