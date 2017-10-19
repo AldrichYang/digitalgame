@@ -68,13 +68,13 @@
                         <td>
                             <div class="form-group">
                                 <label>用户名:</label>
-                                <input type="text" name = "userName"  th:value="1" placeholder="输入用户名 ...">
+                                <input type="text" name = "betuser"  th:value="${queryCond.betuser}" placeholder="输入用户名 ...">
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <label>昵称:</label>
-                                <input type="text" name= "nickName" th:value="2" placeholder="输入昵称 ...">
+                                <label>开奖期数:</label>
+                                <input type="text" name= "resultdate" th:value="${queryCond.resultdate}" placeholder="输入开奖期数 ...">
                             </div>
                         </td>
                         <td>
@@ -101,7 +101,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">用户基本信息维护</h3>
+                            <h3 class="box-title">中奖结果信息查询</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body dataTables_wrapper form-inline dt-bootstrap">
