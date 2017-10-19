@@ -1,7 +1,7 @@
 package digitalgame.controller;
 
-import com.google.common.base.Strings;
 import digitalgame.model.po.BetResult;
+import com.google.common.base.Strings;
 import digitalgame.service.BetResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

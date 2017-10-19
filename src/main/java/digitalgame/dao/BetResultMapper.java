@@ -1,9 +1,12 @@
 package digitalgame.dao;
 
 import digitalgame.model.po.BetResult;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface BetResultMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -17,6 +20,5 @@ public interface BetResultMapper {
 
     int updateByPrimaryKey(BetResult record);
 
-    List<BetResult> selectByPage(String whereCond);
-
+    List<BetResult> selectByPage(@Param("whereCond") String whereCond);
 }

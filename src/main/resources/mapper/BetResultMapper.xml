@@ -1,33 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="digitalgame.dao.BetResultMapper">
-  <resultMap id="BaseResultMap" type="digitalgame.model.po.BetResult">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="betUser" jdbcType="VARCHAR" property="betuser" />
-    <result column="betNumber" jdbcType="FLOAT" property="betnumber" />
-    <result column="betType" jdbcType="VARCHAR" property="bettype" />
-    <result column="betDate" jdbcType="VARCHAR" property="betdate" />
-    <result column="resultDate" jdbcType="VARCHAR" property="resultdate" />
-    <result column="createDate" jdbcType="VARCHAR" property="createdate" />
-    <result column="updateDate" jdbcType="VARCHAR" property="updatedate" />
-    <result column="betUserId" jdbcType="INTEGER" property="betuserid" />
-    <result column="resultNumber" jdbcType="FLOAT" property="resultnumber" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="digitalgame.dao.BetResultMapper" >
+  <resultMap id="BaseResultMap" type="digitalgame.model.po.BetResult" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="betUser" property="betuser" jdbcType="VARCHAR" />
+    <result column="betNumber" property="betnumber" jdbcType="FLOAT" />
+    <result column="betType" property="bettype" jdbcType="VARCHAR" />
+    <result column="betDate" property="betdate" jdbcType="VARCHAR" />
+    <result column="resultDate" property="resultdate" jdbcType="VARCHAR" />
+    <result column="createDate" property="createdate" jdbcType="VARCHAR" />
+    <result column="updateDate" property="updatedate" jdbcType="VARCHAR" />
+    <result column="betUserId" property="betuserid" jdbcType="INTEGER" />
+    <result column="resultNumber" property="resultnumber" jdbcType="FLOAT" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     id, betUser, betNumber, betType, betDate, resultDate, createDate, updateDate, betUserId, 
     resultNumber
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from bet_result
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from bet_result
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="digitalgame.model.po.BetResult">
+  <insert id="insert" parameterType="digitalgame.model.po.BetResult" >
     insert into bet_result (id, betUser, betNumber, 
       betType, betDate, resultDate, 
       createDate, updateDate, betUserId, 
@@ -37,107 +37,107 @@
       #{createdate,jdbcType=VARCHAR}, #{updatedate,jdbcType=VARCHAR}, #{betuserid,jdbcType=INTEGER}, 
       #{resultnumber,jdbcType=FLOAT})
   </insert>
-  <insert id="insertSelective" parameterType="digitalgame.model.po.BetResult">
+  <insert id="insertSelective" parameterType="digitalgame.model.po.BetResult" >
     insert into bet_result
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="betuser != null">
+      <if test="betuser != null" >
         betUser,
       </if>
-      <if test="betnumber != null">
+      <if test="betnumber != null" >
         betNumber,
       </if>
-      <if test="bettype != null">
+      <if test="bettype != null" >
         betType,
       </if>
-      <if test="betdate != null">
+      <if test="betdate != null" >
         betDate,
       </if>
-      <if test="resultdate != null">
+      <if test="resultdate != null" >
         resultDate,
       </if>
-      <if test="createdate != null">
+      <if test="createdate != null" >
         createDate,
       </if>
-      <if test="updatedate != null">
+      <if test="updatedate != null" >
         updateDate,
       </if>
-      <if test="betuserid != null">
+      <if test="betuserid != null" >
         betUserId,
       </if>
-      <if test="resultnumber != null">
+      <if test="resultnumber != null" >
         resultNumber,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="betuser != null">
+      <if test="betuser != null" >
         #{betuser,jdbcType=VARCHAR},
       </if>
-      <if test="betnumber != null">
+      <if test="betnumber != null" >
         #{betnumber,jdbcType=FLOAT},
       </if>
-      <if test="bettype != null">
+      <if test="bettype != null" >
         #{bettype,jdbcType=VARCHAR},
       </if>
-      <if test="betdate != null">
+      <if test="betdate != null" >
         #{betdate,jdbcType=VARCHAR},
       </if>
-      <if test="resultdate != null">
+      <if test="resultdate != null" >
         #{resultdate,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null">
+      <if test="createdate != null" >
         #{createdate,jdbcType=VARCHAR},
       </if>
-      <if test="updatedate != null">
+      <if test="updatedate != null" >
         #{updatedate,jdbcType=VARCHAR},
       </if>
-      <if test="betuserid != null">
+      <if test="betuserid != null" >
         #{betuserid,jdbcType=INTEGER},
       </if>
-      <if test="resultnumber != null">
+      <if test="resultnumber != null" >
         #{resultnumber,jdbcType=FLOAT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.BetResult">
+  <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.BetResult" >
     update bet_result
-    <set>
-      <if test="betuser != null">
+    <set >
+      <if test="betuser != null" >
         betUser = #{betuser,jdbcType=VARCHAR},
       </if>
-      <if test="betnumber != null">
+      <if test="betnumber != null" >
         betNumber = #{betnumber,jdbcType=FLOAT},
       </if>
-      <if test="bettype != null">
+      <if test="bettype != null" >
         betType = #{bettype,jdbcType=VARCHAR},
       </if>
-      <if test="betdate != null">
+      <if test="betdate != null" >
         betDate = #{betdate,jdbcType=VARCHAR},
       </if>
-      <if test="resultdate != null">
+      <if test="resultdate != null" >
         resultDate = #{resultdate,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null">
+      <if test="createdate != null" >
         createDate = #{createdate,jdbcType=VARCHAR},
       </if>
-      <if test="updatedate != null">
+      <if test="updatedate != null" >
         updateDate = #{updatedate,jdbcType=VARCHAR},
       </if>
-      <if test="betuserid != null">
+      <if test="betuserid != null" >
         betUserId = #{betuserid,jdbcType=INTEGER},
       </if>
-      <if test="resultnumber != null">
+      <if test="resultnumber != null" >
         resultNumber = #{resultnumber,jdbcType=FLOAT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.BetResult">
+  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.BetResult" >
     update bet_result
     set betUser = #{betuser,jdbcType=VARCHAR},
       betNumber = #{betnumber,jdbcType=FLOAT},
@@ -148,149 +148,6 @@
       updateDate = #{updatedate,jdbcType=VARCHAR},
       betUserId = #{betuserid,jdbcType=INTEGER},
       resultNumber = #{resultnumber,jdbcType=FLOAT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="digitalgame.model.po.BetResult">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="betUser" jdbcType="VARCHAR" property="betuser" />
-    <result column="betNumber" jdbcType="FLOAT" property="betnumber" />
-    <result column="betType" jdbcType="VARCHAR" property="bettype" />
-    <result column="betDate" jdbcType="VARCHAR" property="betdate" />
-    <result column="resultDate" jdbcType="VARCHAR" property="resultdate" />
-    <result column="createDate" jdbcType="VARCHAR" property="createdate" />
-    <result column="updateDate" jdbcType="VARCHAR" property="updatedate" />
-    <result column="betUserId" jdbcType="INTEGER" property="betuserid" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, betUser, betNumber, betType, betDate, resultDate, createDate, updateDate, betUserId
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from bet_result
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByPage" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from bet_result ${whereCond}
-
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from bet_result
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="digitalgame.model.po.BetResult">
-    insert into bet_result (id, betUser, betNumber, 
-      betType, betDate, resultDate, 
-      createDate, updateDate, betUserId
-      )
-    values (#{id,jdbcType=INTEGER}, #{betuser,jdbcType=VARCHAR}, #{betnumber,jdbcType=FLOAT}, 
-      #{bettype,jdbcType=VARCHAR}, #{betdate,jdbcType=VARCHAR}, #{resultdate,jdbcType=VARCHAR}, 
-      #{createdate,jdbcType=VARCHAR}, #{updatedate,jdbcType=VARCHAR}, #{betuserid,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="digitalgame.model.po.BetResult">
-    insert into bet_result
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="betuser != null">
-        betUser,
-      </if>
-      <if test="betnumber != null">
-        betNumber,
-      </if>
-      <if test="bettype != null">
-        betType,
-      </if>
-      <if test="betdate != null">
-        betDate,
-      </if>
-      <if test="resultdate != null">
-        resultDate,
-      </if>
-      <if test="createdate != null">
-        createDate,
-      </if>
-      <if test="updatedate != null">
-        updateDate,
-      </if>
-      <if test="betuserid != null">
-        betUserId,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="betuser != null">
-        #{betuser,jdbcType=VARCHAR},
-      </if>
-      <if test="betnumber != null">
-        #{betnumber,jdbcType=FLOAT},
-      </if>
-      <if test="bettype != null">
-        #{bettype,jdbcType=VARCHAR},
-      </if>
-      <if test="betdate != null">
-        #{betdate,jdbcType=VARCHAR},
-      </if>
-      <if test="resultdate != null">
-        #{resultdate,jdbcType=VARCHAR},
-      </if>
-      <if test="createdate != null">
-        #{createdate,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedate != null">
-        #{updatedate,jdbcType=VARCHAR},
-      </if>
-      <if test="betuserid != null">
-        #{betuserid,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.BetResult">
-    update bet_result
-    <set>
-      <if test="betuser != null">
-        betUser = #{betuser,jdbcType=VARCHAR},
-      </if>
-      <if test="betnumber != null">
-        betNumber = #{betnumber,jdbcType=FLOAT},
-      </if>
-      <if test="bettype != null">
-        betType = #{bettype,jdbcType=VARCHAR},
-      </if>
-      <if test="betdate != null">
-        betDate = #{betdate,jdbcType=VARCHAR},
-      </if>
-      <if test="resultdate != null">
-        resultDate = #{resultdate,jdbcType=VARCHAR},
-      </if>
-      <if test="createdate != null">
-        createDate = #{createdate,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedate != null">
-        updateDate = #{updatedate,jdbcType=VARCHAR},
-      </if>
-      <if test="betuserid != null">
-        betUserId = #{betuserid,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.BetResult">
-    update bet_result
-    set betUser = #{betuser,jdbcType=VARCHAR},
-      betNumber = #{betnumber,jdbcType=FLOAT},
-      betType = #{bettype,jdbcType=VARCHAR},
-      betDate = #{betdate,jdbcType=VARCHAR},
-      resultDate = #{resultdate,jdbcType=VARCHAR},
-      createDate = #{createdate,jdbcType=VARCHAR},
-      updateDate = #{updatedate,jdbcType=VARCHAR},
-      betUserId = #{betuserid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
