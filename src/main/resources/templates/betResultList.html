@@ -93,9 +93,6 @@
                 <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
             </form>
             <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
-            <form method="GET" action="/user/addUser.html">
-                <button type="submit">新增</button>
-            </form >
 
             <div class="row">
                 <div class="col-xs-12">
@@ -110,18 +107,18 @@
                                     <table id="example2" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
+                                            <th>开奖期数</th>
                                             <th>用户名</th>
                                             <th>投注金额</th>
-                                            <!--<th>手机号码</th>-->
                                             <th>投注方式</th>
                                             <th>中奖金额</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="betResult : ${betResultsList}">
+                                            <td th:text="${betResult.resultdate}">Onions</td>
                                             <td th:text="${betResult.betuser}">Onions</td>
                                             <td th:text="${betResult.betnumber}">2.41</td>
-                                            <!--<td th:text="${userInfo.mobileNum}">yes</td>-->
                                             <td th:text="${betResult.bettype}">yes</td>
                                             <td th:text="${betResult.resultnumber}">0</td>
                                         </tr>

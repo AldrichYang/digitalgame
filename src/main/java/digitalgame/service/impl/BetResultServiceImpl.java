@@ -22,10 +22,10 @@ public class BetResultServiceImpl implements BetResultService {
             whereCond +=  " and  betuser like '%"+betResult.getBetuser()+"%'";
         }
         if(!Strings.isNullOrEmpty(betResult.getResultdate())){
-            whereCond +=  " and resultnumber like '%"+betResult.getResultdate()+"%'";
+            whereCond +=  " and resultdate like "+betResult.getResultdate();
         }
         if(cueerntPage != 0){
-            whereCond += "limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
+            whereCond += " limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }
 
         return betResultMapper.selectByPage(whereCond);
