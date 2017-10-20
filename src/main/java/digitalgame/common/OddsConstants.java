@@ -1,9 +1,13 @@
 package digitalgame.common;
 
+import digitalgame.dao.BetResultMapper;
 import digitalgame.model.po.BetInfo;
+import digitalgame.model.po.BetResult;
 import digitalgame.model.po.UserBetInfo;
+import digitalgame.service.OddsInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -64,10 +68,15 @@ public class OddsConstants {
             return false;
         }
     }
+    @Autowired
+    protected BetResultMapper betResultMapper;
 
+    @Autowired
+    private OddsInfoService oddsInfoService;
 
     public List<UserBetInfo> oddsNumber(int i,int j,int k,List<UserBetInfo> userBetInfoList){
 
+        HashMap<String, Integer> oddsMap = oddsInfoService.selectOddsMap();
         int allNum = i + j + k;
         if(null == userBetInfoList){
             return null;
@@ -75,50 +84,53 @@ public class OddsConstants {
             for (UserBetInfo userBetInfo : userBetInfoList){
                 List<BetInfo> betInfoList = userBetInfo.getBetInfoList();
                 for(BetInfo betInfo :betInfoList) {
+                    BetResult betResult = new BetResult();
+
+                    int result = oddsMap.get(betInfo.getBetitem()) == null ? 0 : oddsMap.get(betInfo.getBetitem());
                     int betNum = 0;
                     if ("百大".equals(betInfo.getBetitem())) {
                         if(isBigNum(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("百小".equals(betInfo.getBetitem())) {
                         if(!isBigNum(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("百单".equals(betInfo.getBetitem())) {
                         if(!isBigDouble(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("百双".equals(betInfo.getBetitem())) {
                         if(isBigDouble(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("十双".equals(betInfo.getBetitem())) {
                         if(isBigDouble(j)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("大".equals(betInfo.getBetitem())) {
                         if(isAllNumBig(allNum)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("小".equals(betInfo.getBetitem())) {
                         if(!isAllNumBig(allNum)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("单".equals(betInfo.getBetitem())) {
                         if(!isBigDouble(allNum)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("双".equals(betInfo.getBetitem())) {
                         if(isBigDouble(allNum)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("龙大".equals(betInfo.getBetitem())) {
                         if(allNum > 19){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("龙小".equals(betInfo.getBetitem())) {
                         if (allNum < 8){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("龙".equals(betInfo.getBetitem())) {
 
@@ -126,32 +138,36 @@ public class OddsConstants {
 
                     } else if ("全大".equals(betInfo.getBetitem())) {
                         if(isBigNum(i) && isBigNum(j) && isBigNum(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     } else if ("全小".equals(betInfo.getBetitem())) {
                         if(!isBigNum(i) && !isBigNum(j) && !isBigNum(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     }else if("全单".equals(betInfo.getBetitem())){
                         if(!isBigDouble(i) && !isBigDouble(j) && !isBigDouble(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     }else if("全双".equals(betInfo.getBetitem())){
                         if(isBigDouble(i) && isBigDouble(j) && isBigDouble(k)){
-                            betNum = 2;
+                            betNum = result;
                         }
                     }else if("顺子".equals(betInfo.getBetitem())){
                         if(isShunzi(i,j,k)){
-                            betNum = 20;
+                            betNum = result;
                         }
                     }
-//                    betInfo.s
-//                    betItem.setReturnMoney(betItem.getBetMoney() * betNum);
-//                    newBetList.add(betItem);
+                    betInfo.setReturnMoney(betInfo.getBetmoney() * betNum);
+                    betResult.setBetnumber(betInfo.getBetmoney());
+                    betResult.setBettype(betInfo.getBetitem());
+                    betResult.setBetuser(betInfo.getBetman());
+                    betResult.setBetuserid(betInfo.getUserId());
+                    betResult.setResultnumber(betInfo.getReturnMoney());
+                    betResult.setBetdate("");
+                    betResultMapper.insertSelective(betResult);
                 }
             }
         }
-
-        return null;
+        return userBetInfoList;
     }
 }
