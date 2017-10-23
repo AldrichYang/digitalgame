@@ -50,4 +50,10 @@ public class Util {
         }
         return md5str.toString().toUpperCase();
     }
+
+
+    public static void main(String[] arg){
+        System.out.println(Util.getMD5("yh"));
+    }
+
 }
