@@ -31,10 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().anyRequest().authenticated()
 //                .and().formLogin().and().httpBasic();
         http.formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/dash")
-                .and().rememberMe()
+                .and().rememberMe().tokenValiditySeconds(86400)
                 .and().authorizeRequests()
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 .antMatchers("/*").authenticated()
+                .and().logout()
                 .and().csrf().disable();
     }
 
