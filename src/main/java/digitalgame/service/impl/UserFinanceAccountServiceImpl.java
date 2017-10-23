@@ -9,6 +9,7 @@ import digitalgame.service.UserFinanceAccountService;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     }
 
     @Override
+    @Transactional
     public int updateByPrimaryKeySelective(UserAccountVo userAccountVo) {
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
         //余额不足直接返回失败

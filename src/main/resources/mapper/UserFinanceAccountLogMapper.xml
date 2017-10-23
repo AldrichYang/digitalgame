@@ -116,7 +116,7 @@
     select ui.user_name as userName,ui.nick_name as nickName,ufal.money,ufal.balance,case when ufal.oper_type = 1 THEN '开户'
     when ufal.oper_type = 2 then '充值' when ufal.oper_type = 3 then '扣减' when ufal.oper_type = 4 then '返奖' when ufal.oper_type = 5
     then  '下注' end
-    as opertType from user_info ui, user_finance_account ufa,user_finance_account_log ufal
+    as opertType,periods as periods from user_info ui, user_finance_account ufa,user_finance_account_log ufal
     where ui.ID = ufa.user_id and ufa.id = ufal.ufc_id ${whereCond}
   </select>
 

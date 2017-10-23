@@ -12,6 +12,16 @@ public class UserAccountHisVo {
 
     private double balance;
 
+    private int periods;
+
+    public int getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(int periods) {
+        this.periods = periods;
+    }
+
     public String getUserName() {
         return userName;
     }
