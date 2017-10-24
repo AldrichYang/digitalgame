@@ -1,0 +1,160 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="starter :: head"></head>
+<script type="text/javascript">
+    function addPageNo() {
+        debugger;
+//        $("#hiddenPageNo").val($("#pageNo").val());
+        var pageNo = document.getElementById("pageNo").value;
+
+        if(pageNo == "") {
+            if(document.getElementById("hiddenPageNo").value == "") document.getElementById("hiddenPageNo").value = 1;
+            return true;
+        }
+        //pageNo = document.getElementById("hiddenPageNo").value;
+        if(!isPositiveInteger(pageNo)){
+            alert("请输入正确页码!");
+            return false;
+
+        }
+        document.getElementById("hiddenPageNo").value = pageNo;
+        return true;
+    }
+
+    function goFunction(){
+
+        if(addPageNo()) document.getElementById('queryForm').submit();
+    }
+
+    function  goLast() {
+        document.getElementById("hiddenPageNo").value = document.getElementById("allPageNo").value;
+        document.getElementById('queryForm').submit();
+    }
+    function goFirst() {
+        document.getElementById("hiddenPageNo").value = 1;
+        document.getElementById('queryForm').submit();
+        return true;
+    }
+
+    function isPositiveInteger(s){//是否为正整数
+        var re = /^[0-9]+$/ ;
+        return re.test(s)
+    }
+</script>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="starter :: main-header-sidebar"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                系统账户资金报表信息
+                <small>系统账户资金报表信息分页展示</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
+
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+        <form method="POST" action="/userAccountHis/userAccountHisList" onsubmit="return addPageNo()" id = "queryForm">
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label>用户名:</label>
+                            <input type="text" name = "userName"  th:value="${queryCond.userName}" placeholder="输入用户名 ...">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label>昵称:</label>
+                            <input type="text" name= "nickName" th:value="${queryCond.nickName}" placeholder="输入昵称 ...">
+                        </div>
+                    </td>
+                    <td>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                    </td>
+                    <td>
+                        <div class="form-group">
+                        <button type="submit">查询</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
+        </form>
+            <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">用户账户信息历史</h3>
+                </div>
+    <!-- /.box-header -->
+                <div class="box-body dataTables_wrapper form-inline dt-bootstrap">
+                    <div>
+                    <div class="row">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>玩家总投注金额</th>
+                            <th>玩家中奖金额</th>
+                            <th>平台赚取金额</th>
+                            <th>平台亏损金额</th>
+                            <th>平台余额</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="userInfo : ${userList}">
+                            <td th:text="${userInfo.userName}">Onions</td>
+                            <td th:text="${userInfo.nickName}">Onions</td>
+                            <td th:text="${userInfo.opertType}">2.41</td>
+                            <td th:text="${userInfo.periods}">2.41</td>
+                            <td th:text="${userInfo.money}">yes</td>
+                            <td th:text="${userInfo.balance}">yes</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:text="${inallPageDesc}"></div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="dataTables_paginate paging_simple_numbers" style=" margin: 0;white-space: nowrap;text-align: right;" id="example1_paginate" >
+                                <ul class="pagination " style="margin: 0px">
+                                    <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
+                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>
+                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">go</a></li>
+                                    <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()"><div th:height="30">尾页</div></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+    </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="starter :: main-footer"></div>
+    <div id="addCaseDiv" style="display:none;">
+    </div>
+</body>
+</html>
