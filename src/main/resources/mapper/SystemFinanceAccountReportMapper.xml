@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="digitalgame.dao.SystemFinanceAccountReportMapper" >
+  <resultMap id="BaseResultMap" type="digitalgame.model.po.SystemFinanceAccountReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="report_date" property="reportDate" jdbcType="VARCHAR" />
+    <result column="betting_money" property="bettingMoney" jdbcType="FLOAT" />
+    <result column="winning_money" property="winningMoney" jdbcType="FLOAT" />
+    <result column="platform_money" property="platformMoney" jdbcType="FLOAT" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_date, betting_money, winning_money, platform_money, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_finance_account_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from system_finance_account_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
+    insert into system_finance_account_report (id, report_date, betting_money, 
+      winning_money, platform_money, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{reportDate,jdbcType=VARCHAR}, #{bettingMoney,jdbcType=FLOAT}, 
+      #{winningMoney,jdbcType=FLOAT}, #{platformMoney,jdbcType=FLOAT}, #{createTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
+    insert into system_finance_account_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportDate != null" >
+        report_date,
+      </if>
+      <if test="bettingMoney != null" >
+        betting_money,
+      </if>
+      <if test="winningMoney != null" >
+        winning_money,
+      </if>
+      <if test="platformMoney != null" >
+        platform_money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="reportDate != null" >
+        #{reportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bettingMoney != null" >
+        #{bettingMoney,jdbcType=FLOAT},
+      </if>
+      <if test="winningMoney != null" >
+        #{winningMoney,jdbcType=FLOAT},
+      </if>
+      <if test="platformMoney != null" >
+        #{platformMoney,jdbcType=FLOAT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
+    update system_finance_account_report
+    <set >
+      <if test="reportDate != null" >
+        report_date = #{reportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bettingMoney != null" >
+        betting_money = #{bettingMoney,jdbcType=FLOAT},
+      </if>
+      <if test="winningMoney != null" >
+        winning_money = #{winningMoney,jdbcType=FLOAT},
+      </if>
+      <if test="platformMoney != null" >
+        platform_money = #{platformMoney,jdbcType=FLOAT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
+    update system_finance_account_report
+    set report_date = #{reportDate,jdbcType=VARCHAR},
+      betting_money = #{bettingMoney,jdbcType=FLOAT},
+      winning_money = #{winningMoney,jdbcType=FLOAT},
+      platform_money = #{platformMoney,jdbcType=FLOAT},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
