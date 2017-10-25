@@ -11,9 +11,19 @@ public class SystemFinanceAccountReport {
 
     private Double platformMoney;
 
+    private Double platformLossMoney;
+
     private String createTime;
 
     private String updateTime;
+
+    public Double getPlatformLossMoney() {
+        return platformLossMoney;
+    }
+
+    public void setPlatformLossMoney(Double platformLossMoney) {
+        this.platformLossMoney = platformLossMoney;
+    }
 
     public Integer getId() {
         return id;

@@ -1,5 +1,6 @@
 package digitalgame.service.impl;
 
+import com.google.common.base.Strings;
 import digitalgame.dao.SystemFinanceAccountReportMapper;
 import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.model.po.SystemFinanceAccountReport;
@@ -22,7 +23,17 @@ public class SystemFinanceAccountServiceImpl implements SystemFinanceAccountServ
 
     @Override
     public List<SystemFinanceAccountReport> selectByPage(int cueerntPage, String bigDate, String endDate) {
-        return null;
+        String whereCond = " ";
+        if(!Strings.isNullOrEmpty(bigDate) && bigDate.trim().length() == 8){
+            whereCond +=  " and  report_date >= '"+bigDate+"'";
+        }
+        if(!Strings.isNullOrEmpty(endDate) && endDate.trim().length() == 8){
+            whereCond +=  " and report_date <= '"+endDate+"'";
+        }
+        if(cueerntPage != 0){
+            whereCond += "limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
+        }
+        return systemFinanceAccountReportMapper.selectByPage(whereCond);
     }
 
     @Override
@@ -38,14 +49,18 @@ public class SystemFinanceAccountServiceImpl implements SystemFinanceAccountServ
     @Override
     @Transactional
     public void createReportByDate(String begDate, String endDate) {
-        systemFinanceAccountReportMapper.deleteReportByDate(begDate,endDate);
+
+        String deleteCond = "";
         String queryCond = "";
         if(Objects.nonNull(begDate) && begDate.trim().length() !=0 ){
+            deleteCond = deleteCond + " AND report_date >= '" + begDate + "'";
             queryCond = queryCond + " AND create_time >= '" + begDate + "'";
         }
         if(Objects.nonNull(endDate) && begDate.trim().length() !=0){
+            deleteCond = deleteCond + " AND report_date <= '" + endDate + "'";
             queryCond = queryCond + " AND create_time <= '" + endDate + "'";
         }
+        systemFinanceAccountReportMapper.deleteReportByDate(deleteCond);
         List<SystemFinanceAccountReport> list =userFinanceAccountLogMapper.querySystemFinanceAccountReportByDate(queryCond);
         for (SystemFinanceAccountReport sar : list){
             systemFinanceAccountReportMapper.insert(sar);

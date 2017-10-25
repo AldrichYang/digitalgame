@@ -1,6 +1,7 @@
 package digitalgame.controller;
 
 import com.google.common.base.Strings;
+import digitalgame.model.po.SystemFinanceAccountReport;
 import digitalgame.model.po.UserAccountHisVo;
 import digitalgame.model.po.UserInfo;
 import digitalgame.service.SystemFinanceAccountService;
@@ -40,17 +41,23 @@ public class SystemFinanceAccountController {
             String pageNo = request.getParameter("pageNo");
             if(!Strings.isNullOrEmpty(pageNo)) currentPageNo = Integer.parseInt(pageNo);
         }
-        String begTime = request.getParameter("begTime").replaceAll("-","");
-        String endTime = request.getParameter("endTime").replaceAll("-","");
+        String begTime = request.getParameter("begTime");
+        String endTime = request.getParameter("endTime");
+        model.addAttribute("begTime",begTime);
+        model.addAttribute("endTime",endTime);
+        if(begTime != null) begTime = begTime.replaceAll("-","");
+
+        if(endTime != null) endTime = endTime.replaceAll("-","");
         String flag = request.getParameter("flag");
         //生成报表
         if("2".equals(flag)){
             systemFinanceAccountService.createReportByDate(begTime,endTime);
         }
-        int userInfoListCount = userFinanceAccountService.queryUserAccountHisVoByUserInfo(0,userInfo).size();
-        List<UserAccountHisVo> userInfoList = userFinanceAccountService.queryUserAccountHisVoByUserInfo(currentPageNo, userInfo);
+        int userInfoListCount = systemFinanceAccountService.selectByPage(0,begTime,endTime).size();
+                //userFinanceAccountService.queryUserAccountHisVoByUserInfo(0,userInfo).size();
+        List<SystemFinanceAccountReport> sfarList = systemFinanceAccountService.selectByPage(0,begTime,endTime);
         int pageNo = userInfoListCount/10 + (userInfoListCount % 10 == 0 ? 0 : 1);
-        model.addAttribute("userList", userInfoList);
+        model.addAttribute("sfarList", sfarList);
         model.addAttribute("queryCond",userInfo);
         model.addAttribute("inallPageDesc","总条数："+userInfoListCount+",当前第"+currentPageNo+"页,总共" + pageNo + "页");
         model.addAttribute("currentPage",currentPageNo);

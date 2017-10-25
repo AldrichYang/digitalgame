@@ -116,9 +116,15 @@
   </update>
 
   <delete id="deleteReportByDate">
-    DELETE  from system_finance_account_report where report_date >= #{begDate,jdbcType=VARCHAR} and
-    <![CDATA[
-    report_date <= #{endDate,jdbcType=VARCHAR}
-    ]]>
+    DELETE  from system_finance_account_report where 1 = 1 ${queryCond}
+
   </delete>
+  <select id="selectByPage" resultType="digitalgame.model.po.SystemFinanceAccountReport">
+        SELECT report_date as reportDate, betting_money as bettingMoney,winning_money as  winningMoney ,
+        CASE  when platform_money >= 0 then platform_money ELSE  0 END  as platformMoney ,
+        <![CDATA[
+        CASE  when platform_money <= 0 then platform_money ELSE  0 END  as platformLossMoney
+         ]]>
+        from system_finance_account_report WHERE  1=1   ${queryCond}
+  </select>
 </mapper>

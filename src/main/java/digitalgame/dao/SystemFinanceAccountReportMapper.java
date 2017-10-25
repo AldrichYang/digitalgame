@@ -4,6 +4,8 @@ import digitalgame.model.po.SystemFinanceAccountReport;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface SystemFinanceAccountReportMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,5 +20,7 @@ public interface SystemFinanceAccountReportMapper {
 
     int updateByPrimaryKey(SystemFinanceAccountReport record);
 
-    int deleteReportByDate(@Param("begDate") String begDate,@Param("endDate") String endDate);
+    int deleteReportByDate(@Param("queryCond") String queryCond);
+
+    List<SystemFinanceAccountReport> selectByPage(@Param("queryCond") String queryCond);
 }

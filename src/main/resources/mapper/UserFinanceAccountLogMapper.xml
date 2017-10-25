@@ -121,7 +121,7 @@
   </select>
     <select id="querySystemFinanceAccountReportByDate" resultType="digitalgame.model.po.SystemFinanceAccountReport">
         SELECT create_time as reportDate ,sum(case WHEN  oper_type = 5 then money ELSE  0 end) as  bettingMoney,
-        sum(case WHEN  oper_type = 5 then money ELSE  0 end) as  winningMoney, sum(money) as platformMoney
+        sum(case WHEN  oper_type = 4 then money ELSE  0 end) as  winningMoney, sum(CASE  when oper_type = 5 then money else -money end) as platformMoney
         FROM  user_finance_account_log WHERE (oper_type = 4 or oper_type = 5) ${whereCond} GROUP BY create_time
     </select>
 
