@@ -15,6 +15,16 @@ public class UserFinanceAccountLog {
 
     private double balance;
 
+    private int periods;
+
+    public int getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(int periods) {
+        this.periods = periods;
+    }
+
     public Integer getId() {
         return id;
     }

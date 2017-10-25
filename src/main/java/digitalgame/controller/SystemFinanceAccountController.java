@@ -3,6 +3,7 @@ package digitalgame.controller;
 import com.google.common.base.Strings;
 import digitalgame.model.po.UserAccountHisVo;
 import digitalgame.model.po.UserInfo;
+import digitalgame.service.SystemFinanceAccountService;
 import digitalgame.service.UserFinanceAccountService;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,12 @@ import java.util.List;
 public class SystemFinanceAccountController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private SystemFinanceAccountService systemFinanceAccountService;
 
     @Autowired
     private UserFinanceAccountService userFinanceAccountService;
+
+
 
 
     @RequestMapping(value = "/querySystemFinanceAccount", method = {RequestMethod.GET, RequestMethod.POST})
@@ -37,7 +40,13 @@ public class SystemFinanceAccountController {
             String pageNo = request.getParameter("pageNo");
             if(!Strings.isNullOrEmpty(pageNo)) currentPageNo = Integer.parseInt(pageNo);
         }
-
+        String begTime = request.getParameter("begTime").replaceAll("-","");
+        String endTime = request.getParameter("endTime").replaceAll("-","");
+        String flag = request.getParameter("flag");
+        //生成报表
+        if("2".equals(flag)){
+            systemFinanceAccountService.createReportByDate(begTime,endTime);
+        }
         int userInfoListCount = userFinanceAccountService.queryUserAccountHisVoByUserInfo(0,userInfo).size();
         List<UserAccountHisVo> userInfoList = userFinanceAccountService.queryUserAccountHisVoByUserInfo(currentPageNo, userInfo);
         int pageNo = userInfoListCount/10 + (userInfoListCount % 10 == 0 ? 0 : 1);
@@ -46,7 +55,7 @@ public class SystemFinanceAccountController {
         model.addAttribute("inallPageDesc","总条数："+userInfoListCount+",当前第"+currentPageNo+"页,总共" + pageNo + "页");
         model.addAttribute("currentPage",currentPageNo);
         model.addAttribute("inallPage",pageNo);
-        return "userAccountHisList";
+        return "systemFinanceAccountReport";
     }
 
     public String createHtml(){

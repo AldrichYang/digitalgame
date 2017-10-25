@@ -41,6 +41,13 @@
         var re = /^[0-9]+$/ ;
         return re.test(s)
     }
+    
+    function subFormData(type) {
+        document.getElementById("hiddenPageFlag").value = type;
+        document.getElementById("queryForm").submit();
+
+
+    }
 </script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -62,19 +69,19 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-        <form method="POST" action="/userAccountHis/userAccountHisList" onsubmit="return addPageNo()" id = "queryForm">
+        <form method="POST" action="/systemFinanceAccount/querySystemFinanceAccount" onsubmit="return addPageNo()" id = "queryForm">
             <table>
                 <tr>
                     <td>
                         <div class="form-group">
-                            <label>用户名:</label>
-                            <input type="text" name = "userName"  th:value="${queryCond.userName}" placeholder="输入用户名 ...">
+                            <label>起始日期:</label>
+                            <input name = "begTime" type="date" />
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <label>昵称:</label>
-                            <input type="text" name= "nickName" th:value="${queryCond.nickName}" placeholder="输入昵称 ...">
+                            <label>结束日期:</label>
+                            <input name = "endTime" type="date"/>
                         </div>
                     </td>
                     <td>
@@ -85,12 +92,14 @@
                     </td>
                     <td>
                         <div class="form-group">
-                        <button type="submit">查询</button>
+                        <button name = "query" type="button" onclick="subFormData(1)">查询</button>
+                        <button name = "create" type="button" onclick="subFormData(2)">生成</button>
                         </div>
                     </td>
                 </tr>
             </table>
             <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
+            <input type="hidden" name="flag" id = "hiddenPageFlag"/>
         </form>
             <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
     <div class="row">
@@ -111,7 +120,6 @@
                             <th>玩家中奖金额</th>
                             <th>平台赚取金额</th>
                             <th>平台亏损金额</th>
-                            <th>平台余额</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -121,7 +129,6 @@
                             <td th:text="${userInfo.opertType}">2.41</td>
                             <td th:text="${userInfo.periods}">2.41</td>
                             <td th:text="${userInfo.money}">yes</td>
-                            <td th:text="${userInfo.balance}">yes</td>
                         </tr>
                         </tbody>
                         <tfoot>

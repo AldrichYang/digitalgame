@@ -114,4 +114,11 @@
       update_time = #{updateTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteReportByDate">
+    DELETE  from system_finance_account_report where report_date >= #{begDate,jdbcType=VARCHAR} and
+    <![CDATA[
+    report_date <= #{endDate,jdbcType=VARCHAR}
+    ]]>
+  </delete>
 </mapper>

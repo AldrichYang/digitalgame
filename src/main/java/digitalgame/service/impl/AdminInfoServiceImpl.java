@@ -3,6 +3,7 @@ package digitalgame.service.impl;
 import com.google.common.base.Strings;
 import digitalgame.common.Util;
 import digitalgame.dao.AdminInfoMapper;
+import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.model.po.AdminInfo;
 import digitalgame.service.AdminInfoService;
 import org.apache.ibatis.annotations.Mapper;
