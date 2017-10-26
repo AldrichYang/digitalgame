@@ -4,7 +4,6 @@
 <head th:replace="starter :: head"></head>
 <script type="text/javascript">
     function addPageNo() {
-        debugger;
 //        $("#hiddenPageNo").val($("#pageNo").val());
         var pageNo = document.getElementById("pageNo").value;
 
@@ -19,6 +18,7 @@
 
         }
         document.getElementById("hiddenPageNo").value = pageNo;
+        if(pageNo >= document.getElementById("inallPage")) document.getElementById("hiddenPageNo").value = document.getElementById("inallPage");
         return true;
     }
 
@@ -41,6 +41,29 @@
         var re = /^[0-9]+$/ ;
         return re.test(s)
     }
+    
+    function subFormData(type) {
+        var begTime = document.getElementById("begTime").value;
+        if(begTime == "" || Trim(begTime).length == 0 || Trim(begTime).length != 10){
+            alert("请输入正确的其实日期！");
+            return false;
+        }
+
+        var endTime = document.getElementById("endTime").value;
+        if(endTime == "" || Trim(endTime).length == 0 || Trim(begTime).length != 10){
+            alert("请输入正确的结束日期！");
+            return false;
+        }
+        document.getElementById("hiddenPageFlag").value = type;
+        document.getElementById("queryForm").submit();
+
+
+    }
+
+    function Trim(str)
+    {
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
 </script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -50,8 +73,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                玩家历史账户信息
-                <small>玩家历史账户信息分页展示</small>
+                系统账户资金报表信息
+                <small>系统账户资金报表信息分页展示</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -62,19 +85,19 @@
 
         <!-- Main content -->
         <section class="content container-fluid">
-        <form method="POST" action="/userAccountHis/userAccountHisList" onsubmit="return addPageNo()" id = "queryForm">
+        <form method="POST" action="/systemFinanceAccount/querySystemFinanceAccount" onsubmit="return addPageNo()" id = "queryForm">
             <table>
                 <tr>
                     <td>
                         <div class="form-group">
-                            <label>用户名:</label>
-                            <input type="text" name = "userName"  th:value="${queryCond.userName}" placeholder="输入用户名 ...">
+                            <label>起始日期:</label>
+                            <input id = "begTime" name = "begTime" type="date" th:value="${begTime}"/>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <label>昵称:</label>
-                            <input type="text" name= "nickName" th:value="${queryCond.nickName}" placeholder="输入昵称 ...">
+                            <label>结束日期:</label>
+                            <input id = "endTime" name = "endTime" type="date" th:value="${endTime}"/>
                         </div>
                     </td>
                     <td>
@@ -85,12 +108,14 @@
                     </td>
                     <td>
                         <div class="form-group">
-                        <button type="submit">查询</button>
+                        <button name = "query" type="button" onclick="subFormData(1)">查询</button>
+                        <button name = "create" type="button" onclick="subFormData(2)">生成</button>
                         </div>
                     </td>
                 </tr>
             </table>
             <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
+            <input type="hidden" name="flag" id = "hiddenPageFlag"/>
         </form>
             <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
     <div class="row">
@@ -106,22 +131,20 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>用户名</th>
-                            <th>昵称</th>
-                            <th>资金类型</th>
-                            <th>期数</th>
-                            <th>资金</th>
-                            <th>余额</th>
+                            <th>日期</th>
+                            <th>玩家总投注金额</th>
+                            <th>玩家中奖金额</th>
+                            <th>平台赚取金额</th>
+                            <th>平台亏损金额</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="userInfo : ${userList}">
-                            <td th:text="${userInfo.userName}">Onions</td>
-                            <td th:text="${userInfo.nickName}">Onions</td>
-                            <td th:text="${userInfo.opertType}">2.41</td>
-                            <td th:text="${userInfo.periods}">2.41</td>
-                            <td th:text="${userInfo.money}">yes</td>
-                            <td th:text="${userInfo.balance}">yes</td>
+                        <tr th:each="sfar : ${sfarList}">
+                            <td th:text="${sfar.reportDate}">Onions</td>
+                            <td th:text="${sfar.bettingMoney}">Onions</td>
+                            <td th:text="${sfar.winningMoney}">2.41</td>
+                            <td th:text="${sfar.platformMoney}">2.41</td>
+                            <td th:text="${sfar.platformLossMoney}">yes</td>
                         </tr>
                         </tbody>
                         <tfoot>

@@ -1,6 +1,8 @@
 package digitalgame.common;
 
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /***
  * MD5算法生成
@@ -49,6 +51,12 @@ public class Util {
             md5str.append(Integer.toHexString(digital));
         }
         return md5str.toString().toUpperCase();
+    }
+
+    public static  String dataForMat(Date date ,String forMat){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(forMat);
+
+        return simpleDateFormat.format(date);
     }
 
 

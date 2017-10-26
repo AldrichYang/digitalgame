@@ -1,6 +1,7 @@
 package digitalgame.service.impl;
 
 import com.google.common.base.Strings;
+import digitalgame.common.Util;
 import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.dao.UserFinanceAccountMapper;
 import digitalgame.dao.UserInfoMapper;
@@ -9,7 +10,9 @@ import digitalgame.service.UserFinanceAccountService;
 import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,7 +33,8 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     }
 
     @Override
-    public int updateByPrimaryKeySelective(UserAccountVo userAccountVo) {
+    @Transactional
+    public int updateByPrimaryKeySelective(UserAccountVo userAccountVo ,int periods) {
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
         //余额不足直接返回失败
         if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
@@ -49,31 +53,32 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userFinanceAccountLog.setMoney(userAccountVo.getMoney());
         userFinanceAccountLog.setUfcId(record.getId());
         userFinanceAccountLog.setBalance(record.getBalance());
+        userFinanceAccountLog.setCreateTime(Util.dataForMat(new Date(),"yyyyMMdd"));
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
 
         return userFinanceAccountMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateBalanceByUserId(int userId, double money, int type) {
+    public int updateBalanceByUserId(int userId, double money, int type,int periods) {
         UserFinanceAccount ufa = userFinanceAccountMapper.selectByUserId(userId);
         UserAccountVo userAccountVo = new UserAccountVo();
         userAccountVo.setAccountId(ufa.getId());
         userAccountVo.setMoney(money);
         userAccountVo.setOperType(type);
-        return this.updateByPrimaryKeySelective(userAccountVo);
+        return this.updateByPrimaryKeySelective(userAccountVo,periods);
     }
 
     @Override
-    public int addUserBalanceByNickName(String nickName, double money) {
+    public int addUserBalanceByNickName(String nickName, double money,int periods) {
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
-        return this.updateBalanceByUserId(userInfo.getId(),money,2);
+        return this.updateBalanceByUserId(userInfo.getId(),money,4,periods);
     }
 
     @Override
-    public int reduceUserBalanceByNickName(String nickName, double money) {
+    public int reduceUserBalanceByNickName(String nickName, double money,int periods) {
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
-        return this.updateBalanceByUserId(userInfo.getId(),money,3);
+        return this.updateBalanceByUserId(userInfo.getId(),money,5,periods);
     }
 
     @Override

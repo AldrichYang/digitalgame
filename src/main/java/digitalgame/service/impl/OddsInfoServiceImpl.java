@@ -37,6 +37,7 @@ public class OddsInfoServiceImpl implements OddsInfoService{
 
     @Override
     public OddsInfo editOddsInfo(OddsInfo oddsInfo) {
+
         oddsInfoMapper.updateByPrimaryKeySelective(oddsInfo);
         return oddsInfo;
     }

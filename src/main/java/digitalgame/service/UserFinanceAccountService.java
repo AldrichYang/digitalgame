@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserFinanceAccountService {
     int insertSelective(UserFinanceAccount record);
 
-    int updateByPrimaryKeySelective(UserAccountVo UserAccountVo);
+    int updateByPrimaryKeySelective(UserAccountVo UserAccountVo,int periods);
 
     /****
      *
@@ -19,7 +19,7 @@ public interface UserFinanceAccountService {
      * @param type   类型 ，2充值，3位扣减
      * @return
      */
-    int updateBalanceByUserId(int userId,double money,int type);
+    int updateBalanceByUserId(int userId,double money,int type,int periods);
 
     /****
      * 根据昵称增余额
@@ -27,7 +27,7 @@ public interface UserFinanceAccountService {
      * @param money
      * @return
      */
-    int addUserBalanceByNickName(String nickName,double money);
+    int addUserBalanceByNickName(String nickName,double money,int periods);
 
     /****
      * 根据昵称减余额，返回-1则是扣钱失败，余额不足
@@ -35,7 +35,7 @@ public interface UserFinanceAccountService {
      * @param money
      * @return
      */
-    int reduceUserBalanceByNickName(String nickName,double money);
+    int reduceUserBalanceByNickName(String nickName,double money,int periods);
 
 
     /****
