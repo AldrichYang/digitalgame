@@ -17,7 +17,7 @@ public class BetResultServiceImpl implements BetResultService {
 
     @Override
     public List<BetResult> selectBetSultByPage(int cueerntPage, BetResult betResult) {
-        String whereCond = " where 1=1 ";
+        String whereCond = " where 1=1 order by id desc ";
         if(!Strings.isNullOrEmpty(betResult.getBetuser())){
             whereCond +=  " and  betuser like '%"+betResult.getBetuser()+"%'";
         }
@@ -27,7 +27,6 @@ public class BetResultServiceImpl implements BetResultService {
         if(cueerntPage != 0){
             whereCond += " limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }
-
         return betResultMapper.selectByPage(whereCond);
     }
 }
