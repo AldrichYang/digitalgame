@@ -41,6 +41,38 @@
         var re = /^[0-9]+$/ ;
         return re.test(s)
     }
+
+    $(function () {
+       var j_createPlayerForm = $("#createPlayerForm")
+        j_createPlayerForm.on('submit',
+            function(e){
+                e.preventDefault();// avoid to execute the actual submit of the form
+                $.ajax({
+                    type:"POST",
+                    url:"/user/validUserExist",
+                    data: j_createPlayerForm.serialize(),
+                    async:false,
+                    dataType:"json",
+                    success:function (rtn) {
+                        // 如果存在同名的玩家，提示用户
+                        if(!$.isEmptyObject(rtn.nickName)){
+                            $("#validInfo").append("<li>玩家昵称" +rtn.nickName + "已经存在,请修改昵称" +"</li>");
+                        }
+                        else{
+                            // 保存用户，并且刷新列表
+                            j_createPlayerForm.unbind("submit").submit()
+                        }
+                    }})});
+
+       // 新增模态框关闭的时候，移除提示信息
+        $('#createModal').on('hidden.bs.modal', function (e) {
+            $("#validInfo").empty()
+
+        });
+
+    })
+
+
 </script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -50,8 +82,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                用户信息列表
-                <small>用户信息分页展示</small>
+                玩家列表
+                <small></small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -85,7 +117,7 @@
                     </td>
                     <td>
                         <div class="form-group">
-                        <button type="submit">查询</button>
+                        <button type="submit" class="btn btn-primary">查询</button>
                         </div>
                     </td>
                 </tr>
@@ -93,9 +125,52 @@
             <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
         </form>
             <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
-        <form method="GET" action="/user/addUser.html">
-            <button type="submit">新增</button>
-        </form >
+        <!--<form method="GET" action="/user/addUser.html">-->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">添加玩家</button>
+        <!--</form >-->
+            <!--玩家管理界面-->
+        <div class="modal fade" id="createModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">管理员信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="createPlayerForm" action="/user/addUser" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label >用户名:</label>
+                                        <input type="text" name="userName" class="form-control"  id="exampleInputEmail1" placeholder="用户名...">
+                                    </div>
+                                    <!--<div class="form-group">-->
+                                    <!--<label for="exampleInputPassword1">手机号码:</label>-->
+                                    <!--<input type="text" name="mobileNum" class="form-control"  id="exampleInputPassword1" placeholder="手机号码...">-->
+                                    <!--</div>-->
+                                    <div class="form-group">
+                                        <label >昵称:</label>
+                                        <input type="text" name="nickName" class="form-control"  id="exampleInputPassword2" placeholder="昵称...">
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+
+                                <div class="box-footer">
+                                <label id="validInfo"></label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
     <div class="row">
         <div class="col-xs-12">

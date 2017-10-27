@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 .antMatchers("/*").authenticated()
-                .and().logout()
                 .and().csrf().disable();
+//        http.anonymous().disable();
     }
 
     /**
@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(new UserDetailServiceImpl(adminInfoMapper));
+        auth.userDetailsService(new UserDetailServiceImpl(adminInfoMapper)).passwordEncoder(new MyMd5PasswordEncoder());
     }
+
+
 }
