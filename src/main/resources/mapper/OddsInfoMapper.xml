@@ -4,20 +4,13 @@
   <resultMap id="BaseResultMap" type="digitalgame.model.po.OddsInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="odds_name" property="oddsName" jdbcType="VARCHAR" />
-    <result column="odds_number" property="oddsNumber" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="odds_number" property="oddsNumber" jdbcType="FLOAT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, odds_name, odds_number, create_time, update_time
+    id, odds_name, create_time, update_time, odds_number
   </sql>
-
-  <select id="selectOddsList" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from odds_info
-  </select>
-
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -29,10 +22,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="digitalgame.model.po.OddsInfo" >
-    insert into odds_info (id, odds_name, odds_number, 
-      create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{oddsName,jdbcType=VARCHAR}, #{oddsNumber,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+    insert into odds_info (id, odds_name, create_time, 
+      update_time, odds_number)
+    values (#{id,jdbcType=INTEGER}, #{oddsName,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{oddsNumber,jdbcType=FLOAT})
   </insert>
   <insert id="insertSelective" parameterType="digitalgame.model.po.OddsInfo" >
     insert into odds_info
@@ -43,14 +36,14 @@
       <if test="oddsName != null" >
         odds_name,
       </if>
-      <if test="oddsNumber != null" >
-        odds_number,
-      </if>
       <if test="createTime != null" >
         create_time,
       </if>
       <if test="updateTime != null" >
         update_time,
+      </if>
+      <if test="oddsNumber != null" >
+        odds_number,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -60,14 +53,14 @@
       <if test="oddsName != null" >
         #{oddsName,jdbcType=VARCHAR},
       </if>
-      <if test="oddsNumber != null" >
-        #{oddsNumber,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsNumber != null" >
+        #{oddsNumber,jdbcType=FLOAT},
       </if>
     </trim>
   </insert>
@@ -77,14 +70,14 @@
       <if test="oddsName != null" >
         odds_name = #{oddsName,jdbcType=VARCHAR},
       </if>
-      <if test="oddsNumber != null" >
-        odds_number = #{oddsNumber,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="oddsNumber != null" >
+        odds_number = #{oddsNumber,jdbcType=FLOAT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -92,9 +85,15 @@
   <update id="updateByPrimaryKey" parameterType="digitalgame.model.po.OddsInfo" >
     update odds_info
     set odds_name = #{oddsName,jdbcType=VARCHAR},
-      odds_number = #{oddsNumber,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=VARCHAR}
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      odds_number = #{oddsNumber,jdbcType=FLOAT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectOddsList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from odds_info
+  </select>
 </mapper>

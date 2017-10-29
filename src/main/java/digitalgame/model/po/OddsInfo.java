@@ -5,11 +5,11 @@ public class OddsInfo {
 
     private String oddsName;
 
-    private Integer oddsNumber;
-
     private String createTime;
 
     private String updateTime;
+
+    private Double oddsNumber;
 
     public Integer getId() {
         return id;
@@ -27,14 +27,6 @@ public class OddsInfo {
         this.oddsName = oddsName == null ? null : oddsName.trim();
     }
 
-    public Integer getOddsNumber() {
-        return oddsNumber;
-    }
-
-    public void setOddsNumber(Integer oddsNumber) {
-        this.oddsNumber = oddsNumber;
-    }
-
     public String getCreateTime() {
         return createTime;
     }
@@ -49,5 +41,13 @@ public class OddsInfo {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime == null ? null : updateTime.trim();
+    }
+
+    public Double getOddsNumber() {
+        return oddsNumber;
+    }
+
+    public void setOddsNumber(Double oddsNumber) {
+        this.oddsNumber = oddsNumber;
     }
 }
