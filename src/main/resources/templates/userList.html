@@ -3,6 +3,25 @@
       xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="starter :: head"></head>
 <script type="text/javascript">
+    function editUser(id) {
+        $.ajax({
+            type:"POST",
+            url:"/user/getUserInfo",
+            data: {"userId":id},
+            async:false,
+            dataType:"json",
+            success:function (rtn) {
+                debugger;
+                $("#userId").val(rtn.id);
+                // 如果存在同名的玩家，提示用户
+                $("#userName").val(rtn.userName);
+                $("#nickName").val(rtn.nickName);
+            }})
+        $('#createModalEdit').modal();
+        debugger;
+
+    }
+
     function addPageNo() {
         debugger;
 //        $("#hiddenPageNo").val($("#pageNo").val());
@@ -70,7 +89,44 @@
 
         });
 
-    })
+
+    });
+    $(function () {
+        var j_createPlayerForm = $("#createPlayerFormEdit")
+        j_createPlayerForm.on('submit',
+            function(e){
+                e.preventDefault();// avoid to execute the actual submit of the form
+                $.ajax({
+                    type:"POST",
+                    url:"/user/validUserExist",
+                    data: j_createPlayerForm.serialize(),
+                    async:false,
+                    dataType:"json",
+                    success:function (rtn) {
+                        // 如果存在同名的玩家，提示用户
+                        if(!$.isEmptyObject(rtn.nickName)){
+                            $("#validInfo").append("<li>玩家昵称" +rtn.nickName + "已经存在,请修改昵称" +"</li>");
+                        }
+                        else{
+                            // 保存用户，并且刷新列表
+                            j_createPlayerForm.unbind("submit").submit()
+                        }
+                    }})});
+
+        $('#createModalEdit').on('hidden.bs.modal', function (e) {
+            $("#validInfo").empty()
+
+        });
+
+        $('#createModalEdit').on('show.bs.modal', function (e) {
+            $("#validInfo").empty();
+        });
+
+
+
+
+
+        })
 
 
 </script>
@@ -99,7 +155,8 @@
                 <tr>
                     <td>
                         <div class="form-group">
-                            <label>用户名:</label>
+                            <label>qq:</label>
+                            <input type="hidden" name="id"/>
                             <input type="text" name = "userName"  th:value="${queryCond.userName}" placeholder="输入用户名 ...">
                         </div>
                     </td>
@@ -135,13 +192,13 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">管理员信息</h4>
+                            <h4 class="modal-title">玩家信息新增</h4>
                         </div>
                         <div class="modal-body">
                             <form role="form" method="POST" id="createPlayerForm" action="/user/addUser" >
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label >用户名:</label>
+                                        <label >qq:</label>
                                         <input type="text" name="userName" class="form-control"  id="exampleInputEmail1" placeholder="用户名...">
                                     </div>
                                     <!--<div class="form-group">-->
@@ -172,6 +229,50 @@
                 <!-- /.modal-dialog -->
             </div>
 
+            <div class="modal fade" id="createModalEdit">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">玩家信息维护</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="createPlayerFormEdit" action="/user/editUser" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label >qq:</label>
+                                        <input type="hidden" id = "userId" name="id" >
+                                        <input type="text" id = "userName" name="userName" class="form-control"   placeholder="用户名...">
+                                    </div>
+                                    <!--<div class="form-group">-->
+                                    <!--<label for="exampleInputPassword1">手机号码:</label>-->
+                                    <!--<input type="text" name="mobileNum" class="form-control"  id="exampleInputPassword1" placeholder="手机号码...">-->
+                                    <!--</div>-->
+                                    <div class="form-group">
+                                        <label >昵称:</label>
+                                        <input type="text" id = "nickName" name="nickName" class="form-control"   placeholder="昵称...">
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+
+                                <div class="box-footer">
+                                    <label id="validInfo1"></label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -185,7 +286,7 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>用户名</th>
+                            <th>qq</th>
                             <th>昵称</th>
                             <!--<th>手机号码</th>-->
                             <th>是否可用</th>
@@ -198,7 +299,9 @@
                             <td th:text="${userInfo.nickName}">2.41</td>
                             <!--<td th:text="${userInfo.mobileNum}">yes</td>-->
                             <td th:text="${userInfo.isEnable} == 1 ? '是' : '否'">yes</td>
-                            <td><a th:href="@{/user/editUser.html(userId=${userInfo.id})}" >修改</a></td>
+                            <td>
+                                <a href="javascript:void(0);" th:onclick="'javascript:editUser('+${userInfo.id}+');'" data-toggle="modal">修改</a>
+                            </td>
                         </tr>
                         </tbody>
                         <tfoot>

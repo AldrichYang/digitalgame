@@ -15,8 +15,8 @@
 
         <section class="content-header">
             <h1>
-                Page Header
-                <small>Optional description</small>
+                用户积分
+                <small>用户积分管理</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -30,7 +30,7 @@
             <form role="form" method="POST" action="/userAccount/editUserAccount">
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">用户名:</label>
+                        <label for="exampleInputEmail1">qq:</label>
                         <input type="text" name="userName" class="form-control" th:value= "${userAccountVo.userName}"  placeholder="用户名...">
                     </div>
                     <div class="form-group">
@@ -40,8 +40,8 @@
                     <div class="form-group">
                         <label for="exampleInputPassword1">操作类型:</label>
                         <select class="form-control select2" name = "operType" style="width: 100%;">
-                            <option selected="selected" value="2">充值</option>
-                            <option value="3">扣减</option>
+                            <option selected="selected" value="2">上分</option>
+                            <option value="3">下分</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -54,7 +54,7 @@
                 <!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">修改积分</button>
                 </div>
             </form>
 

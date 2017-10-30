@@ -58,11 +58,10 @@ public class UserInfoController {
         return this.getAllUserList(userInfo, model, null);
     }
 
-    @RequestMapping(value = "/editUser.html", method = RequestMethod.GET)
-    public String redirectToEdit(@RequestParam int userId, Model model) {
+    @RequestMapping(value = "/getUserInfo", produces = "application/json")
+    public @ResponseBody UserInfo redirectToEdit(@RequestParam int userId) {
         UserInfo userInfo = userInfoService.selectByPrimaryKey(userId);
-        model.addAttribute("oldUserInfo", userInfo);
-        return "editUser";
+        return userInfo;
     }
 
     @RequestMapping(value = "/addUser.html", method = RequestMethod.GET)
