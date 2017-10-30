@@ -94,6 +94,6 @@
   <select id="selectOddsList" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from odds_info
+    from odds_info ORDER BY length(odds_name) DESC
   </select>
 </mapper>

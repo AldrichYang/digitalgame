@@ -68,3 +68,17 @@ CREATE TABLE system_finance_account_report
   update_time VARCHAR(30)
 );
 
+-- 中奖结果保存表
+CREATE TABLE bet_result
+(
+    id INTEGER PRIMARY KEY,
+    betUser VARCHAR,
+    betUserId INT,
+    resultNumber DECIMAL,
+    betNumber DECIMAL,
+    betType VARCHAR,
+    betDate VARCHAR,
+    resultDate VARCHAR,
+    createDate VARCHAR,
+    updateDate VARCHAR
+);
