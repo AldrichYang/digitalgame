@@ -127,4 +127,11 @@
          ]]>
         from system_finance_account_report WHERE  1=1   ${queryCond}
   </select>
+
+  <select id="selectByReportDate" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from system_finance_account_report
+    where report_date = #{reportDate,jdbcType=VARCHAR}
+  </select>
 </mapper>

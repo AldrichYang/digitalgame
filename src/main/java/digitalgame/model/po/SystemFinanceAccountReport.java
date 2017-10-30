@@ -42,6 +42,7 @@ public class SystemFinanceAccountReport {
     }
 
     public Double getBettingMoney() {
+        if(bettingMoney == null) bettingMoney = 0.0;
         return bettingMoney;
     }
 
@@ -50,6 +51,7 @@ public class SystemFinanceAccountReport {
     }
 
     public Double getWinningMoney() {
+        if(winningMoney == null) winningMoney = 0.0;
         return winningMoney;
     }
 
@@ -58,6 +60,7 @@ public class SystemFinanceAccountReport {
     }
 
     public Double getPlatformMoney() {
+        if(platformMoney == null) platformMoney = 0.0;
         return platformMoney;
     }
 

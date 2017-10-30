@@ -2,6 +2,7 @@ package digitalgame.service.impl;
 
 import com.google.common.base.Strings;
 import digitalgame.common.Util;
+import digitalgame.dao.SystemFinanceAccountReportMapper;
 import digitalgame.dao.UserFinanceAccountLogMapper;
 import digitalgame.dao.UserFinanceAccountMapper;
 import digitalgame.dao.UserInfoMapper;
@@ -27,6 +28,9 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private SystemFinanceAccountReportMapper systemFinanceAccountReportMapper;
+
     @Override
     public int insertSelective(UserFinanceAccount record) {
         return userFinanceAccountMapper.insertSelective(record);
@@ -34,7 +38,8 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
     @Override
     @Transactional
-    public int updateByPrimaryKeySelective(UserAccountVo userAccountVo ,int periods) {
+    public synchronized int updateByPrimaryKeySelective(UserAccountVo userAccountVo ,int periods) {
+        boolean update = true;
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
         //余额不足直接返回失败
         if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
@@ -55,8 +60,32 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userFinanceAccountLog.setBalance(record.getBalance());
         userFinanceAccountLog.setCreateTime(Util.dataForMat(new Date(),"yyyyMMdd"));
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
+        int a = userFinanceAccountMapper.updateByPrimaryKeySelective(record);
+        if(5 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType()){
+            SystemFinanceAccountReport systemFinanceAccountReport = systemFinanceAccountReportMapper.selectByReportDate(Util.dataForMat(new Date(),"yyyyMMdd"));
+            if(systemFinanceAccountReport == null){
+                update = false;
+                systemFinanceAccountReport = new SystemFinanceAccountReport();
+                systemFinanceAccountReport.setReportDate(Util.dataForMat(new Date(),"yyyyMMdd"));
+            }
+            if(4 == userAccountVo.getOperType()){
+                systemFinanceAccountReport.setWinningMoney(systemFinanceAccountReport.getWinningMoney() + userAccountVo.getMoney());
+                systemFinanceAccountReport.setPlatformMoney(systemFinanceAccountReport.getPlatformMoney() - userAccountVo.getMoney());
+            }else{
+                systemFinanceAccountReport.setBettingMoney(systemFinanceAccountReport.getPlatformMoney() + userAccountVo.getMoney());
+                systemFinanceAccountReport.setPlatformMoney(systemFinanceAccountReport.getPlatformMoney() + userAccountVo.getMoney());
+            }
+            if(!update){
+                systemFinanceAccountReportMapper.insert(systemFinanceAccountReport);
+            }else{
+                systemFinanceAccountReportMapper.updateByPrimaryKeySelective(systemFinanceAccountReport);
+            }
 
-        return userFinanceAccountMapper.updateByPrimaryKeySelective(record);
+
+
+        }
+
+        return a;
     }
 
     @Override
