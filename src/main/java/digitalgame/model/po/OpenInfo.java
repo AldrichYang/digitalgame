@@ -10,48 +10,67 @@ import java.util.Date;
 public class OpenInfo {
 
     private int id;
-    private int openNo; //开奖号码
-    private Date openTime; //开奖时间
-    private Date createTime; //创建时间
-    private Date updateTime; //修改时间
+    private long openNo; //开奖期数
+    private String openNum; //开奖号码
+    private String openResult; //开奖结果
+    private String openTime; //开奖时间
+    private String createTime; //创建时间
+    private String updateTime; //修改时间
+
+
+    public String getOpenResult() {
+        return openResult;
+    }
+
+    public void setOpenResult(String openResult) {
+        this.openResult = openResult;
+    }
 
     public int getId() {
         return id;
+    }
+
+    public String getOpenNum() {
+        return openNum;
+    }
+
+    public void setOpenNum(String openNum) {
+        this.openNum = openNum;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getOpenNo() {
+    public long getOpenNo() {
         return openNo;
     }
 
-    public void setOpenNo(int openNo) {
+    public void setOpenNo(long openNo) {
         this.openNo = openNo;
     }
 
-    public Date getOpenTime() {
+    public String getOpenTime() {
         return openTime;
     }
 
-    public void setOpenTime(Date openTime) {
+    public void setOpenTime(String openTime) {
         this.openTime = openTime;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }

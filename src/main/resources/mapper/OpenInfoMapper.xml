@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="digitalgame.dao.OpenInfoMapper" >
+  <resultMap id="BaseResultMap" type="digitalgame.model.po.OpenInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openNO" property="openNo" jdbcType="VARCHAR" />
+    <result column="openNum" property="openNum" jdbcType="VARCHAR" />
+    <result column="openResult" property="openResult" jdbcType="VARCHAR" />
+    <result column="openTime" property="openTime" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openNO,openNum,openResult,openTime,create_Time,update_Time
+  </sql>
+
+  <!--新增-->
+  <insert id="insert" parameterType="digitalgame.model.po.OpenInfo" >
+    insert into open_info (openNo, openNum,openResult,openTime,create_time,update_time)
+    VALUES(#{openNo},#{openNum},#{openResult},#{openTime},#{createTime},#{updateTime})
+  </insert>
+
+  <!--查询-->
+  <select id="selectOddsList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from open_info
+  </select>
+
+  <!--查询最新的一条开奖信息-->
+  <select id="selectLasted" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+     from open_info order by id desc limit 1
+  </select>
+
+  <select id="selectTop" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from open_info
+    where substr(openTime,1,8) = strftime('%Y%m%d','now')
+    order by id limit 20
+  </select>
+
+  <update id="updateOpenInfo" parameterType="digitalgame.model.po.OpenInfo">
+    update open_info set
+      openNum = #{openNum},
+      openResult = #{openResult},
+      openTime = #{openTime},
+      create_time = #{createTime}
+    where id = #{id}
+  </update>
+
+
+</mapper>

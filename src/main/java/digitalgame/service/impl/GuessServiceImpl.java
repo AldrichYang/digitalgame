@@ -1,15 +1,19 @@
 package digitalgame.service.impl;
 
 import digitalgame.dao.BetInfoMapper;
+import digitalgame.dao.OpenInfoMapper;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.OddsInfo;
+import digitalgame.model.po.OpenInfo;
 import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.GuessService;
 import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,13 +29,17 @@ public class GuessServiceImpl implements GuessService,Serializable {
     @Autowired
     BetInfoMapper betInfoMapper;
 
+    @Autowired
+    OpenInfoMapper openInfoMapper;
+
     @Override
     public void doBet(List<BetInfo> betInfoList) {
         betInfoMapper.addBatch(betInfoList);
     }
 
     @Override
-    public List<UserBetInfo> analysisBetContent(String betContent) {
+    public List<UserBetInfo> analysisBetContent(OpenInfo openInfo,String betContent) {
+        long openNo = openInfo.getOpenNo();
         String [] arrBet = betContent.split("\n");
 
         List<OddsInfo>  oddsInfos = ois.selectOddsList();
@@ -81,11 +89,13 @@ public class GuessServiceImpl implements GuessService,Serializable {
                     for(OddsInfo oddsinfo: oddsInfos){
                         if(betStr.contains(oddsinfo.getOddsName())){
                             BetInfo tmpBi = new BetInfo();
+                            tmpBi.setOpenNo(openNo);
                             tmpBi.setBetman(betMan);
                             tmpBi.setBetitem(oddsinfo.getOddsName());
                             tmpBi.setBetmoney(Double.valueOf(betMoney));
                             tmpBi.setCreateTime(betTime);
                             betInfos.add(tmpBi);
+                            break;
                         }
                     }
                 }while(m.find());
@@ -93,6 +103,9 @@ public class GuessServiceImpl implements GuessService,Serializable {
             }
 
         }
+
+        //把下注内容保存到数据库，同时调用资金的方法进行资金划转
+        doBet(betInfos);
 
         return toUserBetInfoList(betInfos);
     }
@@ -168,5 +181,96 @@ public class GuessServiceImpl implements GuessService,Serializable {
         System.out.println(pattern.matcher(str).matches());
 
 
+    }
+
+    @Override
+    public List<UserBetInfo> doOpen(OpenInfo openInfo) {
+        /**
+         * 开奖步骤 ：
+         * 1、保存开奖信息；
+         * 2、将下注内容传递给中奖算法的计算引擎
+         * 3、将中奖信息传递给资金处理类，进行资金处理
+         */
+        Date now = new Date();
+        OpenInfo info = new OpenInfo();
+        String openNum = openInfo.getOpenNum();
+        long openNo = openInfo.getOpenNo();
+        if(openNum != null) {
+            String[] openNumArr = new String[]{String.valueOf(openNum.charAt(0)), String.valueOf(openNum.charAt(1)), String.valueOf(openNum.charAt(2))};
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+            openNum = "";
+            int sum = 0;
+            for (String num : openNumArr) {
+                openNum = openNum + num + ",";
+                sum += Integer.parseInt(num);
+            }
+            if (openNum.endsWith(",")) {
+                openNum = openNum.substring(0, openNum.length() - 1);
+            }
+
+            String result = openNum;
+            if (sum < 13) {
+                result += "  小";
+            } else {
+                result += "  大";
+            }
+
+            if (sum % 2 == 0) {
+                result += "  双";
+            } else {
+                result += "  单";
+            }
+            info.setOpenNum(openNum);
+            info.setOpenResult(result);
+            info.setCreateTime(sdf.format(now));
+            info.setOpenTime(sdf.format(now));
+            info.setId(openInfo.getId());
+            info.setOpenNo(openInfo.getOpenNo());
+        }
+
+        info.setOpenNo(openNo);
+        openInfoMapper.updateOpenInfo(info); //保存开奖结果
+
+        return null;
+    }
+
+    @Override
+    public OpenInfo getNextOpenInfo() {
+
+        //查询数据库中最新的编号 +1，如果没有使用当前日期创建一个 yyyyMMdd001
+        String openNo = "";
+        OpenInfo openInfo = openInfoMapper.selectLasted();
+        OpenInfo newOpenInfo = new OpenInfo();
+        if(openInfo != null){
+            if(openInfo.getOpenNum() == null)
+                openNo = String.valueOf(openInfo.getOpenNo()+1);
+            else
+                openNo = String.valueOf(openInfo.getOpenNo());
+
+        }else
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date now = new Date();
+            String strNow = sdf.format(now);
+            openNo = strNow+"001";
+            newOpenInfo.setOpenNo(Long.parseLong(openNo));
+            openInfoMapper.insert(newOpenInfo);
+            openInfo = openInfoMapper.selectLasted();
+
+        }
+        newOpenInfo.setId(openInfo.getId());
+        newOpenInfo.setOpenNo(Long.parseLong(openNo));
+        return newOpenInfo;
+    }
+
+    @Override
+    public List<OpenInfo> getTodayOpenResult() {
+        List<OpenInfo> openInfoList = openInfoMapper.selectTop();
+        return openInfoList;
+    }
+
+    @Override
+    public List<BetInfo> getBetInfoByOpenNo(long openNo) {
+        return betInfoMapper.selectByOpenNo(String.valueOf(openNo));
     }
 }

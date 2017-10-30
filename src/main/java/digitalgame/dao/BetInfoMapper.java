@@ -15,4 +15,11 @@ public interface BetInfoMapper {
      */
     int addBatch(List<BetInfo> list);
 
+    /**
+     * 查询开奖投注信息
+     * @param openNo
+     * @return
+     */
+    List<BetInfo> selectByOpenNo(String openNo);
+
 }

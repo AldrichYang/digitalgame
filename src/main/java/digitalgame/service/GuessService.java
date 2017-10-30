@@ -1,6 +1,7 @@
 package digitalgame.service;
 
 import digitalgame.model.po.BetInfo;
+import digitalgame.model.po.OpenInfo;
 import digitalgame.model.po.UserBetInfo;
 
 import java.util.List;
@@ -17,11 +18,39 @@ public interface GuessService {
      * @param betContent 下注的文本
      * @return 标准投注内容
      */
-    public List<UserBetInfo> analysisBetContent(String betContent);
+    public List<UserBetInfo> analysisBetContent(OpenInfo openInfo,String betContent);
 
     /**
      * 投注
      * @param betInfoList
      */
     public void doBet(List<BetInfo> betInfoList);
+
+    /**
+     * 获取下一次开奖信息
+     * @return
+     */
+    public OpenInfo getNextOpenInfo();
+
+
+    /**
+     * 开奖
+     * @param openInfo 开奖信息
+     * @return
+     */
+    public List<UserBetInfo> doOpen(OpenInfo openInfo) ;
+
+    /**
+     * 获取当天开奖结果
+     * @return
+     */
+    public List<OpenInfo> getTodayOpenResult();
+
+    /**
+     * 根据开奖期号查询投注信息
+     * @param openNo
+     * @return
+     */
+    public List<BetInfo> getBetInfoByOpenNo(long openNo);
+
 }

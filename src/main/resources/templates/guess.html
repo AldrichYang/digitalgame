@@ -33,7 +33,11 @@
 
             <!--分析出的投注结果展示在这里-->
             <div class="box">
-                <div class="box-header">竞猜内容</div>
+                <div class="box-header">
+                    <span id="openNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    开奖结果：<span style="color:red;padding-left: 0.5em;padding-right: 0.5em;" id="openResult">未开奖</span>
+                    <a href="#" id="viewHistory" data-toggle="modal" data-target="#openResultModal">往期开奖结果</a>
+                </div>
                 <div class="box-body">
                     <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
@@ -71,30 +75,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr role="row" class="odd">
-                                        <td class="sorting_1">张三</td>
-                                        <td>大龙</td>
-                                        <td>100</td>
-                                        <td>有效</td>
-                                        <td>未开奖</td>
-                                        <td>撤销</td>
-                                    </tr>
-                                    <tr role="row" class="odd">
-                                        <td class="sorting_1">张三</td>
-                                        <td>小龙</td>
-                                        <td>100</td>
-                                        <td>有效</td>
-                                        <td>未中奖</td>
-                                        <td>撤销</td>
-                                    </tr>
-                                    <tr role="row" class="odd">
-                                        <td class="sorting_1">张三</td>
-                                        <td>全大</td>
-                                        <td>100</td>
-                                        <td>已撤销</td>
-                                        <td>未开奖</td>
-                                        <td>撤销</td>
-                                    </tr>
+
                                     </tbody>
 
                                 </table>
@@ -107,13 +88,101 @@
 
             <!--下注和开奖-->
 
-            <button type="button" class="btn btn-block btn-primary btn-lg">开奖</button>
+            <button type="button" class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#createModal">开奖</button>
         </section>
         <!-- /.content -->
-    </div>
+
+        <!-- 弹出框 -->
+        <section>
+            <!-- 开奖框 -->
+            <div class="modal fade" id="createModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">开奖</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="openForm" action="/guess/open" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="lblOpenNo">开奖期数:</label>
+                                        <input type="text" id="txtOpenNo" readonly name="openNo" class="form-control"   placeholder="开奖期数">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lblOpenNum">开奖号码:</label>
+                                        <input type="text" id="txtOpenNum" name="openNum" class="form-control"   placeholder="开奖号码，如：789">
+                                    </div>
+                                    <!--<div class="form-group">-->
+                                    <!--<label for="exampleInputPassword1">手机号码:</label>-->
+                                    <!--<input type="text" name="mobileNum" class="form-control"   placeholder="手机号码...">-->
+                                    <!--</div>-->
+                                </div>
+                                <!-- /.box-body -->
+
+                                <!--<div class="box-footer">-->
+                                <!--<button type="submit" class="btn btn-primary" >Submit</button>-->
+                                <!--</div>-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary" >确认开奖</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+            </div>
+            <!-- 历史开奖结果 -->
+            <div class="modal fade" id="openResultModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">往期开奖结果</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div>20174429005期	4,3,2 小 单</div>
+                                        <table id="tabOpenResult" class="table table-bordered table-hover dataTable" role="grid"
+                                               aria-describedby="example2_info">
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">开奖期数
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending">开奖结果
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+            </div>
+        </section>
     <!-- /.content-wrapper -->
     <div th:replace="starter :: main-footer"></div>
-
+    </div>
     <script type="text/javascript">
         $(document).ready(function(){
             $("#btnAnalysis").click(function(){
@@ -124,9 +193,15 @@
 
                     $("#tabBetInfo tr:not(:first)").empty(); //清空table（除了第一行以外）
                     var jsonResult = eval(result);
+                    var betResult = jsonResult[0];
+                    var openResult = jsonResult[1];
 
-                    for(var i=0;i<jsonResult.length;i++){
-                        var betInfo = jsonResult[i];
+                    $("#openNo").text(openResult.openNo+"期");
+                    $("#txtOpenNo").val(openResult.openNo+"期");
+
+                    alert(openResult);
+                    for(var i=0;i<betResult.length;i++){
+                        var betInfo = betResult[i];
                         for(var j=0;j<betInfo.betInfoList.length;j++){
                             var p = betInfo.betInfoList[j];
                             var trHTML = "<tr role=\"row\" class=\"odd\">" +
@@ -142,8 +217,31 @@
                     }
 
                     debugger;
-                    alert(result);
                 });
+            });
+
+            //查看往期开奖结果
+            $("#viewHistory").click(function(){
+                $.get("/guess/viewHistory","",function(result){
+
+                    $("#tabOpenResult tr:not(:first)").empty(); //清空table（除了第一行以外）
+                    var jsonResult = eval(result);
+
+                    for(var i=0;i<jsonResult.length;i++){
+                        var openInfo = jsonResult[i];
+                        var openNo1 = openInfo.openNo;
+                        var openNo2 = openNo1.substr(7,3);
+                        var trHTML = "<tr role=\"row\" class=\"odd\">" +
+                            " <td class=\"sorting_1\">"+openNo2+"期</td>" +
+                            " <td>"+openInfo.openResult+"</td>" +
+                            "</tr>";
+                        $("#tabOpenResult").append(trHTML);//在table最后面添加一行
+
+                    }
+
+                    debugger;
+                });
+
             });
 
         })
