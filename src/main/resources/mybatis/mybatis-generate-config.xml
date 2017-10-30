@@ -37,7 +37,7 @@
         </javaClientGenerator>
 
         <!-- !!!! Table Configurations !!!! -->
-        <table tableName="system_finance_account_report" enableCountByExample="false" enableDeleteByExample="false"
+        <table tableName="odds_info" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>

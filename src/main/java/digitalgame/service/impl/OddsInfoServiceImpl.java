@@ -58,8 +58,8 @@ public class OddsInfoServiceImpl implements OddsInfoService{
     }
 
     @Override
-    public HashMap<String, Integer> selectOddsMap() {
-        HashMap<String, Integer> oddsMap = new HashMap();
+    public HashMap<String, Double> selectOddsMap() {
+        HashMap<String, Double> oddsMap = new HashMap();
         List<OddsInfo> oddsList = oddsInfoMapper.selectOddsList();
 
         System.out.println(oddsList.size());
@@ -167,7 +167,7 @@ public class OddsInfoServiceImpl implements OddsInfoService{
     @Override
     public List<UserBetInfo> oddsNumber(int i, int j, int k, List<UserBetInfo> userBetInfoList, String resultDate){
 
-        HashMap<String, Integer> oddsMap = this.selectOddsMap();
+        HashMap<String, Double> oddsMap = this.selectOddsMap();
         int allNum = i + j + k;
         if(null == userBetInfoList){
             return null;
@@ -180,8 +180,8 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                 for(BetInfo betInfo :betInfoList) {
                     BetResult betResult = new BetResult();
 
-                    int result = oddsMap.get(betInfo.getBetitem()) == null ? 0 : oddsMap.get(betInfo.getBetitem());
-                    int betNum = 0;
+                    Double result = oddsMap.get(betInfo.getBetitem()) == null ? 0.00 : oddsMap.get(betInfo.getBetitem());
+                    Double betNum = 0.00;
                     if ("百大".equals(betInfo.getBetitem())) {
                         if(isBigNum(k)){
                             betNum = result;

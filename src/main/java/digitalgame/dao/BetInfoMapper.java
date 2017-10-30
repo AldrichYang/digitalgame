@@ -1,7 +1,6 @@
 package digitalgame.dao;
 
 import digitalgame.model.po.BetInfo;
-import digitalgame.model.po.OddsInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
