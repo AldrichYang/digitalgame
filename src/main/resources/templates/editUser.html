@@ -12,12 +12,10 @@
             <!---->
         <!--</span>-->
 
-        <label th:text="${oldUserInfo.userName}">旧用户名</label>
-
         <section class="content-header">
             <h1>
-                Page Header
-                <small>Optional description</small>
+                用户信息
+                <small>修改用户信息</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -31,7 +29,7 @@
             <form role="form" method="POST" action="/user/editUser">
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">用户名:</label>
+                        <label for="exampleInputEmail1">qq:</label>
                         <input type="text" name="userName" class="form-control" th:value= "${oldUserInfo.userName}"  placeholder="用户名...">
                     </div>
                     <!--<div class="form-group">-->
@@ -47,7 +45,7 @@
                 <!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">添加用户</button>
                 </div>
             </form>
 

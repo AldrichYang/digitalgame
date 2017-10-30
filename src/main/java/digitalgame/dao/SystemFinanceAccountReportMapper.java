@@ -23,4 +23,6 @@ public interface SystemFinanceAccountReportMapper {
     int deleteReportByDate(@Param("queryCond") String queryCond);
 
     List<SystemFinanceAccountReport> selectByPage(@Param("queryCond") String queryCond);
+
+    SystemFinanceAccountReport selectByReportDate(@Param("reportDate") String reportDate);
 }
