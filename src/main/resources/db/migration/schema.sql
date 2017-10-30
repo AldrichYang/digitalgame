@@ -38,7 +38,7 @@ CREATE TABLE odds_info
 (
   id          INTEGER PRIMARY KEY  NOT NULL,
   odds_name   VARCHAR(50) NOT NULL,
-  odds_number INTEGER NOT NULL,
+  odds_number NUMERIC ,
   create_time VARCHAR(30),
   update_time VARCHAR(30)
 );
