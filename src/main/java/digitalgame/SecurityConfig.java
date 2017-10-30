@@ -30,11 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //默认:要是所有进入应用的http请求都要进行认证，也配置spring security支持基于表单的登录以及HTTP Basic方式的认证
 //        http.authorizeRequests().anyRequest().authenticated()
 //                .and().formLogin().and().httpBasic();
-        http.formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/dash")
-                .and().rememberMe().tokenValiditySeconds(86400)
-                .and().authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/*").authenticated()
+//                .antMatchers("/*").access("hasRole('ADMIN') or hasRole('USER')")
+                .antMatchers("/bower_components/**","/dist/**","/plugins/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/guess/init")
+                .and().rememberMe().tokenValiditySeconds(86400)
+                .and().logout().logoutSuccessUrl("/login")
                 .and().csrf().disable();
 //        http.anonymous().disable();
     }
