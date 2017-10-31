@@ -41,6 +41,12 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     public synchronized int updateByPrimaryKeySelective(UserAccountVo userAccountVo ,int periods) {
         boolean update = true;
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
+        UserInfo userInfo = userInfoMapper.selectByPrimaryKey(record.getUserId());
+        if(5 == userAccountVo.getOperType() && record.getBalance() == 0.0) {
+            return 0;
+        } else  if(5 == userAccountVo.getOperType() && (record.getBalance() <= userAccountVo.getMoney())){
+            userAccountVo.setMoney(record.getBalance());
+        }
         //余额不足直接返回失败
         if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
             return  -1;
@@ -57,6 +63,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userFinanceAccountLog.setOperType(userAccountVo.getOperType());
         userFinanceAccountLog.setMoney(userAccountVo.getMoney());
         userFinanceAccountLog.setUfcId(record.getId());
+        userFinanceAccountLog.setGroup(userInfo.getGroup());
         userFinanceAccountLog.setBalance(record.getBalance());
         userFinanceAccountLog.setCreateTime(Util.dataForMat(new Date(),"yyyyMMdd"));
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
@@ -84,7 +91,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
 
         }
-
+        if(5 == userAccountVo.getOperType()) return Integer.parseInt(String.valueOf(userAccountVo.getMoney()));
         return a;
     }
 
@@ -101,12 +108,14 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     @Override
     public int addUserBalanceByNickName(String nickName, double money,int periods) {
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        if(userInfo == null) return  -2;
         return this.updateBalanceByUserId(userInfo.getId(),money,4,periods);
     }
 
     @Override
     public int reduceUserBalanceByNickName(String nickName, double money,int periods) {
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        if(userInfo == null) return  -2;
         return this.updateBalanceByUserId(userInfo.getId(),money,5,periods);
     }
 

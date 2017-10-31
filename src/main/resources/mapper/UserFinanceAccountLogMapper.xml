@@ -54,6 +54,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="group != null" >
+        `group`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -76,6 +79,9 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null" >
+        #{group,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

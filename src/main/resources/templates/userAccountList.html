@@ -8,6 +8,44 @@
 <!--<script type="text/javascript" src="/easyui/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>-->
 <script type="text/javascript">
+
+    function editUser(id,type) {
+        $.ajax({
+            type:"POST",
+            url:"/userAccount/editUserAccountInfo",
+            data: {"userId":id},
+            async:false,
+            dataType:"json",
+            success:function (rtn) {
+                $("#userId").val(rtn.id);
+                // 如果存在同名的玩家，提示用户
+                $("#userName").val(rtn.userName);
+                $("#nickName").val(rtn.nickName);
+                $("#operType").val(type);
+                //${userAccountVo.accountId}
+                $("#accountId").val(rtn.accountId);
+            }})
+        $('#createModalEdit').modal();
+
+    }
+
+    $(function () {
+        var j_createPlayerForm = $("#createPlayerForm")
+        j_createPlayerForm.on('submit',
+            function(e){
+                e.preventDefault();// avoid to execute the actual submit of the form
+                j_createPlayerForm.unbind("submit").submit();
+  });
+
+        // 新增模态框关闭的时候，移除提示信息
+        $('#createModal').on('hidden.bs.modal', function (e) {
+            $("#validInfo").empty()
+
+        });
+
+
+    });
+
     function addPageNo() {
         debugger;
 //        $("#hiddenPageNo").val($("#pageNo").val());
@@ -98,6 +136,61 @@
             <input type="hidden" name="pageNo" id = "hiddenPageNo" th:value="${currentPage}"/>
         </form>
             <input type="hidden"  id = "allPageNo" th:value="${inallPage}"/>
+            <div class="modal fade" id="createModalEdit">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">玩家信息维护</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="createPlayerFormEdit" action="/userAccount/editUserAccount" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">qq:</label>
+                                        <input type="text" id= "userName" name="userName" class="form-control"   placeholder="用户名..." readonly="true">
+                                    </div>
+                                    <!--<div class="form-group">-->
+                                    <!--<label for="exampleInputPassword1">手机号码:</label>-->
+                                    <!--<input type="text" name="mobileNum" class="form-control"  id="exampleInputPassword1" placeholder="手机号码...">-->
+                                    <!--</div>-->
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">昵称:</label>
+                                        <input type="text" id= "nickName" name="nickName" class="form-control"  placeholder="昵称..."  readonly="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">操作类型:</label>
+                                        <select id= "operType" class="form-control select2" name = "operType" style="width: 100%;"  readonly="true">
+                                            <option selected="selected" value="2">上分</option>
+                                            <option value="3">下分</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">分数:</label>
+                                        <input type="text" name="money" class="form-control"  placeholder="输入分数...">
+                                    </div>
+                                    <input type="hidden" id = "id" name="id" class="form-control"  >
+                                    <input type="hidden" id = "accountId" name="accountId" class="form-control"  >
+                                </div>
+                                <!-- /.box-body -->
+
+                                <div class="box-footer">
+                                    <label id="validInfo1"></label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
     <div class="row">
         <div class="col-xs-12">
@@ -120,8 +213,11 @@
                         <tr th:each="userAccount : ${userAccountList}">
                             <td th:text="${userAccount.userName}">Onions</td>
                             <td th:text="${userAccount.nickName}">2.41</td>
-                            <td th:text="${userAccount.money}"">yes</td>
-                            <td><a th:href="@{/userAccount/editUserAccount.html(userId=${userAccount.id})}" >修改</a></td>
+                            <td th:text="${userAccount.money}">yes</td>
+                            <td>
+                                <a href="javascript:void(0);" th:onclick="'javascript:editUser('+${userAccount.id}+',2);'" >上分</a>
+                                <a href="javascript:void(0);" th:onclick="'javascript:editUser('+${userAccount.id}+',3);'" >下分</a>
+                            </td>
                         </tr>
                         </tbody>
                         <tfoot>
