@@ -42,6 +42,11 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         boolean update = true;
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(record.getUserId());
+        if(5 == userAccountVo.getOperType() && record.getBalance() == 0.0) {
+            return 0;
+        } else  if(5 == userAccountVo.getOperType() && (record.getBalance() <= userAccountVo.getMoney())){
+            userAccountVo.setMoney(record.getBalance());
+        }
         //余额不足直接返回失败
         if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
             return  -1;
@@ -86,7 +91,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
 
         }
-
+        if(5 == userAccountVo.getOperType()) return Integer.parseInt(String.valueOf(userAccountVo.getMoney()));
         return a;
     }
 
