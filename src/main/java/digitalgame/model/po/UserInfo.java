@@ -15,7 +15,17 @@ public class UserInfo {
 
     private String createTime;
 
-//    private int pageNo;
+    private String group;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    //    private int pageNo;
 //
 //    public int getPageNo() {
 //        return pageNo;

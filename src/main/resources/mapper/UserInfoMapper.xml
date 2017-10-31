@@ -9,9 +9,10 @@
     <result column="is_enable" property="isEnable" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="group" property="group" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, mobile_num, nick_name, update_time, is_enable, create_time, create_time
+    id, user_name, mobile_num, nick_name, update_time, is_enable, create_time, create_time, `group`
   </sql>
   <insert id="insert" parameterType="digitalgame.model.po.UserInfo" >
     <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -19,12 +20,15 @@
     </selectKey>
     insert into user_info (ID, user_name, mobile_num, 
       nick_name, is_enable, update_time, 
-      create_time)
+      create_time,group)
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{isEnable,jdbcType=INTEGER}, #{updateTime,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=VARCHAR})
+      #{createTime,jdbcType=VARCHAR},#{group,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="digitalgame.model.po.UserInfo" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT  last_insert_rowid() AS id
+    </selectKey>
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -48,6 +52,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="group != null" >
+        `group`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -70,6 +77,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null" >
+        #{group,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -102,6 +112,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=VARCHAR},
       </if>
+      <if test="group != null" >
+        `group` = #{group,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -119,7 +132,6 @@
   <select id="selectByNickName" resultMap="BaseResultMap"   >
     select
     <include refid="Base_Column_List" />
-    from user_info
-    where nick_name = #{nickName,jdbcType=VARCHAR}
+    from user_info ${nickName}
   </select>
 </mapper>

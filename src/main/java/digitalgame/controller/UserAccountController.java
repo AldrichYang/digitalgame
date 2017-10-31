@@ -8,10 +8,7 @@ import digitalgame.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -45,16 +42,16 @@ public class UserAccountController {
     }
 
 
-    @RequestMapping(value = "/editUserAccount.html", method = RequestMethod.GET)
-    public String redirectToEdit(@RequestParam int userId, Model model) {
+    @RequestMapping(value = "/editUserAccountInfo", method = RequestMethod.POST)
+    public @ResponseBody
+    UserAccountVo redirectToEdit(@RequestParam int userId) {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(userId);
         List<UserAccountVo> userInfoList = userInfoService.selectUserAccountByPage(0,userInfo);
         if(userInfoList.size() != 1 ){
             //TODU trhow Exception
         }
-        model.addAttribute("userAccountVo", userInfoList.get(0));
-        return "editUserAccount";
+        return userInfoList.get(0);
     }
 
     @RequestMapping(value = "/editUserAccount", method = RequestMethod.POST)
