@@ -54,6 +54,15 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="group != null" >
+        `group`,
+      </if>
+      <if test="periods != null" >
+        `periods`,
+      </if>
+      <if test="orderId != null" >
+        `order_id`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -76,6 +85,15 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null" >
+        #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="periods != null" >
+        #{periods,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId`jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

@@ -40,7 +40,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         user.setIsEnable(1);
         user.setCreateTime(new Date().toString());
         user.setUpdateTime(user.getCreateTime());
-        userInfoMapper.insert(user);
+        userInfoMapper.insertSelective(user);
         userFinanceAccount.setUserId(user.getId());
         userFinanceAccountMapper.insertSelective(userFinanceAccount);
         userFinanceAccountLog.setMoney(0.0);

@@ -259,7 +259,11 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                     betResult.setBettype(betInfo.getBetitem());
                     betResult.setBetuser(betInfo.getBetman());
                     betResult.setBetuserid(betInfo.getUserId());
-                    betResult.setResultnumber(betInfo.getReturnMoney());
+                    if(betNum == 0.00){
+                        betResult.setResultnumber(betInfo.getBetmoney() * (-1));
+                    }else {
+                        betResult.setResultnumber(betInfo.getReturnMoney());
+                    }
                     betResult.setBetdate(i + "," + j + "," + k);
                     betResult.setResultdate(resultDate);
                     betResultMapper.insert(betResult);
