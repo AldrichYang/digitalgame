@@ -60,18 +60,12 @@ public class GuessController {
              session.setAttribute("openInfo",openInfo);
         }
 
-        //查询下一期开奖编号
-        guessService.doOpen(openInfo);
 
         //分析下注内容
-        List<UserBetInfo> list = guessService.analysisBetContent(openInfo,betContent);
+        List<BetInfo> list = guessService.analysisBetContent(openInfo,betContent);
 
-        //冻结资金
-//        for(UserBetInfo userBetInfo : list){
-//            for(BetInfo betInfo : userBetInfo.getBetInfoList()){
-//                userFinanceAccountService.reduceUserBalanceByNickName(betInfo.getBetman(),betInfo.getBetmoney(),openInfo.getId());
-//            }
-//        }
+        //把下注内容保存到数据库，同时调用资金的方法进行资金划转
+        guessService.doBet(list,openInfo);
 
         List<Object> listResult = new ArrayList<Object>();
         listResult.add(list);
@@ -86,6 +80,7 @@ public class GuessController {
      * @param session
      * @return
      */
+    @ResponseBody
     @RequestMapping(value="/open" ,method = RequestMethod.POST)
     public String open(HttpSession session,@RequestParam(value="openNum", required = true)String openNum){
         //开奖之后从session中将开奖期数删除
@@ -94,7 +89,7 @@ public class GuessController {
         guessService.doOpen(openInfo);
 
         //查询投注信息
-        List<BetInfo> betInfoList = guessService.getBetInfoByOpenNo(openInfo.getOpenNo());
+        List<BetInfo> betInfoList = guessService.getBetInfoByOpenId(openInfo.getId());
         int i = Integer.parseInt(String.valueOf(openNum.charAt(0)));
         int j = Integer.parseInt(String.valueOf(openNum.charAt(1)));
         int k = Integer.parseInt(String.valueOf(openNum.charAt(2)));
@@ -104,7 +99,7 @@ public class GuessController {
         userBetInfoList.add(userBetInfo);
 
         //开奖
-        List<UserBetInfo> userBetInfoList1 = oddsInfoService.oddsNumber(i,j,k,userBetInfoList,String.valueOf(openInfo.getOpenNo()));
+        List<UserBetInfo> userBetInfoList1 = oddsInfoService.oddsNumber(i,j,k,userBetInfoList,String.valueOf(openInfo.getId()));
         for(UserBetInfo tmpUserBetInfo : userBetInfoList1){
             for(BetInfo tmpBetInfo : tmpUserBetInfo.getBetInfoList()){
                 if(tmpBetInfo.getReturnMoney() <= 0){
@@ -121,7 +116,12 @@ public class GuessController {
 
         session.removeAttribute("openInfo");
 
-        return "";
+        List<Object> result = new ArrayList<>();
+        result.add(openInfo.getOpenResult());
+        result.add(userBetInfoList1.get(0).getBetInfoList());
+
+       return JSONArray.fromObject(result).toString();
+
     }
 
 

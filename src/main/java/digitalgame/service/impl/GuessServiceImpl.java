@@ -33,17 +33,16 @@ public class GuessServiceImpl implements GuessService,Serializable {
     OpenInfoMapper openInfoMapper;
 
     @Override
-    public void doBet(List<BetInfo> betInfoList) {
+    public void doBet(List<BetInfo> betInfoList, OpenInfo openInfo) {
+
         betInfoMapper.addBatch(betInfoList);
     }
 
     @Override
-    public List<UserBetInfo> analysisBetContent(OpenInfo openInfo,String betContent) {
-        long openNo = openInfo.getOpenNo();
+    public List<BetInfo> analysisBetContent(OpenInfo openInfo,String betContent) {
         String [] arrBet = betContent.split("\n");
 
         List<OddsInfo>  oddsInfos = ois.selectOddsList();
-//        Map<String, BetInfo> mapBetInfo = new HashMap<>();
         List<BetInfo> betInfos = new ArrayList<>();
         String betMan = ""; //投注人
         String betTime = ""; //投注时间
@@ -89,7 +88,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
                     for(OddsInfo oddsinfo: oddsInfos){
                         if(betStr.contains(oddsinfo.getOddsName())){
                             BetInfo tmpBi = new BetInfo();
-                            tmpBi.setOpenNo(openNo);
+                            tmpBi.setOpenId(openInfo.getId());
                             tmpBi.setBetman(betMan);
                             tmpBi.setBetitem(oddsinfo.getOddsName());
                             tmpBi.setBetmoney(Double.valueOf(betMoney));
@@ -104,10 +103,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
 
         }
 
-        //把下注内容保存到数据库，同时调用资金的方法进行资金划转
-        doBet(betInfos);
-
-        return toUserBetInfoList(betInfos);
+        return betInfos;
     }
 
     /**
@@ -146,41 +142,6 @@ public class GuessServiceImpl implements GuessService,Serializable {
             userBetInfoList.add(userBetInfo);
         }
         return userBetInfoList;
-    }
-
-//    private List<BetInfo> toList(Map<String,BetInfo> mapBetinfo){
-//        List<BetInfo> list = new ArrayList<>();
-//        while(mapBetinfo.values().iterator().hasNext()){
-//            list.add(mapBetinfo.values().iterator().next());
-//        }
-//        return list;
-//    }
-
-//    /**
-//     * 下注
-//     * @param mapBetInfo 投注的map，不可以为null哦，否则会报错
-//     * @param betMan 投注人
-//     * @param item 投注内容
-//     */
-//    private void bet(Map<String,BetInfo> mapBetInfo, String betMan, BetItem item){
-//
-//        if(mapBetInfo.containsKey(betMan)){
-//            BetInfo betInfo = mapBetInfo.get(betMan);
-//            betInfo.getBetList().add(item);
-//        }else{
-//            BetInfo betInfo = new BetInfo();
-//            betInfo.getBetList().add(item);
-//            mapBetInfo.put(betMan,betInfo);
-//        }
-//    }
-
-    public static void main(String[] args) {
-        String str = "陕西-百大100-24-波浪谷旅游服务18291273704  20:41:59\ndfd";
-        //如果是下注，进行解析 ps：标注下注格式应该 xxx100，投注内容+金额
-        Pattern pattern = Pattern.compile("(.*)(\\D+)(\\d+)(.*)");
-        System.out.println(pattern.matcher(str).matches());
-
-
     }
 
     @Override
@@ -243,9 +204,13 @@ public class GuessServiceImpl implements GuessService,Serializable {
         OpenInfo newOpenInfo = new OpenInfo();
         if(openInfo != null){
             if(openInfo.getOpenNum() == null)
-                openNo = String.valueOf(openInfo.getOpenNo()+1);
-            else
                 openNo = String.valueOf(openInfo.getOpenNo());
+            else {
+                openNo = String.valueOf(openInfo.getOpenNo() + 1);
+                newOpenInfo.setOpenNo(Long.parseLong(openNo));
+                openInfoMapper.insert(newOpenInfo);
+                openInfo = openInfoMapper.selectLasted();
+            }
 
         }else
         {
@@ -270,7 +235,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
     }
 
     @Override
-    public List<BetInfo> getBetInfoByOpenNo(long openNo) {
-        return betInfoMapper.selectByOpenNo(String.valueOf(openNo));
+    public List<BetInfo> getBetInfoByOpenId(int openId) {
+        return betInfoMapper.selectByOpenId(openId);
     }
 }

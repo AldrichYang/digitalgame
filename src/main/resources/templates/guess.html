@@ -24,71 +24,79 @@
         <!-- Main content -->
         <section class="content container-fluid">
 
-            <!--投注框-->
-            <div class="form-group">
-                <textarea class="form-control" id="betContent" rows="10" placeholder="把qq竞猜聊天记录复制到这里"></textarea>
-                <!--开始下注，后台解析下注内容-->
-                <button type="button" id="btnAnalysis" class="btn btn-block btn-primary btn-lg">开始下注</button>
-            </div>
+            <div class="row">
+                <!--投注框-->
+                <div class="form-group col-md-6">
+                    <textarea class="form-control" id="betContent" rows="25" placeholder="把qq竞猜聊天记录复制到这里"></textarea>
 
-            <!--分析出的投注结果展示在这里-->
-            <div class="box">
-                <div class="box-header">
-                    <span id="openNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    开奖结果：<span style="color:red;padding-left: 0.5em;padding-right: 0.5em;" id="openResult">未开奖</span>
-                    <a href="#" id="viewHistory" data-toggle="modal" data-target="#openResultModal">往期开奖结果</a>
                 </div>
-                <div class="box-body">
-                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table id="tabBetInfo" class="table table-bordered table-hover dataTable" role="grid"
-                                       aria-describedby="example2_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1"
-                                            colspan="1"
-                                            aria-sort="ascending"
-                                            aria-label="Rendering engine: activate to sort column descending">
-                                            投注人
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
-                                            colspan="1"
-                                            aria-label="Browser: activate to sort column ascending">投注内容
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
-                                            colspan="1"
-                                            aria-label="Platform(s): activate to sort column ascending">投注积分
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
-                                            colspan="1"
-                                            aria-label="Engine version: activate to sort column ascending">投注状态
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
-                                            colspan="1"
-                                            aria-label="CSS grade: activate to sort column ascending">中奖结果
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
-                                            colspan="1"
-                                            aria-label="CSS grade: activate to sort column ascending">操作
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
 
-                                    </tbody>
+                <!--分析出的投注结果展示在这里-->
+                <div class="col-md-6">
+                    <div class="box">
+                        <div class="box-header">
+                            <span id="openNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            开奖结果：<span style="color:red;padding-left: 0.5em;padding-right: 0.5em;"
+                                       id="openResult">未开奖</span>
+                            <a href="#" id="viewHistory" data-toggle="modal" data-target="#openResultModal">往期开奖结果</a>
+                        </div>
+                        <div class="box-body">
+                            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="tabBetInfo" class="table table-bordered table-hover dataTable"
+                                               role="grid"
+                                               aria-describedby="example2_info">
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="example2"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-sort="ascending"
+                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                    投注人
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">投注内容
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending">投注积分
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="CSS grade: activate to sort column ascending">中奖结果
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                </table>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!--下注和开奖-->
+            <div class="row">
+                <div class="col-md-6">
+                    <!--开始下注，后台解析下注内容-->
+                    <button type="button" id="btnAnalysis" class="btn btn-block btn-primary btn-lg">开始下注</button>
+                </div>
+                <div class="col-md-6">
+                    <!--下注和开奖-->
+                    <button type="button" class="btn btn-block btn-primary btn-lg" data-toggle="modal"
+                            data-target="#createModal">开奖</button>
+                </div>
+            </div>
 
-            <button type="button" class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#createModal">开奖</button>
+
         </section>
         <!-- /.content -->
 
@@ -104,15 +112,17 @@
                             <h4 class="modal-title">开奖</h4>
                         </div>
                         <div class="modal-body">
-                            <form role="form" method="POST" id="openForm" action="/guess/open" >
+                            <form role="form" method="POST" id="openForm" action="/guess/open">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="lblOpenNo">开奖期数:</label>
-                                        <input type="text" id="txtOpenNo" readonly name="openNo" class="form-control"   placeholder="开奖期数">
+                                        <input type="text" id="txtOpenNo" readonly name="openNo" class="form-control"
+                                               placeholder="开奖期数">
                                     </div>
                                     <div class="form-group">
                                         <label for="lblOpenNum">开奖号码:</label>
-                                        <input type="text" id="txtOpenNum" name="openNum" class="form-control"   placeholder="开奖号码，如：789">
+                                        <input type="text" id="txtOpenNum" name="openNum" class="form-control"
+                                               placeholder="开奖号码，如：234">
                                     </div>
                                     <!--<div class="form-group">-->
                                     <!--<label for="exampleInputPassword1">手机号码:</label>-->
@@ -125,8 +135,9 @@
                                 <!--<button type="submit" class="btn btn-primary" >Submit</button>-->
                                 <!--</div>-->
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-                                    <button type="submit" class="btn btn-primary" >确认开奖</button>
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭
+                                    </button>
+                                    <button type="button" id="btnOpen" class="btn btn-primary" data-dismiss="modal">确认开奖</button>
                                     <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
                                 </div>
                             </form>
@@ -149,8 +160,8 @@
                             <div class="dataTables_wrapper form-inline dt-bootstrap">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div>20174429005期	4,3,2 小 单</div>
-                                        <table id="tabOpenResult" class="table table-bordered table-hover dataTable" role="grid"
+                                        <table id="tabOpenResult" class="table table-bordered table-hover dataTable"
+                                               role="grid"
                                                aria-describedby="example2_info">
                                             <thead>
                                             <tr role="row">
@@ -180,60 +191,55 @@
                 </div>
             </div>
         </section>
-    <!-- /.content-wrapper -->
-    <div th:replace="starter :: main-footer"></div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $("#btnAnalysis").click(function(){
+        $(document).ready(function () {
+            $("#btnAnalysis").click(function () {
+                $("#openResult").html("等待开奖");
                 var data = $("#betContent").val();
                 //data = data.replace("\n","<br>");
                 console.info(data);
-                $.post("/guess/analysis",{betContent:data},function(result){
+                $.post("/guess/analysis", {betContent: data}, function (result) {
 
                     $("#tabBetInfo tr:not(:first)").empty(); //清空table（除了第一行以外）
                     var jsonResult = eval(result);
                     var betResult = jsonResult[0];
                     var openResult = jsonResult[1];
 
-                    $("#openNo").text(openResult.openNo+"期");
-                    $("#txtOpenNo").val(openResult.openNo+"期");
+                    $("#openNo").text(openResult.openNo + "期");
+                    $("#txtOpenNo").val(openResult.openNo + "期");
 
-                    alert(openResult);
-                    for(var i=0;i<betResult.length;i++){
-                        var betInfo = betResult[i];
-                        for(var j=0;j<betInfo.betInfoList.length;j++){
-                            var p = betInfo.betInfoList[j];
-                            var trHTML = "<tr role=\"row\" class=\"odd\">" +
-                                " <td class=\"sorting_1\">"+betInfo.userName+"</td>" +
-                                " <td>"+p.betitem+"</td>" +
-                                "<td>"+p.betmoney+"</td>" +
-                                "<td>已撤销</td>" +
-                                "<td>未开奖</td>" +
-                                "<td>撤销</td>" +
-                                "</tr>";
-                            $("#tabBetInfo").append(trHTML);//在table最后面添加一行
-                        }
+
+                    for (var j = 0; j < betResult.length; j++) {
+                        var p = betResult[j];
+                        var trHTML = "<tr role=\"row\" class=\"odd\">" +
+                            " <td class=\"sorting_1\">" + p.betman + "</td>" +
+                            " <td>" + p.betitem + "</td>" +
+                            "<td>" + p.betmoney + "</td>" +
+                            "<td>未开奖</td>" +
+                            "</tr>";
+                        $("#tabBetInfo").append(trHTML);//在table最后面添加一行
                     }
+
 
                     debugger;
                 });
             });
 
             //查看往期开奖结果
-            $("#viewHistory").click(function(){
-                $.get("/guess/viewHistory","",function(result){
+            $("#viewHistory").click(function () {
+                $.get("/guess/viewHistory", "", function (result) {
 
                     $("#tabOpenResult tr:not(:first)").empty(); //清空table（除了第一行以外）
                     var jsonResult = eval(result);
 
-                    for(var i=0;i<jsonResult.length;i++){
+                    for (var i = 0; i < jsonResult.length; i++) {
                         var openInfo = jsonResult[i];
                         var openNo1 = openInfo.openNo;
-                        var openNo2 = openNo1.substr(7,3);
+                        var openNo2 = openNo1.toString().substr(8, 3);
                         var trHTML = "<tr role=\"row\" class=\"odd\">" +
-                            " <td class=\"sorting_1\">"+openNo2+"期</td>" +
-                            " <td>"+openInfo.openResult+"</td>" +
+                            " <td class=\"sorting_1\">" + openNo2 + "期</td>" +
+                            " <td>" + openInfo.openResult + "</td>" +
                             "</tr>";
                         $("#tabOpenResult").append(trHTML);//在table最后面添加一行
 
@@ -244,7 +250,35 @@
 
             });
 
+            //开奖
+            $("#btnOpen").click(function () {
+                var param = $("#txtOpenNum").val();
+                $.post("/guess/open", {openNum:param}, function (result) {
+                    debugger;
+                    var jsonResult = eval(result);
+                    var jsonOpenResult = jsonResult[0];
+                    var jsonBetInfo = jsonResult[1];
+
+                    $("#openResult").html(jsonOpenResult);
+                    for (var j = 0; j < jsonBetInfo.length; j++) {
+                        var p = jsonBetInfo[j];
+                        var trHTML = "<tr role=\"row\" class=\"odd\">" +
+                            " <td class=\"sorting_1\">" + p.betman + "</td>" +
+                            " <td>" + p.betitem + "</td>" +
+                            "<td>" + p.betmoney + "</td>" +
+                            "<td>"+ p.returnMoney+"</td>" +
+                            "</tr>";
+                        $("#tabBetInfo").append(trHTML);//在table最后面添加一行
+                    }
+
+
+                });
+
+            });
         })
     </script>
+    <!-- /.content-wrapper -->
+    <div th:replace="starter :: main-footer"></div>
+</div>
 </body>
 </html>

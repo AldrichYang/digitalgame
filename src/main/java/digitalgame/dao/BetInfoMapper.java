@@ -17,9 +17,9 @@ public interface BetInfoMapper {
 
     /**
      * 查询开奖投注信息
-     * @param openNo
+     * @param openId
      * @return
      */
-    List<BetInfo> selectByOpenNo(String openNo);
+    List<BetInfo> selectByOpenId(int openId);
 
 }

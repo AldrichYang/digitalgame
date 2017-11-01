@@ -82,3 +82,30 @@ CREATE TABLE bet_result
     createDate VARCHAR,
     updateDate VARCHAR
 );
+
+--投注信息
+CREATE TABLE bet_info
+(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  openId int not null,
+  betMan VARCHAR NOT NULL,
+  betItem varchar not null,
+  betMoney DECIMAL not null,
+  returnMoney DECIMAL (18,2) not null default 0,
+  status integer,
+  create_time VARCHAR,
+  update_time VARCHAR
+);
+
+--开奖信息
+create table open_info
+(
+  id integer primary key AUTOINCREMENT  not null,
+  openNO integer not null,
+  openNum varchar(10) ,
+  openResult varchar(50),
+  openTime varchar(50),
+  create_time varchar(50),
+  update_time varchar(50)
+);
+

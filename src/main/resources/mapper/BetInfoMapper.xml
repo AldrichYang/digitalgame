@@ -3,7 +3,7 @@
 <mapper namespace="digitalgame.dao.BetInfoMapper" >
   <resultMap id="BaseResultMap" type="digitalgame.model.po.BetInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="openNo" property="openNo" jdbcType="VARCHAR" />
+    <result column="openId" property="openId" jdbcType="INTEGER" />
     <result column="betman" property="betman" jdbcType="VARCHAR" />
     <result column="betitem" property="betitem" jdbcType="VARCHAR" />
     <result column="betmoney" property="betmoney" jdbcType="DOUBLE" />
@@ -17,17 +17,17 @@
 
   <!--新增-->
   <insert id="addBatch" parameterType="java.util.List" >
-    insert into bet_info (openNo,betman, betitem,betmoney,status,create_time,update_time)
+    insert into bet_info (openId,betman, betitem,betmoney,status,create_time,update_time)
     VALUES
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.openNo},#{item.betman},#{item.betitem},#{item.betmoney},#{item.status},#{item.createTime},#{item.updateTime})
+      (#{item.openId},#{item.betman},#{item.betitem},#{item.betmoney},#{item.status},#{item.createTime},#{item.updateTime})
     </foreach>
   </insert>
 
-  <!--查询最新的一条开奖信息-->
-  <select id="selectByOpenNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <!--查询投注信息-->
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select <include refid="Base_Column_List" />
-    from bet_info where openNo = #{openNo}
+    from bet_info where openId = #{openId}
   </select>
 
 </mapper>

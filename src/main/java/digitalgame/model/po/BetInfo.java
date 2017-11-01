@@ -9,7 +9,7 @@ package digitalgame.model.po;
  */
 public class BetInfo {
   private Long id;
-  private long openNo; //开奖期数
+  private int openId; //开奖期数
   private int userId; // 投注人Id
   private String betman; //投注人
   private String betitem; //投注项
@@ -18,12 +18,12 @@ public class BetInfo {
   private Long status; //投注状态 1投注成功 -1已撤销 3投注失败
   private String createTime; //投注时间
 
-  public long getOpenNo() {
-    return openNo;
+  public long getOpenId() {
+    return openId;
   }
 
-  public void setOpenNo(long openNo) {
-    this.openNo = openNo;
+  public void setOpenId(int openId) {
+    this.openId = openId;
   }
 
   public Double getReturnMoney() {

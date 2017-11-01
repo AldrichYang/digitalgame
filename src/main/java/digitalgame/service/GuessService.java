@@ -18,13 +18,14 @@ public interface GuessService {
      * @param betContent 下注的文本
      * @return 标准投注内容
      */
-    public List<UserBetInfo> analysisBetContent(OpenInfo openInfo,String betContent);
+    public List<BetInfo> analysisBetContent(OpenInfo openInfo,String betContent);
 
     /**
      * 投注
-     * @param betInfoList
+     * @param betInfoList 投注信息
+     * @param openInfo  开奖信息
      */
-    public void doBet(List<BetInfo> betInfoList);
+    public void doBet(List<BetInfo> betInfoList,OpenInfo openInfo);
 
     /**
      * 获取下一次开奖信息
@@ -48,9 +49,9 @@ public interface GuessService {
 
     /**
      * 根据开奖期号查询投注信息
-     * @param openNo
+     * @param openId
      * @return
      */
-    public List<BetInfo> getBetInfoByOpenNo(long openNo);
+    public List<BetInfo> getBetInfoByOpenId(int openId);
 
 }
