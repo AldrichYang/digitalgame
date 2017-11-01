@@ -24,5 +24,5 @@ public interface SystemFinanceAccountReportMapper {
 
     List<SystemFinanceAccountReport> selectByPage(@Param("queryCond") String queryCond);
 
-    SystemFinanceAccountReport selectByReportDate(@Param("reportDate") String reportDate);
+    SystemFinanceAccountReport selectByReportDate(@Param("queryCond") String queryCond);
 }

@@ -5,7 +5,6 @@ import digitalgame.dao.OddsInfoMapper;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.BetResult;
 import digitalgame.model.po.OddsInfo;
-import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,13 +126,11 @@ public class OddsInfoServiceImpl implements OddsInfoService{
 
     /**
      * 判断是否为龙大
-     * @param i
-     * @param j
-     * @param k
+     * @param allNum
      * @return
      */
-    private boolean isLongda(int i, int j ,int k){
-        if((i == 5 || i == 6) && j == 7 && k == 8){
+    private boolean isLongda(int allNum){
+        if(allNum > 19){
             return true;
         }else {
             return false;
@@ -142,13 +139,11 @@ public class OddsInfoServiceImpl implements OddsInfoService{
 
     /**
      * 判断是否为龙小
-     * @param i
-     * @param j
-     * @param k
+     * @param allNum
      * @return
      */
-    private boolean isLongxiao(int i, int j ,int k){
-        if((k == 3 || k == 4) && j == 2 && i == 1){
+    private boolean isLongxiao(int allNum){
+        if(allNum < 8){
             return true;
         }else {
             return false;
@@ -160,23 +155,18 @@ public class OddsInfoServiceImpl implements OddsInfoService{
      * @param i 个位数
      * @param j 十位数
      * @param k 百位数
-     * @param userBetInfoList  参加开奖人信息
+     * @param betInfoList  参加开奖人信息
      * @param resultDate 开奖期数
      * @return
      */
     @Override
-    public List<UserBetInfo> oddsNumber(int i, int j, int k, List<UserBetInfo> userBetInfoList, String resultDate){
+    public List<BetInfo> oddsNumber(int i, int j, int k, List<BetInfo> betInfoList, String resultDate){
 
         HashMap<String, Double> oddsMap = this.selectOddsMap();
         int allNum = i + j + k;
-        if(null == userBetInfoList){
+        if(null == betInfoList){
             return null;
         }else{
-            for (UserBetInfo userBetInfo : userBetInfoList){
-                List<BetInfo> betInfoList = userBetInfo.getBetInfoList();
-                if(null == betInfoList || betInfoList.size() == 0){
-                    break;
-                }
                 for(BetInfo betInfo :betInfoList) {
                     BetResult betResult = new BetResult();
 
@@ -247,50 +237,69 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                             betNum = result;
                         }
                     } else if ("龙大".equals(betInfo.getBetitem())) {
-                        if(isLongda(i, j, k)){
+                        if(isLongda(allNum)){
                             betNum = result;
                         }
                     } else if ("龙小".equals(betInfo.getBetitem())) {
-                        if (isLongxiao(i, j, k)){
+                        if (isLongxiao(allNum)){
                             betNum = result;
                         }
                     } else if ("龙".equals(betInfo.getBetitem())) {
-                        if(isLongda(i, j, k) || isLongxiao(i, j, k)){
+                        if(isLongda(allNum) || isLongxiao(allNum)){
                             betNum = result;
                         }
-                    } else if ("全大".equals(betInfo.getBetitem())) {
-                        if(isBigNum(i) && isBigNum(j) && isBigNum(k)){
-                            betNum = result;
-                        }
-                    } else if ("全小".equals(betInfo.getBetitem())) {
-                        if(!isBigNum(i) && !isBigNum(j) && !isBigNum(k)){
-                            betNum = result;
-                        }
-                    }else if("全单".equals(betInfo.getBetitem())){
-                        if(!isBigDouble(i) && !isBigDouble(j) && !isBigDouble(k)){
-                            betNum = result;
-                        }
-                    }else if("全双".equals(betInfo.getBetitem())){
-                        if(isBigDouble(i) && isBigDouble(j) && isBigDouble(k)){
-                            betNum = result;
-                        }
-                    }else if("顺子".equals(betInfo.getBetitem())){
+                    } else if("顺子".equals(betInfo.getBetitem())){
                         if(isShunzi(i,j,k)){
                             betNum = result;
                         }
                     }
                     betInfo.setReturnMoney(betInfo.getBetmoney() * betNum);
+
                     betResult.setBetnumber(betInfo.getBetmoney());
                     betResult.setBettype(betInfo.getBetitem());
                     betResult.setBetuser(betInfo.getBetman());
                     betResult.setBetuserid(betInfo.getUserId());
-                    betResult.setResultnumber(betInfo.getReturnMoney());
+                    if(betNum == 0.00){
+                        betResult.setResultnumber(betInfo.getBetmoney() * (-1));
+                    }else {
+                        betResult.setResultnumber(betInfo.getReturnMoney());
+                    }
                     betResult.setBetdate(i + "," + j + "," + k);
                     betResult.setResultdate(resultDate);
                     betResultMapper.insert(betResult);
                 }
             }
+        return betInfoList;
+    }
+
+    /**
+     * 开奖号码处理方法
+     * @param i
+     * @param j
+     * @param k
+     * @return
+     */
+    @Override
+    public String buildOddsType(int i, int j, int k){
+        int allNum = i + j + k;
+        String str = i + " " + j + " " + k;
+        if(allNum > 12){
+            str = str + " 大 ";
+        }else {
+            str = str + " 小 ";
         }
-        return userBetInfoList;
+        str += allNum;
+        if(isBigDouble(allNum)){
+            str += " 双 ";
+        }else {
+            str += " 单 ";
+        }
+        if(isLongda(allNum)){
+            str += " (龙大）";
+        }
+        if(isLongxiao(allNum)){
+            str += " (龙小）";
+        }
+        return str;
     }
 }

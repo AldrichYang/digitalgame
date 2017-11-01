@@ -7,10 +7,7 @@ import digitalgame.service.AdminInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -58,11 +55,11 @@ public class AdminController {
         return this.getAllAdminList(adminInfo,model,null);
     }
 
-    @RequestMapping(value = "/editAdmin.html", method = RequestMethod.GET)
-    public String redirectToEdit(@RequestParam int adminId, Model model) {
+    @RequestMapping(value = "/editAdminInfo", produces = "application/json")
+    public @ResponseBody
+    AdminInfo redirectToEdit(@RequestParam int adminId, Model model) {
         AdminInfo adminInfo = adminInfoService.selectByPrimaryKey(adminId);
-        model.addAttribute("oldAdminInfo", adminInfo);
-        return "editAdmin";
+        return adminInfo;
     }
 
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)

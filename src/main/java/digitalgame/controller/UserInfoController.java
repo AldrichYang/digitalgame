@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by yh on 17/9/29.
@@ -73,7 +74,11 @@ public class UserInfoController {
     @RequestMapping(value = "/validUserExist", produces = "application/json")
     public @ResponseBody
     UserInfo validUserExist(@ModelAttribute UserInfo userInfo) {
-        UserInfo existUser = userInfoMapper.selectByNickName(userInfo.getNickName());
+        String queryCond = " where user_name = '"+userInfo.getNickName()+"'";
+        if(Objects.nonNull(userInfo) && Objects.nonNull(userInfo.getId())){
+            queryCond = queryCond + " and id = " + userInfo.getId();
+        }
+        UserInfo existUser = userInfoMapper.selectByNickName(queryCond);
         return existUser != null ? existUser : new UserInfo();
     }
 

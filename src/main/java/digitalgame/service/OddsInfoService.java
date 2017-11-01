@@ -1,7 +1,7 @@
 package digitalgame.service;
 
+import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.OddsInfo;
-import digitalgame.model.po.UserBetInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,5 +22,7 @@ public interface OddsInfoService {
 
     HashMap<String,Double> selectOddsMap();
 
-    List<UserBetInfo> oddsNumber(int i, int j, int k, List<UserBetInfo> userBetInfoList, String resultDate);
+    List<BetInfo> oddsNumber(int i, int j, int k, List<BetInfo> betInfoList, String resultDate);
+
+    String buildOddsType(int i, int j, int k);
 }

@@ -26,7 +26,24 @@
 
         if(addPageNo()) document.getElementById('queryForm').submit();
     }
-
+    function goPrevious() {
+        var nowPage = document.getElementById("hiddenPageNo").value;
+        if(nowPage == 1){
+            alert("这已经是第一页了！");
+            return false;
+        }
+        document.getElementById("hiddenPageNo").value = Number(nowPage) - Number(1);
+        document.getElementById('queryForm').submit();
+    }
+    function goNext(){
+        var nextPage = document.getElementById("hiddenPageNo").value;
+        if(nextPage >= document.getElementById("allPageNo").value){
+            alert("这已经是最后一页了！");
+            return false;
+        }
+        document.getElementById("hiddenPageNo").value = Number(nextPage) + Number(1);
+        document.getElementById('queryForm').submit();
+    }
     function  goLast() {
         document.getElementById("hiddenPageNo").value = document.getElementById("allPageNo").value;
         document.getElementById('queryForm').submit();
@@ -109,20 +126,16 @@
                                         <tr>
                                             <th>开奖期数</th>
                                             <th>用户名</th>
-                                            <th>投注金额</th>
-                                            <th>投注方式</th>
-                                            <th>开奖号码</th>
-                                            <th>中奖金额</th>
+                                            <th>中奖积分</th>
+                                            <th>积分余额</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="betResult : ${betResultsList}">
                                             <td th:text="${betResult.resultdate}">Onions</td>
                                             <td th:text="${betResult.betuser}">Onions</td>
-                                            <td th:text="${betResult.betnumber}">2.41</td>
+                                            <td th:text="${betResult.resultnumber}">2.41</td>
                                             <td th:text="${betResult.bettype}">yes</td>
-                                            <td th:text="${betResult.betdate}">yes</td>
-                                            <td th:text="${betResult.resultnumber}">0</td>
                                         </tr>
                                         </tbody>
                                         <tfoot>
@@ -137,8 +150,10 @@
                                         <div class="dataTables_paginate paging_simple_numbers" style=" margin: 0;white-space: nowrap;text-align: right;" id="example1_paginate" >
                                             <ul class="pagination " style="margin: 0px">
                                                 <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
-                                                <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>
-                                                <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">go</a></li>
+                                                <!--<li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>-->
+                                                <!--<li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">跳转</a></li>-->
+                                                <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goPrevious()">上一页</a></li>
+                                                <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goNext()">下一页</a></li>
                                                 <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()"><div th:height="30">尾页</div></a></li>
                                             </ul>
                                         </div>

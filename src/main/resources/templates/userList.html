@@ -11,19 +11,17 @@
             async:false,
             dataType:"json",
             success:function (rtn) {
-                debugger;
                 $("#userId").val(rtn.id);
                 // 如果存在同名的玩家，提示用户
                 $("#userName").val(rtn.userName);
                 $("#nickName").val(rtn.nickName);
+                $("#group").val(rtn.group);
+                $('#createModalEdit').modal("show");
             }})
-        $('#createModalEdit').modal();
-        debugger;
 
     }
 
     function addPageNo() {
-        debugger;
 //        $("#hiddenPageNo").val($("#pageNo").val());
         var pageNo = document.getElementById("pageNo").value;
 
@@ -103,6 +101,7 @@
                     async:false,
                     dataType:"json",
                     success:function (rtn) {
+                        debugger;
                         // 如果存在同名的玩家，提示用户
                         if(!$.isEmptyObject(rtn.nickName)){
                             $("#validInfo").append("<li>玩家昵称" +rtn.nickName + "已经存在,请修改昵称" +"</li>");
@@ -209,6 +208,10 @@
                                         <label >昵称:</label>
                                         <input type="text" name="nickName" class="form-control"  id="exampleInputPassword2" placeholder="昵称...">
                                     </div>
+                                    <div class="form-group">
+                                        <label >组名:</label>
+                                        <input type="text" name="group" class="form-control"  id="exampleInputPassword3" placeholder="组名...">
+                                    </div>
                                 </div>
                                 <!-- /.box-body -->
 
@@ -253,6 +256,10 @@
                                         <label >昵称:</label>
                                         <input type="text" id = "nickName" name="nickName" class="form-control"   placeholder="昵称...">
                                     </div>
+                                    <div class="form-group">
+                                        <label >组名:</label>
+                                        <input type="text" id = "group" name="group" class="form-control"  id="exampleInputPassword7" placeholder="组名...">
+                                    </div>
                                 </div>
                                 <!-- /.box-body -->
 
@@ -288,7 +295,7 @@
                         <tr>
                             <th>qq</th>
                             <th>昵称</th>
-                            <!--<th>手机号码</th>-->
+                            <th>组名</th>
                             <th>是否可用</th>
                             <th>操作</th>
                         </tr>
@@ -297,10 +304,10 @@
                         <tr th:each="userInfo : ${userList}">
                             <td th:text="${userInfo.userName}">Onions</td>
                             <td th:text="${userInfo.nickName}">2.41</td>
-                            <!--<td th:text="${userInfo.mobileNum}">yes</td>-->
+                            <td th:text="${userInfo.group}">yes</td>
                             <td th:text="${userInfo.isEnable} == 1 ? '是' : '否'">yes</td>
                             <td>
-                                <a href="javascript:void(0);" th:onclick="'javascript:editUser('+${userInfo.id}+');'" data-toggle="modal">修改</a>
+                                <a href="javascript:void(0);" th:onclick="'javascript:editUser('+${userInfo.id}+');'" >修改</a>
                             </td>
                         </tr>
                         </tbody>

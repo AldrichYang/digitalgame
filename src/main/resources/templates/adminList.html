@@ -8,8 +8,26 @@
 <!--<script type="text/javascript" src="/easyui/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>-->
 <script type="text/javascript">
+
+    function editUser(id) {
+        $.ajax({
+            type:"POST",
+            url:"/admin/editAdminInfo",
+            data: {"adminId":id},
+            async:false,
+            dataType:"json",
+            success:function (rtn) {
+                $("#id").val(rtn.id);
+                // 如果存在同名的玩家，提示用户
+                $("#adminName").val(rtn.adminName);
+                $("#adminCode").val(rtn.adminCode);
+                $("#passWord").val(rtn.passWord);
+                $('#createModalEdit').modal("show");
+            }})
+
+    }
+
     function addPageNo() {
-        debugger;
 //        $("#hiddenPageNo").val($("#pageNo").val());
         var pageNo = document.getElementById("pageNo").value;
 
@@ -101,7 +119,15 @@
                             </div>
                         </td>
                         <td>
-                            <button type="submit">查询</button>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">查询</button>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -112,6 +138,50 @@
 
                 <!--<button type="submit">新增</button>-->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">添加管理员</button>
+
+            <div class="modal fade" id="createModalEdit">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">玩家信息维护</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="createPlayerFormEdit" action="/admin/editAdmin" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">管理员名:</label>
+                                        <input type="text" id = "adminName" name="adminName" class="form-control"   placeholder="用户名...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">管理员代码:</label>
+                                        <input type="text" id= "adminCode" name="adminCode" class="form-control"   placeholder="手机号码...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">密码:</label>
+                                        <input type="password" id = "passWord" name="passWord" class="form-control"  placeholder="昵称...">
+                                    </div>
+                                    <input type="hidden" id= "id" name="id" class="form-control"   placeholder="昵称...">
+
+                                </div>
+
+                                <div class="box-footer">
+                                    <label id="validInfo1"></label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
             <div class="modal fade" id="createModal">
                 <div class="modal-dialog">
@@ -185,7 +255,9 @@
                                     <td th:text="${admin.adminCode}">2.41</td>
                                     <!--<td th:text="${admin.mobileNum}">yes</td>-->
                                     <td th:text="${admin.isEnable} == 1 ? '是' : '否'">yes</td>
-                                    <td><a th:href="@{/admin/editAdmin.html(adminId=${admin.id})}" >修改</a></td>
+                                    <td>
+                                        <a href="javascript:void(0);" th:onclick="'javascript:editUser('+${admin.id}+');'" >修改</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
@@ -197,12 +269,12 @@
                                 <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:text="${inallPageDesc}"></div>
                             </div>
                             <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" >
-                                    <ul class="pagination">
+                                <div class="dataTables_paginate paging_simple_numbers" style=" margin: 0;white-space: nowrap;text-align: right;" id="example1_paginate" >
+                                    <ul class="pagination " style="margin: 0px">
                                         <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
-                                        <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到<input id = "pageNo" type="text" data-th-high="20"   placeholder="输入页面 ..." />页<input type="button" data-th-high="20"  value="go" onclick="goFunction()"></a></li>
-
-                                        <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()">尾页</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>
+                                        <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">go</a></li>
+                                        <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()"><div th:height="30">尾页</div></a></li>
                                     </ul>
                                 </div>
                             </div>
