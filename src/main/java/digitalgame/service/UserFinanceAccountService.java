@@ -1,16 +1,13 @@
 package digitalgame.service;
 
-import digitalgame.model.po.UserAccountHisVo;
-import digitalgame.model.po.UserAccountVo;
-import digitalgame.model.po.UserFinanceAccount;
-import digitalgame.model.po.UserInfo;
+import digitalgame.model.po.*;
 
 import java.util.List;
 
 public interface UserFinanceAccountService {
     int insertSelective(UserFinanceAccount record);
 
-    int updateByPrimaryKeySelective(UserAccountVo UserAccountVo,int periods);
+    int updateByPrimaryKeySelective(UserAccountVo UserAccountVo,AccountParam accountParam);
 
     /****
      *
@@ -19,7 +16,7 @@ public interface UserFinanceAccountService {
      * @param type   类型 ，2充值，3位扣减
      * @return
      */
-    int updateBalanceByUserId(int userId,double money,int type,int periods);
+    int updateBalanceByUserId(int userId,double money,int type,AccountParam accountParam);
 
     /****
      * 根据昵称增余额
@@ -27,7 +24,7 @@ public interface UserFinanceAccountService {
      * @param money
      * @return
      */
-    int addUserBalanceByNickName(String nickName,double money,int periods);
+    int addUserBalanceByNickName(String nickName,double money,AccountParam accountParam);
 
     /****
      * 根据昵称减余额，返回-1则是扣钱失败，余额不足
@@ -35,7 +32,7 @@ public interface UserFinanceAccountService {
      * @param money
      * @return
      */
-    int reduceUserBalanceByNickName(String nickName,double money,int periods);
+    int reduceUserBalanceByNickName(String nickName,double money,AccountParam accountParam);
 
 
     /****

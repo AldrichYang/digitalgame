@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserFinanceAccountServiceImpl implements UserFinanceAccountService {
@@ -38,7 +39,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
     @Override
     @Transactional
-    public synchronized int updateByPrimaryKeySelective(UserAccountVo userAccountVo ,int periods) {
+    public synchronized int updateByPrimaryKeySelective(UserAccountVo userAccountVo ,AccountParam accountParam) {
         boolean update = true;
         UserFinanceAccount record = userFinanceAccountMapper.selectByPrimaryKey(userAccountVo.getAccountId());
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(record.getUserId());
@@ -60,6 +61,14 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         }
         UserFinanceAccountLog userFinanceAccountLog = new UserFinanceAccountLog();
         userFinanceAccountMapper.updateByPrimaryKeySelective(record);
+        if(Objects.nonNull(accountParam)){
+            if(Objects.nonNull(accountParam.getOrderId())){
+                userFinanceAccountLog.setOrderId(accountParam.getOrderId());
+            }
+            if(Objects.nonNull(accountParam.getPeriods())){
+                userFinanceAccountLog.setOrderId(accountParam.getPeriods());
+            }
+        }
         userFinanceAccountLog.setOperType(userAccountVo.getOperType());
         userFinanceAccountLog.setMoney(userAccountVo.getMoney());
         userFinanceAccountLog.setUfcId(record.getId());
@@ -96,27 +105,27 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     }
 
     @Override
-    public int updateBalanceByUserId(int userId, double money, int type,int periods) {
+    public int updateBalanceByUserId(int userId, double money, int type,AccountParam accountParam) {
         UserFinanceAccount ufa = userFinanceAccountMapper.selectByUserId(userId);
         UserAccountVo userAccountVo = new UserAccountVo();
         userAccountVo.setAccountId(ufa.getId());
         userAccountVo.setMoney(money);
         userAccountVo.setOperType(type);
-        return this.updateByPrimaryKeySelective(userAccountVo,periods);
+        return this.updateByPrimaryKeySelective(userAccountVo,accountParam);
     }
 
     @Override
-    public int addUserBalanceByNickName(String nickName, double money,int periods) {
+    public int addUserBalanceByNickName(String nickName, double money,AccountParam accountParam) {
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
         if(userInfo == null) return  -2;
-        return this.updateBalanceByUserId(userInfo.getId(),money,4,periods);
+        return this.updateBalanceByUserId(userInfo.getId(),money,4,accountParam);
     }
 
     @Override
-    public int reduceUserBalanceByNickName(String nickName, double money,int periods) {
+    public int reduceUserBalanceByNickName(String nickName, double money,AccountParam accountParam) {
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
         if(userInfo == null) return  -2;
-        return this.updateBalanceByUserId(userInfo.getId(),money,5,periods);
+        return this.updateBalanceByUserId(userInfo.getId(),money,5,accountParam);
     }
 
     @Override

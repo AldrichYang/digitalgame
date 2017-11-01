@@ -15,9 +15,12 @@ public class UserFinanceAccountLog {
 
     private double balance;
 
-    private int periods;
+    private String periods;
 
     private String group;
+
+    private String orderId;
+
 
     public String getGroup() {
         return group;
@@ -27,12 +30,20 @@ public class UserFinanceAccountLog {
         this.group = group;
     }
 
-    public int getPeriods() {
+    public String getPeriods() {
         return periods;
     }
 
-    public void setPeriods(int periods) {
+    public void setPeriods(String periods) {
         this.periods = periods;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public Integer getId() {

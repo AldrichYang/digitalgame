@@ -56,7 +56,7 @@ public class UserAccountController {
 
     @RequestMapping(value = "/editUserAccount", method = RequestMethod.POST)
     public String editUser(UserAccountVo userAccountVo,Model model) {
-        userFinanceAccountService.updateByPrimaryKeySelective(userAccountVo,0);
+        userFinanceAccountService.updateByPrimaryKeySelective(userAccountVo,null);
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userAccountVo.getUserName());
         userInfo.setNickName(userAccountVo.getNickName());
