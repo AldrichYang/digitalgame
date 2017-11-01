@@ -9,9 +9,10 @@
     <result column="platform_money" property="platformMoney" jdbcType="FLOAT" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="group" property="group" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, report_date, betting_money, winning_money, platform_money, create_time, update_time
+    id, report_date, betting_money, winning_money, platform_money, create_time, update_time,`group`
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -55,6 +56,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="group != null" >
+        `group`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -78,6 +82,9 @@
       <if test="updateTime != null" >
         #{updateTime,jdbcType=VARCHAR},
       </if>
+      <if test="group != null" >
+        #{group,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
@@ -100,6 +107,9 @@
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null" >
+        `group` = #{group,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -132,6 +142,6 @@
     select
     <include refid="Base_Column_List" />
     from system_finance_account_report
-    where report_date = #{reportDate,jdbcType=VARCHAR}
+    where ${queryCond}
   </select>
 </mapper>

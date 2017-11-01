@@ -13,6 +13,8 @@ public class SystemFinanceAccountReport {
 
     private Double platformLossMoney;
 
+    private String group;
+
     private String createTime;
 
     private String updateTime;
@@ -82,5 +84,13 @@ public class SystemFinanceAccountReport {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime == null ? null : updateTime.trim();
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

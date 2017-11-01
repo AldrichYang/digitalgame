@@ -25,11 +25,11 @@ public class SystemFinanceAccountServiceImpl implements SystemFinanceAccountServ
     public List<SystemFinanceAccountReport> selectByPage(int cueerntPage, String bigDate, String endDate) {
         String whereCond = " ";
         if(!Strings.isNullOrEmpty(bigDate) && bigDate.trim().length() == 8){
-            whereCond +=  " and  report_date >= '"+bigDate+"'";
+            whereCond +=  " and  report_date = '"+bigDate+"'";
         }
-        if(!Strings.isNullOrEmpty(endDate) && endDate.trim().length() == 8){
-            whereCond +=  " and report_date <= '"+endDate+"'";
-        }
+//        if(!Strings.isNullOrEmpty(endDate) && endDate.trim().length() == 8){
+//            whereCond +=  " and report_date <= '"+endDate+"'";
+//        }
         if(cueerntPage != 0){
             whereCond += "limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }

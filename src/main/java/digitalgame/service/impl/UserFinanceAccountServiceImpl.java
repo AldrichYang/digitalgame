@@ -78,12 +78,19 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
         int a = userFinanceAccountMapper.updateByPrimaryKeySelective(record);
         if(5 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType()){
-            SystemFinanceAccountReport systemFinanceAccountReport = systemFinanceAccountReportMapper.selectByReportDate(Util.dataForMat(new Date(),"yyyyMMdd"));
+            String queryCond = " where report_date = '" + Util.dataForMat(new Date(),"yyyyMMdd") + "'";
+            if(Objects.nonNull(userInfo.getGroup()) && userInfo.getGroup().trim().length() != 0){
+                queryCond = queryCond + " and group = '"+userInfo.getGroup()+"'";
+            }else{
+                queryCond = queryCond + " and (group = '' or group is null) ";
+            }
+            SystemFinanceAccountReport systemFinanceAccountReport = systemFinanceAccountReportMapper.selectByReportDate(,userInfo.getGroup());
             if(systemFinanceAccountReport == null){
                 update = false;
                 systemFinanceAccountReport = new SystemFinanceAccountReport();
                 systemFinanceAccountReport.setReportDate(Util.dataForMat(new Date(),"yyyyMMdd"));
             }
+            systemFinanceAccountReport.setGroup(userInfo.getGroup());
             if(4 == userAccountVo.getOperType()){
                 systemFinanceAccountReport.setWinningMoney(systemFinanceAccountReport.getWinningMoney() + userAccountVo.getMoney());
                 systemFinanceAccountReport.setPlatformMoney(systemFinanceAccountReport.getPlatformMoney() - userAccountVo.getMoney());

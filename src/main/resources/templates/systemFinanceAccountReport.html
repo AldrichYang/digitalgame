@@ -49,11 +49,6 @@
             return false;
         }
 
-        var endTime = document.getElementById("endTime").value;
-        if(endTime == "" || Trim(endTime).length == 0 || Trim(begTime).length != 10){
-            alert("请输入正确的结束日期！");
-            return false;
-        }
         document.getElementById("hiddenPageFlag").value = type;
         document.getElementById("queryForm").submit();
 
@@ -90,14 +85,8 @@
                 <tr>
                     <td>
                         <div class="form-group">
-                            <label>起始日期:</label>
+                            <label>报表日期:</label>
                             <input id = "begTime" name = "begTime" type="date" th:value="${begTime}"/>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <label>结束日期:</label>
-                            <input id = "endTime" name = "endTime" type="date" th:value="${endTime}"/>
                         </div>
                     </td>
                     <td>
