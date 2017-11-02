@@ -6,9 +6,7 @@ import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -34,10 +32,12 @@ public class OddsController {
         return this.getAllOddsList(oddsInfo,model);
     }
 
-    @RequestMapping(value = "/oddsInfoHtml", method = {RequestMethod.GET,RequestMethod.POST})
-    public String oddsInfoHtml(int oddsId,Model model) {
-        model.addAttribute("oddsInfo", oddsInfoService.selectOddsInfo(oddsId));
-        return "editOdds";
+    @RequestMapping(value = "/getoddsInfo", method = {RequestMethod.GET,RequestMethod.POST})
+    public @ResponseBody
+    OddsInfo getOddsInfo(@RequestParam int oddsId) {
+
+        OddsInfo oddsInfo = oddsInfoService.selectOddsInfo(oddsId);
+        return oddsInfo;
     }
 
     @RequestMapping(value = "/delOddsInfo", method = {RequestMethod.GET,RequestMethod.POST})

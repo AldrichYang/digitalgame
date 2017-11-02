@@ -1,7 +1,30 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="starter :: head"></head>
+<script type="text/javascript">
+    function deleteOdds(oddsInfoId) {
+        if(confirm("确定要删除这条记录吗？")){
+            location.href="/odds/delOddsInfo?oddsId=" + oddsInfoId;
+        }
+    }
+
+    function editOdds(id) {
+        $.ajax({
+            type:"POST",
+            url:"/odds/getoddsInfo",
+            data: {"oddsId":id},
+            async:false,
+            dataType:"json",
+            success:function (rtn) {
+                $("#oddsId").val(rtn.id);
+                $("#oddsName").val(rtn.oddsName);
+                $("#oddsNumber").val(rtn.oddsNumber);
+                $('#createModalEdit').modal("show");
+            }})
+    }
+
+</script>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
     <div th:replace="starter :: main-header-sidebar"></div>
@@ -19,9 +42,87 @@
             </ol>
         </section>
 
-        <!-- Main content -->
         <section class="content container-fluid">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createOddsModal">添加常用赔率</button>
+            <!-- 新增赔率界面-->
+        <div class="modal fade" id="createOddsModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">常用赔率新增</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="POST" id="createPlayerForm" action="/odds/addOddsInfo" >
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label >常用语:</label>
+                                    <input type="text" name="oddsName" class="form-control"  id="oddsName" placeholder="常用语...">
+                                </div>
+                                <div class="form-group">
+                                    <label >赔率:</label>
+                                    <input type="text" name="oddsNumber" onkeyup="value=value.replace(/[^\d\\.]/g,'') " ng-pattern="/[^a-zA-Z]/" class="form-control"  id="oddsNumber" placeholder="赔率...">
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
 
+                            <div class="box-footer">
+                                <label id="validInfo"></label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- 修改赔率界面 -->
+            <div class="modal fade" id="createModalEdit">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">常用赔率修改</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="POST" id="createPlayerFormEdit" action="/odds/editOddsInfo" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <input type="hidden" id = "oddsId" name="id" >
+                                        <label >常用语:</label>
+                                        <input type="text" name="oddsName" class="form-control"  id="oddsName" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label >赔率:</label>
+                                        <input type="text" name="oddsNumber" onkeyup="value=value.replace(/[^\d\\.]/g,'') " ng-pattern="/[^a-zA-Z]/" class="form-control"  id="oddsNumber">
+                                    </div>
+                                </div>
+
+                                <div class="box-footer">
+                                    <label id="validInfo1"></label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                    <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+        <!-- Main content -->
             <form method="POST" action="/odds/oddsList">
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
@@ -35,17 +136,16 @@
                     <tr th:each="oddsInfo : ${oddsList}">
                         <td th:text="${oddsInfo.oddsName}"></td>
                         <td th:text="${oddsInfo.oddsNumber}"></td>
-                        <td><a th:href="@{/odds/oddsInfoHtml(oddsId=${oddsInfo.id})}" >修改</a>
-                            <a th:href="@{/odds/delOddsInfo(oddsId=${oddsInfo.id})}" >删除</a></td>
+                        <td><a href="javascript:void(0);" th:onclick="'javascript:editOdds('+${oddsInfo.id}+');'" >修改</a>
+                        <a href="javascript:void(0);" th:onclick="'javascript:deleteOdds('+${oddsInfo.id}+');'" >删除</a>
+
                     </tr>
 
                     </tbody>
                 </table>
 
             </form>
-            <form method="GET" action="/odds/addOddshtml">
-                <button type="submit">新增</button>
-            </form >
+
         </section>
         <!-- /.content -->
     </div>
