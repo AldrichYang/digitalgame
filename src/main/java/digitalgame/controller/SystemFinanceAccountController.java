@@ -1,6 +1,7 @@
 package digitalgame.controller;
 
 import com.google.common.base.Strings;
+import digitalgame.common.Util;
 import digitalgame.model.po.SystemFinanceAccountReport;
 import digitalgame.model.po.UserAccountHisVo;
 import digitalgame.model.po.UserInfo;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +47,11 @@ public class SystemFinanceAccountController {
         String endTime = request.getParameter("endTime");
         model.addAttribute("begTime",begTime);
         model.addAttribute("endTime",endTime);
-        if(begTime != null) begTime = begTime.replaceAll("-","");
+        if(begTime != null) {
+            begTime = begTime.replaceAll("-","");
+        }else{
+            begTime = Util.dataForMat(new Date(),"yyyyMMdd");
+        }
 
         if(endTime != null) endTime = endTime.replaceAll("-","");
         String flag = request.getParameter("flag");
