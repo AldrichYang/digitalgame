@@ -61,6 +61,9 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         }
         UserFinanceAccountLog userFinanceAccountLog = new UserFinanceAccountLog();
         userFinanceAccountMapper.updateByPrimaryKeySelective(record);
+        accountParam = new AccountParam();
+        accountParam.setPeriods("12");
+        accountParam.setOrderId("12");
         if(Objects.nonNull(accountParam)){
             if(Objects.nonNull(accountParam.getOrderId())){
                 userFinanceAccountLog.setOrderId(accountParam.getOrderId());
@@ -84,11 +87,12 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
             }else{
                 queryCond = queryCond + " and (group = '' or group is null) ";
             }
-            SystemFinanceAccountReport systemFinanceAccountReport = systemFinanceAccountReportMapper.selectByReportDate(,userInfo.getGroup());
+            SystemFinanceAccountReport systemFinanceAccountReport = systemFinanceAccountReportMapper.selectByReportDate(queryCond);
             if(systemFinanceAccountReport == null){
                 update = false;
                 systemFinanceAccountReport = new SystemFinanceAccountReport();
                 systemFinanceAccountReport.setReportDate(Util.dataForMat(new Date(),"yyyyMMdd"));
+                systemFinanceAccountReport.setGroup(userInfo.getGroup());
             }
             systemFinanceAccountReport.setGroup(userInfo.getGroup());
             if(4 == userAccountVo.getOperType()){
@@ -107,7 +111,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
 
         }
-        if(5 == userAccountVo.getOperType()) return Integer.parseInt(String.valueOf(userAccountVo.getMoney()));
+        if(5 == userAccountVo.getOperType()) return (int)userAccountVo.getMoney();
         return a;
     }
 

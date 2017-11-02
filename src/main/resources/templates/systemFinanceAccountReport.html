@@ -12,11 +12,11 @@
             return true;
         }
         //pageNo = document.getElementById("hiddenPageNo").value;
-        if(!isPositiveInteger(pageNo)){
-            alert("请输入正确页码!");
-            return false;
-
-        }
+//        if(!isPositiveInteger(pageNo)){
+//            alert("请输入正确页码!");
+//            return false;
+//
+//        }
         document.getElementById("hiddenPageNo").value = pageNo;
         if(pageNo >= document.getElementById("inallPage")) document.getElementById("hiddenPageNo").value = document.getElementById("inallPage");
         return true;
