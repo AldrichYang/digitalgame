@@ -38,6 +38,8 @@ public class SystemFinanceAccountController {
 
     @RequestMapping(value = "/querySystemFinanceAccount", method = {RequestMethod.GET, RequestMethod.POST})
     public String getAllUserList(@ModelAttribute UserInfo userInfo, Model model, HttpServletRequest request) {
+        SystemFinanceAccountReport systemFinanceAccountReport = new SystemFinanceAccountReport();
+        systemFinanceAccountReport.setGroup("汇总");
         int currentPageNo = 1;
         if(request != null ){
             String pageNo = request.getParameter("pageNo");
@@ -47,27 +49,36 @@ public class SystemFinanceAccountController {
         String endTime = request.getParameter("endTime");
         model.addAttribute("begTime",begTime);
         model.addAttribute("endTime",endTime);
-        if(begTime != null) {
+        if(begTime != null && begTime.trim().length() != 0) {
             begTime = begTime.replaceAll("-","");
         }else{
             begTime = Util.dataForMat(new Date(),"yyyyMMdd");
+            model.addAttribute("begTime",Util.dataForMat(new Date(),"yyyy-MM-dd"));
         }
 
         if(endTime != null) endTime = endTime.replaceAll("-","");
         String flag = request.getParameter("flag");
-        //生成报表
-        if("2".equals(flag)){
-            systemFinanceAccountService.createReportByDate(begTime,endTime);
-        }
-        int userInfoListCount = systemFinanceAccountService.selectByPage(0,begTime,endTime).size();
-                //userFinanceAccountService.queryUserAccountHisVoByUserInfo(0,userInfo).size();
+//        //生成报表
+//        if("2".equals(flag)){
+//            systemFinanceAccountService.createReportByDate(begTime,endTime);
+//        }
         List<SystemFinanceAccountReport> sfarList = systemFinanceAccountService.selectByPage(0,begTime,endTime);
-        int pageNo = userInfoListCount/10 + (userInfoListCount % 10 == 0 ? 0 : 1);
+        for(SystemFinanceAccountReport sfar : sfarList){
+            //systemFinanceAccountReport
+            systemFinanceAccountReport.setBettingMoney(systemFinanceAccountReport.getBettingMoney() + sfar.getBettingMoney());
+            systemFinanceAccountReport.setWinningMoney(systemFinanceAccountReport.getWinningMoney() + sfar.getWinningMoney());
+            systemFinanceAccountReport.setPlatformMoney(systemFinanceAccountReport.getPlatformMoney() + sfar.getPlatformMoney());
+            systemFinanceAccountReport.setPlatformLossMoney(systemFinanceAccountReport.getPlatformLossMoney() + sfar.getPlatformLossMoney());
+        }
+        sfarList.add(systemFinanceAccountReport);
+                //userFinanceAccountService.queryUserAccountHisVoByUserInfo(0,userInfo).size();
+//        List<SystemFinanceAccountReport> sfarList = systemFinanceAccountService.selectByPage(0,begTime,endTime);
+       // int pageNo = userInfoListCount/10 + (userInfoListCount % 10 == 0 ? 0 : 1);
         model.addAttribute("sfarList", sfarList);
         model.addAttribute("queryCond",userInfo);
-        model.addAttribute("inallPageDesc","总条数："+userInfoListCount+",当前第"+currentPageNo+"页,总共" + pageNo + "页");
-        model.addAttribute("currentPage",currentPageNo);
-        model.addAttribute("inallPage",pageNo);
+       // model.addAttribute("inallPageDesc","总条数："+userInfoListCount+",当前第"+currentPageNo+"页,总共" + pageNo + "页");
+//         model.addAttribute("currentPage",currentPageNo);
+       // m、odel.addAttribute("inallPage",pageNo);
         return "systemFinanceAccountReport";
     }
 

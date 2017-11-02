@@ -26,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
     insert into system_finance_account_report (id, report_date, betting_money, 
-      winning_money, platform_money, create_time, 
-      update_time)
+      winning_money, platform_money, create_time,
+      update_time,`group`)
     values (#{id,jdbcType=INTEGER}, #{reportDate,jdbcType=VARCHAR}, #{bettingMoney,jdbcType=FLOAT}, 
       #{winningMoney,jdbcType=FLOAT}, #{platformMoney,jdbcType=FLOAT}, #{createTime,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=VARCHAR},#{group,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="digitalgame.model.po.SystemFinanceAccountReport" >
     insert into system_finance_account_report
@@ -130,7 +130,7 @@
 
   </delete>
   <select id="selectByPage" resultType="digitalgame.model.po.SystemFinanceAccountReport">
-        SELECT report_date as reportDate, betting_money as bettingMoney,winning_money as  winningMoney ,
+        SELECT report_date as reportDate,`group`, betting_money as bettingMoney,winning_money as  winningMoney ,
         CASE  when platform_money >= 0 then platform_money ELSE  0 END  as platformMoney ,
         <![CDATA[
         CASE  when platform_money <= 0 then platform_money ELSE  0 END  as platformLossMoney
@@ -142,6 +142,6 @@
     select
     <include refid="Base_Column_List" />
     from system_finance_account_report
-    where ${queryCond}
+     ${queryCond}
   </select>
 </mapper>
