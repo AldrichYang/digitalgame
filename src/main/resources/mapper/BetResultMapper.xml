@@ -157,4 +157,10 @@
     from bet_result ${whereCond}
   </select>
 
+  <select id="selectoddsInfoByPage" resultType="digitalgame.model.po.OddsBetResultVo">
+    SELECT br.betUser,br.resultNumber,br.resultDate,ufal.balance as betNumber
+    FROM bet_result br, user_finance_account_log ufal
+    where br.updateDate = ufal.order_id ${whereCond}
+  </select>
+
 </mapper>

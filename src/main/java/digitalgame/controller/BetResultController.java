@@ -3,6 +3,7 @@ package digitalgame.controller;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.BetResult;
 import com.google.common.base.Strings;
+import digitalgame.model.po.OddsBetResultVo;
 import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.BetResultService;
 import digitalgame.service.OddsInfoService;
@@ -24,23 +25,22 @@ public class BetResultController {
     @Autowired
     private BetResultService betResultService;
 
-    @Autowired
-    private OddsInfoService oddsInfoService;
-
     @RequestMapping(value = "/betResultList", method = {RequestMethod.GET, RequestMethod.POST})
-    public String getAllUserList(@ModelAttribute BetResult betResult, Model model, HttpServletRequest request) {
+    public String getAllUserList(@ModelAttribute OddsBetResultVo oddsBetResultVo, Model model, HttpServletRequest request) {
         int currentPageNo = 1;
         if(request != null ){
             String pageNo = request.getParameter("pageNo");
             if(!Strings.isNullOrEmpty(pageNo)) currentPageNo = Integer.parseInt(pageNo);
         }
 
-        int count = betResultService.selectBetSultByPage(0, betResult).size();
-        List<BetResult> betResultsList = betResultService.selectBetSultByPage(currentPageNo, betResult);
+        System.out.println(oddsBetResultVo.getBetUser());
+        int count = betResultService.selectBetSultByPage(0, oddsBetResultVo).size();
+        List<OddsBetResultVo> betResultsList = betResultService.selectBetSultByPage(currentPageNo, oddsBetResultVo);
+        System.out.println(betResultsList.size());
 
         int pageNo = count/10 + (count % 10 == 0 ? 0 : 1);
         model.addAttribute("betResultsList", betResultsList);
-        model.addAttribute("queryCond",betResult);
+        model.addAttribute("queryCond",oddsBetResultVo);
         model.addAttribute("inallPageDesc","总条数："+count+",当前第"+currentPageNo+"页,总共" + pageNo + "页");
         model.addAttribute("currentPage",currentPageNo);
         model.addAttribute("inallPage",pageNo);

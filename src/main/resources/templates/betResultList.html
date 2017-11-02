@@ -85,13 +85,13 @@
                         <td>
                             <div class="form-group">
                                 <label>用户名:</label>
-                                <input type="text" name = "betuser"  th:value="${queryCond.betuser}" placeholder="输入用户名 ...">
+                                <input type="text" name = "betUser"  th:value="${queryCond.betUser}" placeholder="输入用户名 ...">
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
                                 <label>开奖期数:</label>
-                                <input type="text" name= "resultdate" th:value="${queryCond.resultdate}" placeholder="输入开奖期数 ...">
+                                <input type="text" name= "resultDate" th:value="${queryCond.resultDate}" placeholder="输入开奖期数 ...">
                             </div>
                         </td>
                         <td>
@@ -132,10 +132,10 @@
                                         </thead>
                                         <tbody>
                                         <tr th:each="betResult : ${betResultsList}">
-                                            <td th:text="${betResult.resultdate}">Onions</td>
-                                            <td th:text="${betResult.betuser}">Onions</td>
-                                            <td th:text="${betResult.resultnumber}">2.41</td>
-                                            <td th:text="${betResult.bettype}">yes</td>
+                                            <td th:text="${betResult.resultDate}">Onions</td>
+                                            <td th:text="${betResult.betUser}">Onions</td>
+                                            <td th:text="${betResult.betNumber}">2.41</td>
+                                            <td th:text="${betResult.resultNumber}">yes</td>
                                         </tr>
                                         </tbody>
                                         <tfoot>

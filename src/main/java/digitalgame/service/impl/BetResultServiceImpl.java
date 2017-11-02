@@ -2,6 +2,7 @@ package digitalgame.service.impl;
 
 import digitalgame.dao.BetResultMapper;
 import digitalgame.model.po.BetResult;
+import digitalgame.model.po.OddsBetResultVo;
 import digitalgame.service.BetResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,18 +17,18 @@ public class BetResultServiceImpl implements BetResultService {
     protected BetResultMapper betResultMapper;
 
     @Override
-    public List<BetResult> selectBetSultByPage(int cueerntPage, BetResult betResult) {
-        String whereCond = " where 1=1 ";
-        if(!Strings.isNullOrEmpty(betResult.getBetuser())){
-            whereCond +=  " and  betuser like '%"+betResult.getBetuser()+"%'";
+    public List<OddsBetResultVo> selectBetSultByPage(int cueerntPage, OddsBetResultVo oddsBetResultVo) {
+        String whereCond = " ";
+        if(!Strings.isNullOrEmpty(oddsBetResultVo.getBetUser())){
+            whereCond +=  " and  br.betuser like '%"+oddsBetResultVo.getBetUser()+"%'";
         }
-        if(!Strings.isNullOrEmpty(betResult.getResultdate())){
-            whereCond +=  " and resultdate like "+betResult.getResultdate();
+        if(!Strings.isNullOrEmpty(oddsBetResultVo.getResultDate())){
+            whereCond +=  " and br.resultdate like '%"+oddsBetResultVo.getResultDate()+"%'";
         }
-        whereCond += " order by id desc ";
+        whereCond += " order by br.id desc ";
         if(cueerntPage != 0){
             whereCond += " limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }
-        return betResultMapper.selectByPage(whereCond);
+        return betResultMapper.selectoddsInfoByPage(whereCond);
     }
 }
