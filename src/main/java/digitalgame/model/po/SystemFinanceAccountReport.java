@@ -20,6 +20,7 @@ public class SystemFinanceAccountReport {
     private String updateTime;
 
     public Double getPlatformLossMoney() {
+        if(platformLossMoney == null) return 0.0;
         return platformLossMoney;
     }
 
