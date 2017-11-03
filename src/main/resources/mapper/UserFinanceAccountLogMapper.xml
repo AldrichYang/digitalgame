@@ -93,7 +93,7 @@
         #{periods,jdbcType=VARCHAR},
       </if>
       <if test="orderId != null" >
-        #{orderId`jdbcType=VARCHAR},
+        #{orderId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

@@ -12,11 +12,11 @@
             return true;
         }
         //pageNo = document.getElementById("hiddenPageNo").value;
-        if(!isPositiveInteger(pageNo)){
-            alert("请输入正确页码!");
-            return false;
-
-        }
+//        if(!isPositiveInteger(pageNo)){
+//            alert("请输入正确页码!");
+//            return false;
+//
+//        }
         document.getElementById("hiddenPageNo").value = pageNo;
         if(pageNo >= document.getElementById("inallPage")) document.getElementById("hiddenPageNo").value = document.getElementById("inallPage");
         return true;
@@ -43,11 +43,12 @@
     }
     
     function subFormData(type) {
-        var begTime = document.getElementById("begTime").value;
-        if(begTime == "" || Trim(begTime).length == 0 || Trim(begTime).length != 10){
-            alert("请输入正确的其实日期！");
-            return false;
-        }
+        debugger;
+      //  var begTime = document.getElementById("begTime").value;
+//        if(begTime == "" || Trim(begTime).length == 0 || Trim(begTime).length != 10){
+//            alert("请输入正确的其实日期！");
+//            return false;
+//        }
 
         document.getElementById("hiddenPageFlag").value = type;
         document.getElementById("queryForm").submit();
@@ -121,6 +122,7 @@
                         <thead>
                         <tr>
                             <th>日期</th>
+                            <th>组</th>
                             <th>玩家总投注积分</th>
                             <th>玩家中奖积分</th>
                             <th>平台赚取积分</th>
@@ -130,6 +132,7 @@
                         <tbody>
                         <tr th:each="sfar : ${sfarList}">
                             <td th:text="${sfar.reportDate}">Onions</td>
+                            <td th:text="${sfar.group}">yes</td>
                             <td th:text="${sfar.bettingMoney}">Onions</td>
                             <td th:text="${sfar.winningMoney}">2.41</td>
                             <td th:text="${sfar.platformMoney}">2.41</td>
@@ -144,16 +147,16 @@
                         <div class="col-sm-5">
                             <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:text="${inallPageDesc}"></div>
                         </div>
-                        <div class="col-sm-7">
-                            <div class="dataTables_paginate paging_simple_numbers" style=" margin: 0;white-space: nowrap;text-align: right;" id="example1_paginate" >
-                                <ul class="pagination " style="margin: 0px">
-                                    <li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">go</a></li>
-                                    <li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()"><div th:height="30">尾页</div></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <!--<div class="col-sm-7">-->
+                            <!--<div class="dataTables_paginate paging_simple_numbers" style=" margin: 0;white-space: nowrap;text-align: right;" id="example1_paginate" >-->
+                                <!--<ul class="pagination " style="margin: 0px">-->
+                                    <!--<li class="paginate_button previous " id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" onclick="goFirst()">首页</a></li>-->
+                                    <!--<li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" >跳转到 &nbsp;&nbsp;<input id = "pageNo" type="text" style="height:18px;width: 30px; "/>&nbsp;&nbsp;页</a></li>-->
+                                    <!--<li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" onclick="goFunction()">go</a></li>-->
+                                    <!--<li class="paginate_button next" ><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" onclick="goLast()"><div th:height="30">尾页</div></a></li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
 

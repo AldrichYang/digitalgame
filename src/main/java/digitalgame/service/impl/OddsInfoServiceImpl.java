@@ -253,9 +253,9 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                             betNum = result;
                         }
                     }
-                    betInfo.setReturnMoney(betInfo.getBetmoney() * betNum);
+                    betInfo.setReturnMoney((int)(betInfo.getBetmoney() * betNum) + 0.00);
 
-                    betResult.setBetnumber(betInfo.getBetmoney());
+//                    betResult.setBetnumber(betInfo.getBetmoney());
                     betResult.setBettype(betInfo.getBetitem());
                     betResult.setBetuser(betInfo.getBetman());
                     betResult.setBetuserid(betInfo.getUserId());
@@ -266,6 +266,7 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                     }
                     betResult.setBetdate(i + "," + j + "," + k);
                     betResult.setResultdate(resultDate);
+                    betResult.setUpdatedate(betInfo.getId() + "");
                     betResultMapper.insert(betResult);
                 }
             }

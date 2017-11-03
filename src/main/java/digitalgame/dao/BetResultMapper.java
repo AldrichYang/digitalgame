@@ -1,6 +1,7 @@
 package digitalgame.dao;
 
 import digitalgame.model.po.BetResult;
+import digitalgame.model.po.OddsBetResultVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,6 @@ public interface BetResultMapper {
     int updateByPrimaryKey(BetResult record);
 
     List<BetResult> selectByPage(@Param("whereCond") String whereCond);
+
+    List<OddsBetResultVo> selectoddsInfoByPage(@Param("whereCond") String whereCond);
 }
