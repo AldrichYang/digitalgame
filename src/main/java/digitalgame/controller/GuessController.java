@@ -1,5 +1,6 @@
 package digitalgame.controller;
 
+import digitalgame.model.po.AccountParam;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.OpenInfo;
 import digitalgame.model.po.UserBetInfo;
@@ -93,23 +94,30 @@ public class GuessController {
         int i = Integer.parseInt(String.valueOf(openNum.charAt(0)));
         int j = Integer.parseInt(String.valueOf(openNum.charAt(1)));
         int k = Integer.parseInt(String.valueOf(openNum.charAt(2)));
-        UserBetInfo userBetInfo = new UserBetInfo();
-        userBetInfo.setBetInfoList(betInfoList);
-        List<UserBetInfo> userBetInfoList = new ArrayList<>();
-        userBetInfoList.add(userBetInfo);
 
-        //开奖
-        List<UserBetInfo> userBetInfoList1 = oddsInfoService.oddsNumber(i,j,k,userBetInfoList,String.valueOf(openInfo.getId()));
-        for(UserBetInfo tmpUserBetInfo : userBetInfoList1){
-            for(BetInfo tmpBetInfo : tmpUserBetInfo.getBetInfoList()){
-                if(tmpBetInfo.getReturnMoney() <= 0){
-                    //未中奖
-                    userFinanceAccountService.reduceUserBalanceByNickName(tmpBetInfo.getBetman(),tmpBetInfo.getBetmoney(),openInfo.getId());
-                }else{
-                    //中奖
-                    userFinanceAccountService.addUserBalanceByNickName(tmpBetInfo.getBetman(),tmpBetInfo.getBetmoney(),openInfo.getId());
-                }
+        /**
+         * 先下注 ，后计算中奖结果
+         * 下注，返回下注成功的金额（如果返回<0表示余额不足）
+         * ps：如果用户下注金额超过账户余额，以账户余额为准，除非用户下注类型为（全大、全小、全单、全双）这几种类型为复合类型，余额不足不可以下注
+         */
+        for(BetInfo tmpBetInfo : betInfoList){
+            AccountParam ap = new AccountParam();
+            ap.setPeriods(String.valueOf(openInfo.getId()));
+            ap.setOrderId(String.valueOf(tmpBetInfo.getId()));
+            int successMoney = userFinanceAccountService.reduceUserBalanceByNickName(tmpBetInfo.getBetman(),tmpBetInfo.getBetmoney(),ap);
+            tmpBetInfo.setBetmoney(Double.valueOf(successMoney));
+        }
 
+
+        //开奖，计算用户中奖结果
+        List<BetInfo> betInfoList1 = oddsInfoService.oddsNumber(i,j,k,betInfoList,String.valueOf(openInfo.getId()));
+        for(BetInfo tmpBetInfo : betInfoList1){
+            AccountParam ap = new AccountParam();
+            ap.setPeriods(String.valueOf(openInfo.getId()));
+            ap.setOrderId(String.valueOf(tmpBetInfo.getId()));
+            if(tmpBetInfo.getReturnMoney() > 0){
+                //中奖，将本金和中奖金额一起返还
+                userFinanceAccountService.addUserBalanceByNickName(tmpBetInfo.getBetman(),tmpBetInfo.getBetmoney()+tmpBetInfo.getBetmoney(),ap);
             }
         }
 
@@ -118,20 +126,10 @@ public class GuessController {
 
         List<Object> result = new ArrayList<>();
         result.add(openInfo.getOpenResult());
-        result.add(userBetInfoList1.get(0).getBetInfoList());
+        result.add(betInfoList1);
 
        return JSONArray.fromObject(result).toString();
 
-    }
-
-
-    /**
-     * 获取下一次开奖的期数
-     * @return
-     */
-    public String getNextOpenNO(){
-
-        return "20171025001期";
     }
 
 

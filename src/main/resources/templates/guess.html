@@ -115,12 +115,13 @@
                             <form role="form" method="POST" id="openForm" action="/guess/open">
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label for="lblOpenNo">开奖期数:</label>
-                                        <input type="text" id="txtOpenNo" readonly name="openNo" class="form-control"
-                                               placeholder="开奖期数">
+                                        <label for="selOpenNo">开奖期数:</label>
+                                        <select id="selOpenNo" class="form-control">
+
+                                        </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="lblOpenNum">开奖号码:</label>
+                                        <label for="txtOpenNum">开奖号码:</label>
                                         <input type="text" id="txtOpenNum" name="openNum" class="form-control"
                                                placeholder="开奖号码，如：234">
                                     </div>
@@ -194,6 +195,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+
             $("#btnAnalysis").click(function () {
                 $("#openResult").html("等待开奖");
                 var data = $("#betContent").val();
@@ -206,9 +208,20 @@
                     var betResult = jsonResult[0];
                     var openResult = jsonResult[1];
 
-                    $("#openNo").text(openResult.openNo + "期");
-                    $("#txtOpenNo").val(openResult.openNo + "期");
+                    var openNo = openResult.openNo.toString().substr(8, 3);
 
+                    $("#openNo").text( openNo + "期");
+                    //加载开奖期数
+                    $("#selOpenNo").empty();
+                    for(var i=1;i<=parseInt(openNo);i++){
+                        var option = "";
+                        if(i == parseInt(openNo)){
+                            option = "<option value='"+i+"' selected='true'>第"+i+"期</option>"
+                        }else{
+                            option = "<option value='"+i+"'>第"+i+"期</option>";
+                        }
+                        $("#selOpenNo").append(option);
+                    }
 
                     for (var j = 0; j < betResult.length; j++) {
                         var p = betResult[j];
@@ -259,7 +272,7 @@
                     var jsonOpenResult = jsonResult[0];
                     var jsonBetInfo = jsonResult[1];
 
-                    $("#openResult").html(jsonOpenResult);
+                    $("#openResult").openResult(jsonOpenResult);
                     for (var j = 0; j < jsonBetInfo.length; j++) {
                         var p = jsonBetInfo[j];
                         var trHTML = "<tr role=\"row\" class=\"odd\">" +
