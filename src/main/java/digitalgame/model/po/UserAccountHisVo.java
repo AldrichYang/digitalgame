@@ -14,6 +14,16 @@ public class UserAccountHisVo {
 
     private String periods;
 
+    private String createTime;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getPeriods() {
         return periods;
     }

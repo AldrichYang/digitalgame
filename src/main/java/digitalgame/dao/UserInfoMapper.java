@@ -20,5 +20,5 @@ public interface UserInfoMapper {
 
     List<UserAccountVo> selectUserAccountByPage(@Param("whereCond") String whereCond);
 
-    UserInfo selectByNickName(@Param("nickName") String nickName);
+    UserInfo selectByNickName(String nickName);
 }

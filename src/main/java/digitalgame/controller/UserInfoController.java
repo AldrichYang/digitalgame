@@ -50,11 +50,17 @@ public class UserInfoController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String addUser(UserInfo userInfo, Model model) {
         userInfoService.saveUser(userInfo);
+        if(Objects.nonNull(userInfo) && Objects.nonNull(userInfo.getNickName())){
+            userInfo.setNickName(userInfo.getNickName().trim());
+        }
         return this.getAllUserList(userInfo, model, null);
     }
 
     @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public String editUser(UserInfo userInfo, Model model) {
+        if(Objects.nonNull(userInfo) && Objects.nonNull(userInfo.getNickName())){
+            userInfo.setNickName(userInfo.getNickName().trim());
+        }
         userInfoService.editUser(userInfo);
         return this.getAllUserList(userInfo, model, null);
     }

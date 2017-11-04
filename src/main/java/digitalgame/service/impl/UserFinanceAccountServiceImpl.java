@@ -127,7 +127,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
     @Override
     public int addUserBalanceByNickName(String nickName, double money,AccountParam accountParam) {
-        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        UserInfo userInfo = userInfoMapper.selectByNickName(nickName.trim());
         if(userInfo == null) return  -2;
         return this.updateBalanceByUserId(userInfo.getId(),money,4,accountParam);
     }
@@ -141,7 +141,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
 
     @Override
     public UserFinanceAccount queryUserFinanceAccountByNickName(String nickName) {
-        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        UserInfo userInfo = userInfoMapper.selectByNickName(nickName.trim());
         UserFinanceAccount record = userFinanceAccountMapper.selectByUserId(userInfo.getId());
         return record;
     }
@@ -156,6 +156,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         if(!Strings.isNullOrEmpty(userInfo.getNickName())){
             whereCond +=  " and ui.nick_name like '%"+userInfo.getNickName()+"%'";
         }
+        whereCond += whereCond + " order by ufal.id desc ";
         if(currentPage != 0){
             whereCond += "limit " +((currentPage -1) *10) +","+(currentPage) * 10;
         }

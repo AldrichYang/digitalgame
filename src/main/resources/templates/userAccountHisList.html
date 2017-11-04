@@ -108,6 +108,7 @@
                         <tr>
                             <th>qq</th>
                             <th>昵称</th>
+                            <th>账单日期</th>
                             <th>资金类型</th>
                             <th>期数</th>
                             <th>资金</th>
@@ -118,6 +119,7 @@
                         <tr th:each="userInfo : ${userList}">
                             <td th:text="${userInfo.userName}">Onions</td>
                             <td th:text="${userInfo.nickName}">Onions</td>
+                            <td th:text="${userInfo.createTime}">Onions</td>
                             <td th:text="${userInfo.opertType}">2.41</td>
                             <td th:text="${userInfo.periods}">2.41</td>
                             <td th:text="${userInfo.money}">yes</td>
