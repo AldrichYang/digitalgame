@@ -132,6 +132,6 @@
   <select id="selectByNickName" resultMap="BaseResultMap"   >
     select
     <include refid="Base_Column_List" />
-    from user_info ${nickName}
+    from user_info where nick_name = #{nickName,jdbcType=VARCHAR}
   </select>
 </mapper>
