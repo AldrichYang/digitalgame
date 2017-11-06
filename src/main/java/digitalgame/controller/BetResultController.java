@@ -1,12 +1,8 @@
 package digitalgame.controller;
 
-import digitalgame.model.po.BetInfo;
-import digitalgame.model.po.BetResult;
+import digitalgame.model.po.*;
 import com.google.common.base.Strings;
-import digitalgame.model.po.OddsBetResultVo;
-import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.BetResultService;
-import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -33,10 +28,19 @@ public class BetResultController {
             if(!Strings.isNullOrEmpty(pageNo)) currentPageNo = Integer.parseInt(pageNo);
         }
 
-        System.out.println(oddsBetResultVo.getBetUser());
         int count = betResultService.selectBetSultByPage(0, oddsBetResultVo).size();
+        if(Strings.isNullOrEmpty(oddsBetResultVo.getResultDate())){
+            OpenInfo openInfo = betResultService.selectOpenInfoLast();
+            oddsBetResultVo.setResultDate(openInfo.getOpenNo() + "");
+        }
+
         List<OddsBetResultVo> betResultsList = betResultService.selectBetSultByPage(currentPageNo, oddsBetResultVo);
-        System.out.println(betResultsList.size());
+        int sum = betResultService.selectBetNumberSum(oddsBetResultVo.getResultDate());
+        OddsBetResultVo newBetVo = new OddsBetResultVo();
+        newBetVo.setBetUser("");
+        newBetVo.setResultDate("汇总");
+        newBetVo.setResultNumber(sum);
+        betResultsList.add(newBetVo);
 
         int pageNo = count/10 + (count % 10 == 0 ? 0 : 1);
         model.addAttribute("betResultsList", betResultsList);

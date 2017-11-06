@@ -168,8 +168,10 @@ public class OddsInfoServiceImpl implements OddsInfoService{
             return null;
         }else{
                 for(BetInfo betInfo :betInfoList) {
+                    if(betInfo.getBetmoney() == null || betInfo.getBetmoney() <= 0){
+                        break;
+                    }
                     BetResult betResult = new BetResult();
-
                     Double result = oddsMap.get(betInfo.getBetitem()) == null ? 0.00 : oddsMap.get(betInfo.getBetitem());
                     Double betNum = 0.00;
                     if ("百大".equals(betInfo.getBetitem())) {

@@ -158,9 +158,14 @@
   </select>
 
   <select id="selectoddsInfoByPage" resultType="digitalgame.model.po.OddsBetResultVo">
-    SELECT br.betUser,br.resultNumber,br.resultDate,ufal.balance as betNumber
-    FROM bet_result br, user_finance_account_log ufal
-    where br.updateDate = ufal.order_id ${whereCond}
+    SELECT br.betUser,br.resultNumber,oi.openNO as resultDate,ufal.balance as betNumber
+    FROM bet_result br, user_finance_account_log ufal, open_info oi
+    where br.updateDate = ufal.order_id and cast(oi.id as varchar(50)) = br.resultDate ${whereCond}
+  </select>
+
+  <select id="selectBetNumberSum" resultType="java.lang.Integer">
+     SELECT sum(br.betNumber) from bet_result br,open_info oi
+     WHERE cast(oi.id as varchar(50)) = br.resultDate and ${openNo}
   </select>
 
 </mapper>

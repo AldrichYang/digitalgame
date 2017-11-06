@@ -24,4 +24,6 @@ public interface BetResultMapper {
     List<BetResult> selectByPage(@Param("whereCond") String whereCond);
 
     List<OddsBetResultVo> selectoddsInfoByPage(@Param("whereCond") String whereCond);
+
+    int selectBetNumberSum(@Param("openNo") String openNo);
 }
