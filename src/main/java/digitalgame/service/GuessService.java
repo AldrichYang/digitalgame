@@ -54,4 +54,10 @@ public interface GuessService {
      */
     public List<BetInfo> getBetInfoByOpenId(int openId);
 
+    /**
+     * 计算单局下注结果
+     * @return
+     */
+    public List<UserBetInfo> caculateUserBetInfo(List<BetInfo> betInfoList);
+
 }

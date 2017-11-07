@@ -17,10 +17,10 @@ public interface OpenInfoMapper {
     int insert(OpenInfo info);
 
     /**
-     * 查询最新的一条开奖信息
+     * 查询当天最新的一条开奖信息
      * @return
      */
-    OpenInfo selectLasted();
+    OpenInfo selectTodayLasted();
 
     /**
      * 查询当天数据
@@ -34,5 +34,11 @@ public interface OpenInfoMapper {
      * @return
      */
     int updateOpenInfo(OpenInfo openInfo);
+
+    /**
+     * 查询最后一条开过奖的记录
+     * @return
+     */
+    OpenInfo selectLasted();
 
 }

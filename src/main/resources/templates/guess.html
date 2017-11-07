@@ -191,6 +191,54 @@
                     <!-- /.modal-content -->
                 </div>
             </div>
+
+            <!-- 本期中奖结果 -->
+            <div class="modal fade" id="currentResultModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">本期开奖结果</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="tabCurrentResult" class="table table-bordered table-hover dataTable"
+                                               role="grid"
+                                               aria-describedby="example2_info">
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">名称
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending">总分
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Platform(s): activate to sort column ascending">输赢
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+            </div>
         </section>
     </div>
     <script type="text/javascript">
@@ -271,8 +319,10 @@
                     var jsonResult = eval(result);
                     var jsonOpenResult = jsonResult[0];
                     var jsonBetInfo = jsonResult[1];
+                    var jsonUserBetInfo = jsonResult[2];
 
-                    $("#openResult").openResult(jsonOpenResult);
+                    $("#tabBetInfo tr:not(:first)").empty(); //清空table（除了第一行以外）
+                    $("#openResult").html(jsonOpenResult);
                     for (var j = 0; j < jsonBetInfo.length; j++) {
                         var p = jsonBetInfo[j];
                         var trHTML = "<tr role=\"row\" class=\"odd\">" +
@@ -284,6 +334,17 @@
                         $("#tabBetInfo").append(trHTML);//在table最后面添加一行
                     }
 
+                    $("#tabCurrentResult tr:not(:first)").empty(); //清空table（除了第一行以外）
+                    for(var j=0;j<jsonUserBetInfo.length;j++){
+                        var p = jsonUserBetInfo[j];
+                        var trHTML = "<tr role=\"row\" class=\"odd\">" +
+                            " <td class=\"sorting_1\">" + p.userName + "</td>" +
+                            " <td>" + p.userBalance + "</td>" +
+                            "<td>" + p.returnSum + "</td>" +
+                            "</tr>";
+                        $("#tabCurrentResult").append(trHTML);//在table最后面添加一行
+                    }
+                    $("#currentResultModal").modal("show");
 
                 });
 

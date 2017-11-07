@@ -2,12 +2,10 @@ package digitalgame.service.impl;
 
 import digitalgame.dao.BetInfoMapper;
 import digitalgame.dao.OpenInfoMapper;
-import digitalgame.model.po.BetInfo;
-import digitalgame.model.po.OddsInfo;
-import digitalgame.model.po.OpenInfo;
-import digitalgame.model.po.UserBetInfo;
+import digitalgame.model.po.*;
 import digitalgame.service.GuessService;
 import digitalgame.service.OddsInfoService;
+import digitalgame.service.UserFinanceAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.java2d.pipe.SpanShapeRenderer;
@@ -31,6 +29,9 @@ public class GuessServiceImpl implements GuessService,Serializable {
 
     @Autowired
     OpenInfoMapper openInfoMapper;
+
+    @Autowired
+    UserFinanceAccountService userFinanceAccountService;
 
     @Override
     public void doBet(List<BetInfo> betInfoList, OpenInfo openInfo) {
@@ -89,7 +90,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
                         if(betStr.contains(oddsinfo.getOddsName())){
                             BetInfo tmpBi = new BetInfo();
                             tmpBi.setOpenId(openInfo.getId());
-                            tmpBi.setBetman(betMan);
+                            tmpBi.setBetman(betMan.trim());
                             tmpBi.setBetitem(oddsinfo.getOddsName());
                             tmpBi.setBetmoney(Double.valueOf(betMoney));
                             tmpBi.setCreateTime(betTime);
@@ -200,7 +201,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
 
         //查询数据库中最新的编号 +1，如果没有使用当前日期创建一个 yyyyMMdd001
         String openNo = "";
-        OpenInfo openInfo = openInfoMapper.selectLasted();
+        OpenInfo openInfo = openInfoMapper.selectTodayLasted();
         OpenInfo newOpenInfo = new OpenInfo();
         if(openInfo != null){
             if(openInfo.getOpenNum() == null)
@@ -209,7 +210,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
                 openNo = String.valueOf(openInfo.getOpenNo() + 1);
                 newOpenInfo.setOpenNo(Long.parseLong(openNo));
                 openInfoMapper.insert(newOpenInfo);
-                openInfo = openInfoMapper.selectLasted();
+                openInfo = openInfoMapper.selectTodayLasted();
             }
 
         }else
@@ -220,7 +221,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
             openNo = strNow+"001";
             newOpenInfo.setOpenNo(Long.parseLong(openNo));
             openInfoMapper.insert(newOpenInfo);
-            openInfo = openInfoMapper.selectLasted();
+            openInfo = openInfoMapper.selectTodayLasted();
 
         }
         newOpenInfo.setId(openInfo.getId());
@@ -237,5 +238,41 @@ public class GuessServiceImpl implements GuessService,Serializable {
     @Override
     public List<BetInfo> getBetInfoByOpenId(int openId) {
         return betInfoMapper.selectByOpenId(openId);
+    }
+
+    @Override
+    public List<UserBetInfo> caculateUserBetInfo(List<BetInfo> betInfoList) {
+
+        /**
+         * 分别统计用户本局投注总分数，账户总分数，输赢分数
+         */
+        Map<String,UserBetInfo> map = new HashMap<String,UserBetInfo>();
+
+        for(BetInfo betInfo : betInfoList){
+            if(map.containsKey(betInfo.getBetman())){
+                UserBetInfo userBetInfo = map.get(betInfo.getBetman());
+                userBetInfo.setUserName(betInfo.getBetman());
+                userBetInfo.setBetSum(userBetInfo.getBetSum()+betInfo.getBetmoney());
+                userBetInfo.setReturnSum(userBetInfo.getReturnSum() + betInfo.getReturnMoney());
+                userBetInfo.setUserBalance(userBetInfo.getUserBalance()-betInfo.getReturnMoney());
+
+            }else{
+                UserBetInfo userBetInfo = new UserBetInfo();
+                userBetInfo.setUserName(betInfo.getBetman());
+                userBetInfo.setBetSum(userBetInfo.getBetSum()+betInfo.getBetmoney());
+                userBetInfo.setReturnSum(userBetInfo.getReturnSum() + betInfo.getReturnMoney());
+                //获取账户余额
+                UserFinanceAccount userFinanceAccount = userFinanceAccountService.queryUserFinanceAccountByNickName(userBetInfo.getUserName());
+                userBetInfo.setUserBalance(userFinanceAccount.getBalance()-betInfo.getReturnMoney());
+                map.put(userBetInfo.getUserName(),userBetInfo);
+            }
+        }
+
+        List<UserBetInfo> userBetInfoList = new ArrayList<>();
+        Iterator<UserBetInfo> entries = map.values().iterator();
+        while(entries.hasNext()){
+            userBetInfoList.add(entries.next());
+        }
+        return userBetInfoList;
     }
 }

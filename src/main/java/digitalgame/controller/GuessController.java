@@ -3,7 +3,6 @@ package digitalgame.controller;
 import digitalgame.model.po.AccountParam;
 import digitalgame.model.po.BetInfo;
 import digitalgame.model.po.OpenInfo;
-import digitalgame.model.po.UserBetInfo;
 import digitalgame.service.GuessService;
 import digitalgame.service.OddsInfoService;
 import digitalgame.service.UserFinanceAccountService;
@@ -66,12 +65,12 @@ public class GuessController {
         List<BetInfo> list = guessService.analysisBetContent(openInfo,betContent);
 
         //把下注内容保存到数据库，同时调用资金的方法进行资金划转
-        guessService.doBet(list,openInfo);
-
         List<Object> listResult = new ArrayList<Object>();
+        if(list != null && list.size()>0) {
+            guessService.doBet(list, openInfo);
+        }
         listResult.add(list);
         listResult.add(openInfo);
-
         String result = JSONArray.fromObject(listResult).toString();
         return result;
     }
@@ -127,6 +126,7 @@ public class GuessController {
         List<Object> result = new ArrayList<>();
         result.add(openInfo.getOpenResult());
         result.add(betInfoList1);
+        result.add(guessService.caculateUserBetInfo(betInfoList1));
 
        return JSONArray.fromObject(result).toString();
 

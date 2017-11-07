@@ -28,9 +28,18 @@
   </select>
 
   <!--查询最新的一条开奖信息-->
+  <select id="selectTodayLasted" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+     from open_info
+    where substr(openNO,1,8) = strftime('%Y%m%d','now')
+    order by id desc limit 1
+  </select>
+
   <select id="selectLasted" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" />
-     from open_info order by id desc limit 1
+    from open_info
+    where openNum is not null
+    order by id desc limit 1
   </select>
 
   <select id="selectTop" resultMap="BaseResultMap">

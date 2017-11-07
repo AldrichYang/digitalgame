@@ -13,6 +13,15 @@ public class UserBetInfo {
     List<BetInfo> betInfoList; //投注信息
     double userBalance; //用户账户余额
     double betSum; //投注总额
+    double returnSum; //中奖总额
+
+    public double getReturnSum() {
+        return returnSum;
+    }
+
+    public void setReturnSum(double returnSum) {
+        this.returnSum = returnSum;
+    }
 
     public double getBetSum() {
         return betSum;
