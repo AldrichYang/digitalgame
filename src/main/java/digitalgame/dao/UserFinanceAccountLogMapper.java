@@ -26,4 +26,6 @@ public interface UserFinanceAccountLogMapper {
     public List<UserAccountHisVo> queryUserAccountHisVoByUserInfo(@Param("whereCond") String whereCond);
 
     List<SystemFinanceAccountReport> querySystemFinanceAccountReportByDate(@Param("whereCond") String whereCond);
+
+    double selectMoneyByUserAndPeriods(@Param("ucfId") int ucfId,@Param("periods") String periods);
 }

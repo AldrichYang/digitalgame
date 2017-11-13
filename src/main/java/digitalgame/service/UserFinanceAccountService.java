@@ -49,4 +49,13 @@ public interface UserFinanceAccountService {
      */
     public List<UserAccountHisVo> queryUserAccountHisVoByUserInfo(int currentPage,UserInfo userInfo);
 
+    /***
+     * 撤销返奖金额
+     * @param nickName
+     * @param money
+     * @param accountParam
+     * @return
+     */
+    public int revocationUserBalanceByNickName(String nickName, double money,AccountParam accountParam);
+
 }

@@ -49,7 +49,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
             userAccountVo.setMoney(record.getBalance());
         }
         //余额不足直接返回失败
-        if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
+        if((3 == userAccountVo.getOperType() || 5 == userAccountVo.getOperType() || 6 == userAccountVo.getOperType()) && userAccountVo.getMoney() > record.getBalance()){
             return  -1;
         }
         if(2 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType()){
@@ -80,7 +80,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         userFinanceAccountLog.setCreateTime(Util.dataForMat(new Date(),"yyyyMMdd"));
         userFinanceAccountLogMapper.insertSelective(userFinanceAccountLog);
         int a = userFinanceAccountMapper.updateByPrimaryKeySelective(record);
-        if(5 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType()){
+        if(5 == userAccountVo.getOperType() || 4 == userAccountVo.getOperType() || 6 == userAccountVo.getOperType()){
             String queryCond = " where report_date = '" + Util.dataForMat(new Date(),"yyyyMMdd") + "'";
             if(Objects.nonNull(userInfo.getGroup()) && userInfo.getGroup().trim().length() != 0){
                 queryCond = queryCond + " and `group` = '"+userInfo.getGroup()+"'";
@@ -137,6 +137,18 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
         if(userInfo == null) return  -2;
         return this.updateBalanceByUserId(userInfo.getId(),money,5,accountParam);
+    }
+
+    @Override
+    public int revocationUserBalanceByNickName(String nickName, double money,AccountParam accountParam){
+        UserInfo userInfo = userInfoMapper.selectByNickName(nickName);
+        if(userInfo == null) return  -2;
+        UserFinanceAccount ufa = userFinanceAccountMapper.selectByUserId(userInfo.getId());
+        Double allMoney = userFinanceAccountLogMapper.selectMoneyByUserAndPeriods(ufa.getId(),accountParam.getPeriods());
+        if(allMoney > money) return -2;
+
+
+        return this.updateBalanceByUserId(userInfo.getId(),money,6,accountParam);
     }
 
     @Override

@@ -19,3 +19,4 @@ public interface UserFinanceAccountMapper {
 
     UserFinanceAccount selectByUserId(Integer userId);
 }
+

@@ -133,14 +133,18 @@
   <select id="queryUserAccountHisVoByUserInfo" resultType="digitalgame.model.po.UserAccountHisVo">
     select ui.user_name as userName,ui.nick_name as nickName,ufal.money,ufal.balance,case when ufal.oper_type = 1 THEN '开户'
     when ufal.oper_type = 2 then '上分' when ufal.oper_type = 3 then '下分' when ufal.oper_type = 4 then '返奖' when ufal.oper_type = 5
-    then  '下注' end
+    then  '下注' when ufal.oper_type = 6 then '取消返奖' end
     as opertType,periods as periods,ufal.create_time as createTime from user_info ui, user_finance_account ufa,user_finance_account_log ufal
     where ui.ID = ufa.user_id and ufa.id = ufal.ufc_id ${whereCond}
   </select>
     <select id="querySystemFinanceAccountReportByDate" resultType="digitalgame.model.po.SystemFinanceAccountReport">
         SELECT create_time as reportDate ,sum(case WHEN  oper_type = 5 then money ELSE  0 end) as  bettingMoney,
-        sum(case WHEN  oper_type = 4 then money ELSE  0 end) as  winningMoney, sum(CASE  when oper_type = 5 then money else -money end) as platformMoney
-        FROM  user_finance_account_log WHERE (oper_type = 4 or oper_type = 5) ${whereCond} GROUP BY create_time
+        sum(case WHEN  oper_type = 4 then money  when oper_type = 6 then -money ELSE  0 end) as  winningMoney,
+        sum(CASE  when oper_type = 5 then money else -money end) as platformMoney
+        FROM  user_finance_account_log WHERE (oper_type = 4 or oper_type = 5 or oper_type = 6) ${whereCond} GROUP BY create_time
     </select>
+  <select id="selectMoneyByUserAndPeriods" resultType="double">
+      select sum(money) from main.user_finance_account_log WHERE  ufc_id = #{ufcId,jdbcType=INTEGER} and periods = #{periods,jdbcType=VARCHAR} AND oper_type = 4;
+  </select>
 
 </mapper>
