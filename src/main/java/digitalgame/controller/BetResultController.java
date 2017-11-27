@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,18 +30,21 @@ public class BetResultController {
         }
 
         int count = betResultService.selectBetSultByPage(0, oddsBetResultVo).size();
+
+        List<OddsBetResultVo> betResultsList = new ArrayList();
         if(Strings.isNullOrEmpty(oddsBetResultVo.getResultDate())){
             OpenInfo openInfo = betResultService.selectOpenInfoLast();
-            oddsBetResultVo.setResultDate(openInfo.getOpenNo() + "");
+            if(openInfo != null){
+                oddsBetResultVo.setResultDate(openInfo.getOpenNo() + "");
+                betResultsList = betResultService.selectBetSultByPage(currentPageNo, oddsBetResultVo);
+                int sum = betResultService.selectBetNumberSum(oddsBetResultVo.getResultDate());
+                OddsBetResultVo newBetVo = new OddsBetResultVo();
+                newBetVo.setBetUser("");
+                newBetVo.setResultDate("汇总");
+                newBetVo.setResultNumber(sum);
+                betResultsList.add(newBetVo);
+            }
         }
-
-        List<OddsBetResultVo> betResultsList = betResultService.selectBetSultByPage(currentPageNo, oddsBetResultVo);
-        int sum = betResultService.selectBetNumberSum(oddsBetResultVo.getResultDate());
-        OddsBetResultVo newBetVo = new OddsBetResultVo();
-        newBetVo.setBetUser("");
-        newBetVo.setResultDate("汇总");
-        newBetVo.setResultNumber(sum);
-        betResultsList.add(newBetVo);
 
         int pageNo = count/10 + (count % 10 == 0 ? 0 : 1);
         model.addAttribute("betResultsList", betResultsList);
