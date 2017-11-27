@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 @Service
 public class GuessServiceImpl implements GuessService,Serializable {
 
+
     @Autowired
     OddsInfoService ois;
 
@@ -263,7 +264,9 @@ public class GuessServiceImpl implements GuessService,Serializable {
                 userBetInfo.setReturnSum(userBetInfo.getReturnSum() + betInfo.getReturnMoney());
                 //获取账户余额
                 UserFinanceAccount userFinanceAccount = userFinanceAccountService.queryUserFinanceAccountByNickName(userBetInfo.getUserName());
-                userBetInfo.setUserBalance(userFinanceAccount.getBalance()-betInfo.getReturnMoney());
+                if(userFinanceAccount!=null) {
+                    userBetInfo.setUserBalance(userFinanceAccount.getBalance() - betInfo.getReturnMoney());
+                }
                 map.put(userBetInfo.getUserName(),userBetInfo);
             }
         }
@@ -274,5 +277,15 @@ public class GuessServiceImpl implements GuessService,Serializable {
             userBetInfoList.add(entries.next());
         }
         return userBetInfoList;
+    }
+
+    @Override
+    public List<BetInfo> getBetInfoByOpenNo(int openNo) {
+        return betInfoMapper.selectByOpenNo(openNo);
+    }
+
+    @Override
+    public OpenInfo getOpenInfoByOpenNo(long openNo) {
+        return openInfoMapper.selectByOpenNo(openNo);
     }
 }

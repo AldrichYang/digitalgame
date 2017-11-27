@@ -14,10 +14,10 @@ public class DigitalgameApplicationTests {
 	@Autowired
 	private GuessService guessService;
 
-	@Test
-	public void contextLoads() {
-
-	}
+//	@Test
+//	public void contextLoads() {
+//
+//	}
 //
 //	@Test
 //	public void betTest(){
@@ -27,5 +27,15 @@ public class DigitalgameApplicationTests {
 //		//guessService.doBet(betInfos);
 //
 //	}
+
+	@Test
+	public void normalTest(){
+		String a = "3";
+		String b = "12";
+
+		System.out.printf(String.format("%03d",3));
+		System.out.printf(String.format("%03d",12));
+	}
+
 
 }

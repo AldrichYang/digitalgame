@@ -60,4 +60,19 @@ public interface GuessService {
      */
     public List<UserBetInfo> caculateUserBetInfo(List<BetInfo> betInfoList);
 
+
+    /**
+     * 通过开奖期数获取投注信息
+     * @param openNo
+     * @return
+     */
+    public List<BetInfo> getBetInfoByOpenNo(int openNo);
+
+
+    /**
+     * 根据开奖期数获取开奖信息
+     * @param openNo
+     * @return
+     */
+    public OpenInfo getOpenInfoByOpenNo(long openNo);
 }

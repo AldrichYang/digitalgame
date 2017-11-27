@@ -138,6 +138,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭
                                     </button>
+                                    <button type="button" id="btnReOpen" class="btn btn-primary" data-dismiss="modal">重新开奖</button>
                                     <button type="button" id="btnOpen" class="btn btn-primary" data-dismiss="modal">确认开奖</button>
                                     <!--<button  id="saveAdminBtn" class="btn btn-primary">保存</button>-->
                                 </div>
@@ -311,10 +312,11 @@
 
             });
 
-            //开奖
-            $("#btnOpen").click(function () {
+            function open(requestURL){
+                debugger;
                 var param = $("#txtOpenNum").val();
-                $.post("/guess/open", {openNum:param}, function (result) {
+                var openNo1 = $("#selOpenNo option:selected").val();
+                $.post(requestURL, {"openNum":param,"openNo":openNo1}, function (result) {
                     debugger;
                     var jsonResult = eval(result);
                     var jsonOpenResult = jsonResult[0];
@@ -345,9 +347,17 @@
                         $("#tabCurrentResult").append(trHTML);//在table最后面添加一行
                     }
                     $("#currentResultModal").modal("show");
-
                 });
+            }
 
+            //开奖
+            $("#btnOpen").click(function(){
+                open("/guess/open");
+            });
+
+            //重新开奖
+            $("#btnReOpen").click(function(){
+                open("/guess/reopen");
             });
         })
     </script>

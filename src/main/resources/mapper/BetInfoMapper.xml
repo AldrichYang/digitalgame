@@ -30,4 +30,10 @@
     from bet_info where openId = #{openId}
   </select>
 
+  <select id="selectByOpenNo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" />
+    from bet_info where openNo = #{openNo}
+  </select>
+
+
 </mapper>

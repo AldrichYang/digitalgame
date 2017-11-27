@@ -58,5 +58,10 @@
     where id = #{id}
   </update>
 
+  <select id="selectByOpenNo" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from open_info
+    where openNO = #{openNo}
+  </select>
 
 </mapper>

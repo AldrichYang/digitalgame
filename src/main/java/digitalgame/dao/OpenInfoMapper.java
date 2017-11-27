@@ -41,4 +41,11 @@ public interface OpenInfoMapper {
      */
     OpenInfo selectLasted();
 
+    /**
+     * 根据开奖期数查询开奖信息
+     * @param openNo
+     * @return
+     */
+    OpenInfo selectByOpenNo(long openNo);
+
 }

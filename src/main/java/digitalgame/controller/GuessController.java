@@ -6,6 +6,7 @@ import digitalgame.model.po.OpenInfo;
 import digitalgame.service.GuessService;
 import digitalgame.service.OddsInfoService;
 import digitalgame.service.UserFinanceAccountService;
+import javafx.scene.control.TextFormatter;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 
 /**
@@ -75,6 +80,35 @@ public class GuessController {
         return result;
     }
 
+
+
+    @ResponseBody
+    @RequestMapping(value="/reopen" ,method = RequestMethod.POST)
+    public String reOpen(HttpSession session,@RequestParam(value="openNum", required = true)String openNum,@RequestParam(value="openNo", required = true)String openNo){
+        /**
+         * 重新开奖，先对之前的开奖资金进行撤销
+         */
+        //1、收到的openNo为数字类型，需要转换为yyyymmddxxx格式的开奖期数
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+        String now = sdf.format(date);
+        now = now + String.format("%03d",Integer.parseInt(openNo));
+
+        //2、查询本期开奖结果，进行撤销
+        List<BetInfo> betInfoList = guessService.getBetInfoByOpenId(1);
+        for(BetInfo betInfo : betInfoList){
+            AccountParam ap = new AccountParam();
+            ap.setPeriods(now);
+            userFinanceAccountService.revocationUserBalanceByNickName(betInfo.getBetitem(),betInfo.getReturnMoney(),ap);
+        }
+
+        OpenInfo openInfo = guessService.getOpenInfoByOpenNo(Long.parseLong(now));
+        openInfo.setOpenNum(openNum);
+
+        //调用开奖进行处理
+        return this.doOpen(session,openNum,openInfo);
+    }
+
     /**
      * 开奖
      * @param session
@@ -83,9 +117,20 @@ public class GuessController {
     @ResponseBody
     @RequestMapping(value="/open" ,method = RequestMethod.POST)
     public String open(HttpSession session,@RequestParam(value="openNum", required = true)String openNum){
+
         //开奖之后从session中将开奖期数删除
         OpenInfo openInfo = (OpenInfo) session.getAttribute("openInfo");
         openInfo.setOpenNum(openNum);
+        return this.doOpen(session,openNum, openInfo);
+    }
+
+    /**
+     * 开奖
+     * @param session
+     * @param openNum
+     * @return
+     */
+    private String doOpen(HttpSession session, String openNum, OpenInfo openInfo){
         guessService.doOpen(openInfo);
 
         //查询投注信息
@@ -128,8 +173,7 @@ public class GuessController {
         result.add(betInfoList1);
         result.add(guessService.caculateUserBetInfo(betInfoList1));
 
-       return JSONArray.fromObject(result).toString();
-
+        return JSONArray.fromObject(result).toString();
     }
 
 

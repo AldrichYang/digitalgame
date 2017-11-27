@@ -22,4 +22,10 @@ public interface BetInfoMapper {
      */
     List<BetInfo> selectByOpenId(int openId);
 
+    /**
+     * 按照开奖期数查询投注信息
+     * @param openNo
+     * @return
+     */
+    List<BetInfo> selectByOpenNo(int openNo);
 }

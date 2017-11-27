@@ -152,9 +152,11 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
     }
 
     @Override
-    public UserFinanceAccount queryUserFinanceAccountByNickName(String nickName) {
+    public UserFinanceAccount queryUserFinanceAccountByNickName(String nickName){
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName.trim());
-        UserFinanceAccount record = userFinanceAccountMapper.selectByUserId(userInfo.getId());
+        UserFinanceAccount record = null;
+        if(userInfo != null)
+            userFinanceAccountMapper.selectByUserId(userInfo.getId());
         return record;
     }
 

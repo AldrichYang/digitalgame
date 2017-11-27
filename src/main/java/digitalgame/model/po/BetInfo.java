@@ -13,8 +13,8 @@ public class BetInfo {
   private int userId; // 投注人Id
   private String betman; //投注人
   private String betitem; //投注项
-  private Double betmoney; //投注金额
-  private Double returnMoney; //返奖金额（中奖数）
+  private Double betmoney = 0.0 ; //投注金额
+  private Double returnMoney = 0.0; //返奖金额（中奖数）
   private Long status; //投注状态 1投注成功 -1已撤销 3投注失败
   private String createTime; //投注时间
 
