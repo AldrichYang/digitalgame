@@ -164,7 +164,7 @@
   </select>
 
   <select id="selectBetNumberSum" resultType="java.lang.Integer">
-     SELECT sum(br.betNumber) from bet_result br,open_info oi
+     SELECT sum(br.resultNumber) from bet_result br,open_info oi
      WHERE cast(oi.id as varchar(50)) = br.resultDate and ${openNo}
   </select>
 

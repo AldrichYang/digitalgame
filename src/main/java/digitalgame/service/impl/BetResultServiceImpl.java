@@ -34,6 +34,7 @@ public class BetResultServiceImpl implements BetResultService {
         if(cueerntPage != 0){
             whereCond += " limit " +((cueerntPage -1) *10) +","+(cueerntPage) * 10;
         }
+        System.out.println(whereCond);
         return betResultMapper.selectoddsInfoByPage(whereCond);
     }
 
@@ -43,7 +44,7 @@ public class BetResultServiceImpl implements BetResultService {
     }
 
     @Override
-    public int selectBetNumberSum(String openNO) {
+    public Integer selectBetNumberSum(String openNO) {
         return betResultMapper.selectBetNumberSum(" oi.openNO =" + openNO);
     }
 }

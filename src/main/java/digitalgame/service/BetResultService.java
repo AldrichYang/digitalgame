@@ -11,5 +11,5 @@ public interface BetResultService {
 
     OpenInfo selectOpenInfoLast();
 
-    int selectBetNumberSum(String openNO);
+    Integer selectBetNumberSum(String openNO);
 }

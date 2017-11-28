@@ -69,7 +69,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
                 userFinanceAccountLog.setOrderId(accountParam.getOrderId());
             }
             if(Objects.nonNull(accountParam.getPeriods())){
-                userFinanceAccountLog.setOrderId(accountParam.getPeriods());
+                userFinanceAccountLog.setPeriods(accountParam.getPeriods());
             }
         }
         userFinanceAccountLog.setOperType(userAccountVo.getOperType());
