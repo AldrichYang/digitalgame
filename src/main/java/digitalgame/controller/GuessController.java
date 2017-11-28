@@ -6,7 +6,6 @@ import digitalgame.model.po.OpenInfo;
 import digitalgame.service.GuessService;
 import digitalgame.service.OddsInfoService;
 import digitalgame.service.UserFinanceAccountService;
-import javafx.scene.control.TextFormatter;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 
 /**
