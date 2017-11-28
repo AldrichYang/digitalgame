@@ -22,6 +22,15 @@ public interface OddsInfoService {
 
     HashMap<String,Double> selectOddsMap();
 
+    /**
+     * 开奖
+     * @param i
+     * @param j
+     * @param k
+     * @param betInfoList
+     * @param resultDate open_info中的id
+     * @return
+     */
     List<BetInfo> oddsNumber(int i, int j, int k, List<BetInfo> betInfoList, String resultDate);
 
     String buildOddsType(int i, int j, int k);

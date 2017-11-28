@@ -70,6 +70,10 @@ public class GuessServiceImpl implements GuessService,Serializable {
                     betDate = sdf.parse(strTime);
                     betTime = sdf1.format(betDate);
                     betMan = strBet.substring(0,strBet.lastIndexOf(" "));
+                    //有些qq版本copy出来的昵称是 xxx(23424)带qq号码的，需要处理掉
+                    if(betMan.contains("(") && betMan.contains(")")){
+                        betMan = strBet.substring(0,strBet.lastIndexOf("("));
+                    }
                     isBet = false;
                 } catch (ParseException e) {
                     System.out.println("不是投注人，解析内容 ，看看是否在下注。。。");
@@ -263,7 +267,7 @@ public class GuessServiceImpl implements GuessService,Serializable {
                 userBetInfo.setBetSum(userBetInfo.getBetSum()+betInfo.getBetmoney());
                 userBetInfo.setReturnSum(userBetInfo.getReturnSum() + betInfo.getReturnMoney());
                 //获取账户余额
-                UserFinanceAccount userFinanceAccount = userFinanceAccountService.queryUserFinanceAccountByNickName(userBetInfo.getUserName());
+                UserFinanceAccount userFinanceAccount = userFinanceAccountService.queryUserFinanceAccountByNickName(userBetInfo.getUserName().trim());
                 if(userFinanceAccount!=null) {
                     userBetInfo.setUserBalance(userFinanceAccount.getBalance() - betInfo.getReturnMoney());
                 }

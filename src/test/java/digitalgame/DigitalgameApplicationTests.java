@@ -25,7 +25,7 @@ public class DigitalgameApplicationTests {
 //		assertTrue(userBetInfos.size()==2);
 //
 //		//guessService.doBet(betInfos);
-//
+//sqlite_sequence
 //	}
 
 	@Test
