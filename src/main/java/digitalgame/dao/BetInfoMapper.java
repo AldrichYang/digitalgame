@@ -28,4 +28,11 @@ public interface BetInfoMapper {
      * @return
      */
     List<BetInfo> selectByOpenNo(int openNo);
+
+    /**
+     * 删除某一期投注内容
+     * @param openId 期数
+     * @return
+     */
+    int deleteByOpenId(int openId);
 }

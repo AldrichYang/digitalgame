@@ -156,7 +156,7 @@ public class UserFinanceAccountServiceImpl implements UserFinanceAccountService 
         UserInfo userInfo = userInfoMapper.selectByNickName(nickName.trim());
         UserFinanceAccount record = null;
         if(userInfo != null)
-            userFinanceAccountMapper.selectByUserId(userInfo.getId());
+            record = userFinanceAccountMapper.selectByUserId(userInfo.getId());
         return record;
     }
 

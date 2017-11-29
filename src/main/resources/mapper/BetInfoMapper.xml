@@ -35,5 +35,8 @@
     from bet_info where openNo = #{openNo}
   </select>
 
+  <delete id="deleteByOpenId" parameterType="java.lang.Integer">
+      delete from bet_info where openId=#{openId}
+  </delete>
 
 </mapper>

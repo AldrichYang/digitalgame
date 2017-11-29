@@ -36,7 +36,8 @@ public class GuessServiceImpl implements GuessService,Serializable {
 
     @Override
     public void doBet(List<BetInfo> betInfoList, OpenInfo openInfo) {
-
+        //先删除当期投注数据，再下注，否则可能会重复下注
+        betInfoMapper.deleteByOpenId(openInfo.getId());
         betInfoMapper.addBatch(betInfoList);
     }
 
