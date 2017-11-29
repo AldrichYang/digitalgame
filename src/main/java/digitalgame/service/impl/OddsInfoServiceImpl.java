@@ -8,6 +8,7 @@ import digitalgame.model.po.OddsInfo;
 import digitalgame.service.OddsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -160,6 +161,7 @@ public class OddsInfoServiceImpl implements OddsInfoService{
      * @return
      */
     @Override
+    @Transactional
     public List<BetInfo> oddsNumber(int i, int j, int k, List<BetInfo> betInfoList, String resultDate){
 
         HashMap<String, Double> oddsMap = this.selectOddsMap();
@@ -257,7 +259,7 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                     }
                     betInfo.setReturnMoney((int)(betInfo.getBetmoney() * betNum) + 0.00);
 
-//                    betResult.setBetnumber(betInfo.getBetmoney());
+                    betResult.setBetnumber(betInfo.getBetmoney());
                     betResult.setBettype(betInfo.getBetitem());
                     betResult.setBetuser(betInfo.getBetman());
                     betResult.setBetuserid(betInfo.getUserId());
@@ -269,7 +271,8 @@ public class OddsInfoServiceImpl implements OddsInfoService{
                     betResult.setBetdate(i + "," + j + "," + k);
                     betResult.setResultdate(resultDate);
                     betResult.setUpdatedate(betInfo.getId() + "");
-                    betResultMapper.insert(betResult);
+
+                    betResultMapper.insertSelective(betResult);
                 }
             }
         return betInfoList;

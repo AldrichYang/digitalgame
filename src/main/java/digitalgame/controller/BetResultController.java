@@ -29,22 +29,29 @@ public class BetResultController {
             if(!Strings.isNullOrEmpty(pageNo)) currentPageNo = Integer.parseInt(pageNo);
         }
 
-        int count = betResultService.selectBetSultByPage(0, oddsBetResultVo).size();
-
         List<OddsBetResultVo> betResultsList = new ArrayList();
+        int count = 0;
+
         if(Strings.isNullOrEmpty(oddsBetResultVo.getResultDate())){
             OpenInfo openInfo = betResultService.selectOpenInfoLast();
             if(openInfo != null){
                 oddsBetResultVo.setResultDate(openInfo.getOpenNo() + "");
-                betResultsList = betResultService.selectBetSultByPage(currentPageNo, oddsBetResultVo);
-                int sum = betResultService.selectBetNumberSum(oddsBetResultVo.getResultDate());
-                OddsBetResultVo newBetVo = new OddsBetResultVo();
-                newBetVo.setBetUser("");
-                newBetVo.setResultDate("汇总");
-                newBetVo.setResultNumber(sum);
-                betResultsList.add(newBetVo);
             }
         }
+
+        betResultsList = betResultService.selectBetSultByPage(currentPageNo, oddsBetResultVo);
+        if(currentPageNo == 0){
+            count = betResultsList.size();
+        }else {
+            count = betResultService.selectBetSultByPage(0, oddsBetResultVo).size();
+        }
+        Integer sum = betResultService.selectBetNumberSum(oddsBetResultVo.getResultDate());
+
+        OddsBetResultVo newBetVo = new OddsBetResultVo();
+        newBetVo.setBetUser("");
+        newBetVo.setResultDate("汇总");
+        newBetVo.setResultNumber(sum == null ? 0 : sum * -1);
+        betResultsList.add(newBetVo);
 
         int pageNo = count/10 + (count % 10 == 0 ? 0 : 1);
         model.addAttribute("betResultsList", betResultsList);
