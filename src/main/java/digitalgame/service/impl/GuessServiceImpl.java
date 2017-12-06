@@ -92,8 +92,9 @@ public class GuessServiceImpl implements GuessService,Serializable {
                     String betMoney = m.group(3); //下注金额
 
                     //获取下注内容与标准投注内容进行正则匹配，如果能匹配上则进行处理
-                    for(OddsInfo oddsinfo: oddsInfos){
-                        if(betStr.contains(oddsinfo.getOddsName())){
+                    boolean flag = true;
+                    for (OddsInfo oddsinfo : oddsInfos) {
+                        if (betStr.contains(oddsinfo.getOddsName())) {
                             BetInfo tmpBi = new BetInfo();
                             tmpBi.setOpenId(openInfo.getId());
                             tmpBi.setBetman(betMan.trim());
@@ -101,7 +102,9 @@ public class GuessServiceImpl implements GuessService,Serializable {
                             tmpBi.setBetmoney(Double.valueOf(betMoney));
                             tmpBi.setCreateTime(betTime);
                             betInfos.add(tmpBi);
-                            break;
+                            betStr  = betStr.replace(oddsinfo.getOddsName(),""); //可能有复合下注，比如 个大个单25 需要计息出个大、个单
+                            if(betStr.trim().equals(""))
+                                break;
                         }
                     }
                 }while(m.find());
