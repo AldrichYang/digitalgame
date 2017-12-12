@@ -89,20 +89,26 @@ public class GuessServiceImpl implements GuessService,Serializable {
                 //因为每条下注内容可能包含多条下注信息，所以还需要解析
                 do{
                     String betStr = m.group(2); //下注内容，可能是多条，比如 大龙小龙全双100，那么这里会匹配到 大龙小龙全双
-                    String betMoney = m.group(3); //下注金额
+                    String strBetMoney = m.group(3); //下注金额
+                    double betMoney = Double.valueOf(strBetMoney);
+                    //投注金额不能超过3000
+                    if(betMoney>3000)
+                        betMoney = 3000;
+                    else if(betMoney<20)
+                        betMoney = 20;
 
                     //获取下注内容与标准投注内容进行正则匹配，如果能匹配上则进行处理
                     boolean flag = true;
                     for (OddsInfo oddsinfo : oddsInfos) {
-                        if (betStr.contains(oddsinfo.getOddsName())) {
+                        while (betStr.contains(oddsinfo.getOddsName())) {
                             BetInfo tmpBi = new BetInfo();
                             tmpBi.setOpenId(openInfo.getId());
                             tmpBi.setBetman(betMan.trim());
                             tmpBi.setBetitem(oddsinfo.getOddsName());
-                            tmpBi.setBetmoney(Double.valueOf(betMoney));
+                            tmpBi.setBetmoney(betMoney);
                             tmpBi.setCreateTime(betTime);
                             betInfos.add(tmpBi);
-                            betStr  = betStr.replace(oddsinfo.getOddsName(),""); //可能有复合下注，比如 个大个单25 需要计息出个大、个单
+                            betStr  = betStr.replaceFirst(oddsinfo.getOddsName(),""); //可能有复合下注，比如 个大个单25 需要计息出个大、个单
                             if(betStr.trim().equals(""))
                                 break;
                         }
